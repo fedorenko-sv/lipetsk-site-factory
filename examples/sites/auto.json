@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "auto",
+  "contentVersion": "demo-2026-11-04",
+  "mode": "demo",
+  "core": "booking",
+  "theme": "technical",
+  "locale": "ru-RU",
+  "timezone": "Europe/Moscow",
+  "brandName": "Авто · Демо",
+  "hero": {
+    "eyebrow": "Демонстрационный пример для Липецка",
+    "title": "Понятный прайс. Заявка без звонка.",
+    "subtitle": "Выберите услугу и удобное время — мастер подтвердит. Все цены и сведения в этом примере демонстрационные.",
+    "ctaText": "Выбрать удобное время"
+  },
+  "contacts": {},
+  "address": "Липецк · демонстрационный адрес",
+  "priceDisclaimer": "Демонстрационные цены. Точную стоимость и время подтверждает администратор.",
+  "services": [
+    {
+      "id": "tire-change",
+      "name": "Сезонная смена шин",
+      "category": "Шиномонтаж",
+      "durationMinutes": 40,
+      "price": {
+        "kind": "from",
+        "amountMinor": 180000,
+        "currency": "RUB"
+      },
+      "resourceIds": [],
+      "options": [
+        {
+          "id": "wheel-size",
+          "label": "Диаметр колеса",
+          "required": true,
+          "values": [
+            "R14",
+            "R15",
+            "R16",
+            "R17",
+            "R18"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "balancing",
+      "name": "Балансировка комплекта колёс",
+      "category": "Шиномонтаж",
+      "durationMinutes": 30,
+      "price": {
+        "kind": "from",
+        "amountMinor": 80000,
+        "currency": "RUB"
+      },
+      "resourceIds": [],
+      "options": []
+    },
+    {
+      "id": "storage",
+      "name": "Сезонное хранение комплекта",
+      "category": "Хранение",
+      "durationMinutes": 15,
+      "price": {
+        "kind": "from",
+        "amountMinor": 300000,
+        "currency": "RUB"
+      },
+      "resourceIds": [],
+      "options": []
+    }
+  ],
+  "resources": [],
+  "booking": {
+    "resourceSelection": "hidden",
+    "preferenceRequired": true,
+    "horizonDays": 30,
+    "timeStepMinutes": 30,
+    "workingHours": {
+      "opens": "09:00",
+      "closes": "20:00",
+      "days": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    }
+  },
+  "legal": {
+    "consentVersion": "demo-2026-11-04",
+    "policyPath": "/demo/auto/privacy",
+    "operatorName": null,
+    "approved": false
+  }
+}

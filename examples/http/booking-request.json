@@ -1,0 +1,24 @@
+{
+  "siteKey": "auto",
+  "configVersion": "demo-2026-11-04",
+  "kind": "booking",
+  "serviceId": "tire-change",
+  "serviceOptions": {
+    "wheel-size": "R16"
+  },
+  "preferred": {
+    "date": "2026-11-06",
+    "time": "10:30",
+    "timezone": "Europe/Moscow"
+  },
+  "customer": {
+    "phone": "+70000000000"
+  },
+  "consent": {
+    "accepted": true,
+    "version": "demo-2026-11-04"
+  },
+  "antiBot": {
+    "website": ""
+  }
+}

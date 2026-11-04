@@ -1,0 +1,130 @@
+# ТЗ разработчику 2 — заявки, PostgreSQL и уведомления
+
+## Запрос для запуска
+
+Ты — серверный разработчик Lipetsk Site Factory. Работай в codex/backend-pr3, отдельный checkout. Прочитай AGENTS.md, архитектуру, OpenAPI и это ТЗ. Реализуй надёжный приём заявки PR-3 Auto; интерфейс ведёт другой разработчик, архитектор владеет контрактом и main. Дополнительных агентов не запускай.
+
+Не отправляй реальные сообщения, не создавай платные сервисы и не используй базы реальных лидов. Telegram проверяй через подменяемый HTTP endpoint на синтетике. Реальная настройка канала — отдельный разрешённый этап.
+
+## Результат
+
+POST /api/leads проверяет вход, сохраняет ровно один lead на ключ вместе с outbox и возвращает полученный ID. Ошибки не превращаются в успех. Worker переживает временный отказ канала и перезапуск. Все назначения серверные, доступ к БД закрыт клиенту.
+
+## Твоя область
+
+- src/app/api/leads/route.ts, src/app/api/internal/outbox/route.ts.
+- src/server/leads/{create-lead,validation,ports}.ts.
+- src/server/config/sites.ts.
+- src/server/db/{pool,lead-repository,outbox-repository,rate-limit-repository}.ts.
+- src/server/notifications/{dispatch,telegram}.ts.
+- db/migrations/*.sql, db/compose.test.yml.
+- scripts/backend/{migrate,export-leads,purge-leads}.mjs.
+- tests/backend/**, tests/integration/**, docs/reports/backend.md.
+
+Не менять UI, публичные схемы и общие зависимости. Для pg/Zod/Vitest и команд миграции передать архитектору точный список; общий коммит инструментария включить из main.
+
+## Порядок задач
+
+### B1. Порты, валидация и тестовые фикстуры
+
+- [ ] Проверить ветку и базовый commit, прочитать docs/03-api-contract.md и OpenAPI.
+- [ ] Разделить HTTP-обёртку и createLead: application принимает зависимости, не импортирует NextResponse/Telegram.
+- [ ] Входные тесты: неверный телефон/consent, неизвестный site/service/resource/options, stale config, невозможная/прошлая дата, часы/горизонт.
+- [ ] Время now инъецировать в тесты, фиксировать 2026-11-04T09:00:00Z; не привязывать тест к дате запуска.
+- [ ] Нормализовать телефон, имя, параметры; дополнительные поля отклонять. Цена/название/версия снапшота из серверного конфига.
+- [ ] Demo разрешает только +70000000000, live его отклоняет. Не делать общий console.log payload.
+
+Порты по смыслу (точные внутренние типы определяет исполнитель, внешний HTTP неизменен):
+
+```ts
+interface LeadRepository {
+  saveWithOutbox(input: NormalizedLead, key: string, payloadHmac: string):
+    Promise<{ kind: "created" | "replayed"; leadId: string }>;
+}
+interface NotificationPort {
+  send(message: AdminNotification, signal: AbortSignal): Promise<void>;
+}
+interface Clock {
+  now(): Date;
+}
+```
+
+В конфликте ключа repository возвращает типизированную domain-error; её HTTP-представление определено контрактом. NormalizedLead — серверный тип после всех проверок, не сырое тело запроса.
+
+### B2. Миграции и сохранение
+
+- [ ] Создать leads, notification_outbox, rate_limits, schema_migrations по архитектуре.
+- [ ] UUID, timestamptz, CHECK статусов, уникальные ограничения, FK и индексы. Телефон — text с ограничением формата; цена — целые копейки в серверном snapshot.
+- [ ] Не создавать уникальный слот/бронь: это заявка-пожелание, пересечения допустимы.
+- [ ] Мигратор блокирует конкурентный запуск, ведёт историю, применяет транзакционную миграцию один раз. Runtime-роль не владеет DDL.
+- [ ] Параметризовать SQL. Пул один на процесс; начальный max=5, timeout подключения 5 сек, statement_timeout 5 сек; для serverless согласовать pooler.
+- [ ] saveWithOutbox делает одну транзакцию. Unique(site_key,idempotency_key) разрешает гонку.
+- [ ] Тот же канонический payload/key возвращает прежний ID; другой payload → конфликт без изменения исходной записи.
+- [ ] Сохранённый идентичный повтор обрабатывается до текущей версии конфига/лимита, но после базовых защит HTTP.
+- [ ] Если вставка outbox падает, lead откатывается. Недоступная БД → 503, никакого fallback в память/файл.
+
+Интеграционный тест обязан реально запустить конкурентные INSERT в PostgreSQL. Мок repository не доказывает транзакционность.
+
+### B3. HTTP и защита
+
+- [ ] Node.js runtime; JSON only; лимит 16 KiB на фактические прочитанные байты, не только Content-Length.
+- [ ] Явный Origin allowlist, запрет wildcard CORS; в приложении не доверять forwarded IP без настройки доверенного reverse proxy.
+- [ ] Honeypot; HMAC IP для persistent rate limit: 5/10min на IP/site, 100/hour/site, атомарно в БД.
+- [ ] Разрешённые siteKey привязаны к deployment; body не управляет chat_id/URL/БД.
+- [ ] Ответы и no-store точно по OpenAPI. Клиент получает только безопасный envelope/requestId.
+- [ ] Логи: requestId, leadId, siteKey, статус, длительность, код ошибки. Ни телефон/имя, ни raw request/provider response, ни credentials в DSN.
+- [ ] Ошибку вне ожидаемого домена переводить в 500, сохранить безопасный диагностический код без PII.
+
+### B4. Уведомления и outbox
+
+- [ ] Outbox содержит ссылку на lead, а не вторую бесконтрольную копию контакта.
+- [ ] Claim пачки 20 задач транзакционно с FOR UPDATE SKIP LOCKED, status=processing, lease 120 сек и новым claim_token.
+- [ ] Короткий worker: не держать SQL-транзакцию во время HTTP отправки; по завершении update с условием claim_token.
+- [ ] Timeout канала 10 сек. После отказа schedule 1/5/15/30/60/120/240 минут, максимум 8 попыток; retry_after провайдера учитывается.
+- [ ] Просроченный lease возвращает задачу; окончательный отказ dead, доступен операторский повтор с отдельным логом.
+- [ ] Уведомление содержит leadId, услугу, пожелание, пометку ручного подтверждения и разрешённые оператором контактные поля.
+- [ ] Telegram Bot API — plain text без parse_mode для пользовательских строк; фиксированный chat_id из server env, не из запроса.
+- [ ] Не обещать exactly-once доставку: после отправки и crash возможен дубль; leadId позволяет сопоставление.
+- [ ] Защищённый POST /api/internal/outbox требует Bearer OUTBOX_SECRET. Без секрета не запускается; no-store, без вывода контактов. Реальный cron создаётся при настройке окружения, не сам по себе в фоне процесса Next.
+
+### B5. Эксплуатация
+
+- [ ] db/compose.test.yml поднимает PostgreSQL только локально, без публичного облачного сервиса.
+- [ ] Документировать миграцию, runtime role, worker/cron, dead jobs и восстановление.
+- [ ] export-leads требует явного выходного пути вне Git и ограниченного доступа. Не печатать телефоны в stdout.
+- [ ] purge-leads применяет утверждённый срок; demo 7 дней; live без утверждённого срока не активировать. Каскадное удаление outbox.
+- [ ] Rate-limit HMAC удалять не позднее 24 ч; секрет отделён от ключа канонического payload.
+- [ ] Проверить backup/restore на синтетической БД и перечислить зависимости выбранного production storage.
+- [ ] При отсутствии production DB/канала отметить local-only; не писать «заявка работает end-to-end в production».
+
+## Проверки
+
+После согласованного коммита инструментария:
+
+```powershell
+npm run test:backend
+npm run test:integration
+npm run lint
+npm run typecheck
+npm run build
+```
+
+Обязательные тесты: Q05–Q18, Q20 и Q24 из docs/06-acceptance.md. Использовать отдельную TEST_DATABASE_URL; перед очисткой проверить, что это тестовая база с ожидаемым префиксом. Не запускать очистку против DATABASE_URL production.
+
+Каркас конкурентного теста по поведению:
+
+```ts
+test("два одинаковых запроса создают один lead и outbox", async () => {
+  // На реальном PostgreSQL выполнить Promise.all для двух POST с одним key.
+  // Проверить статусы 201 и 200, одинаковый leadId.
+  // SQL-проверкой убедиться: один lead и одна outbox.
+});
+```
+
+Это спецификация теста; в сдаче должен быть исполняемый тест с реальными fixture/setup, не этот комментарий.
+
+## Формат сдачи
+
+Ветка + SHA/PR; реализованное поведение; миграции и способ запуска; фактические результаты unit/integration и конкурентного сценария; безопасный отчёт об outbox, сбоях и повторах; перечень env без значений; ограничения production.
+
+Архитектор повторяет ключевые сценарии в интеграции и принимает релизное решение.

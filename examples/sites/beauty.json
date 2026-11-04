@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "beauty",
+  "contentVersion": "demo-2026-11-04",
+  "mode": "demo",
+  "core": "booking",
+  "theme": "editorial",
+  "locale": "ru-RU",
+  "timezone": "Europe/Moscow",
+  "brandName": "Студия · Демо",
+  "hero": {
+    "eyebrow": "Демонстрационный пример",
+    "title": "Услуга, мастер и удобное время.",
+    "subtitle": "Пример второй оболочки на общем ядре заявки. Время подтверждает администратор.",
+    "ctaText": "Выбрать услугу"
+  },
+  "contacts": {},
+  "address": "Липецк · демонстрационный адрес",
+  "priceDisclaimer": "Демонстрационные цены. Точную стоимость и время подтверждает администратор.",
+  "services": [
+    {
+      "id": "haircut",
+      "name": "Стрижка",
+      "category": "Волосы",
+      "durationMinutes": 60,
+      "price": {
+        "kind": "from",
+        "amountMinor": 150000,
+        "currency": "RUB"
+      },
+      "resourceIds": [
+        "master-a",
+        "master-b"
+      ],
+      "options": []
+    },
+    {
+      "id": "manicure",
+      "name": "Маникюр",
+      "category": "Ногти",
+      "durationMinutes": 60,
+      "price": {
+        "kind": "from",
+        "amountMinor": 120000,
+        "currency": "RUB"
+      },
+      "resourceIds": [
+        "master-b"
+      ],
+      "options": []
+    }
+  ],
+  "resources": [
+    {
+      "id": "master-a",
+      "name": "Мастер А · демо"
+    },
+    {
+      "id": "master-b",
+      "name": "Мастер Б · демо"
+    }
+  ],
+  "booking": {
+    "resourceSelection": "optional",
+    "preferenceRequired": true,
+    "horizonDays": 30,
+    "timeStepMinutes": 30,
+    "workingHours": {
+      "opens": "09:00",
+      "closes": "20:00",
+      "days": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    }
+  },
+  "legal": {
+    "consentVersion": "demo-2026-11-04",
+    "policyPath": "/demo/beauty/privacy",
+    "operatorName": null,
+    "approved": false
+  }
+}
