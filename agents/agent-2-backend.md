@@ -4,7 +4,7 @@
 
 Ты — серверный разработчик Lipetsk Site Factory. Работай в codex/backend-pr3, отдельный checkout. Прочитай AGENTS.md, архитектуру, OpenAPI и это ТЗ. Реализуй надёжный приём заявки PR-3 Auto; интерфейс ведёт другой разработчик, архитектор владеет контрактом и main. Дополнительных агентов не запускай.
 
-Не отправляй реальные сообщения, не создавай платные сервисы и не используй базы реальных лидов. Telegram проверяй через подменяемый HTTP endpoint на синтетике. Реальная настройка канала — отдельный разрешённый этап.
+Не отправляй реальные сообщения, не создавай платные сервисы и не используй базы реальных лидов. Канал выбирается отдельно для каждого заказчика. Общую доставку проверяй recording-адаптером, выбранный провайдер — через тестовый endpoint на синтетике. Реальная настройка канала — отдельный разрешённый этап.
 
 ## Результат
 
@@ -16,7 +16,7 @@ POST /api/leads проверяет вход, сохраняет ровно од�
 - src/server/leads/{create-lead,validation,ports}.ts.
 - src/server/config/sites.ts.
 - src/server/db/{pool,lead-repository,outbox-repository,rate-limit-repository}.ts.
-- src/server/notifications/{dispatch,telegram}.ts.
+- src/server/notifications/{dispatch,registry,ports}.ts, src/server/notifications/adapters/*.ts.
 - db/migrations/*.sql, db/compose.test.yml.
 - scripts/backend/{migrate,export-leads,purge-leads}.mjs.
 - tests/backend/**, tests/integration/**, docs/reports/backend.md.
@@ -42,7 +42,7 @@ interface LeadRepository {
     Promise<{ kind: "created" | "replayed"; leadId: string }>;
 }
 interface NotificationPort {
-  send(message: AdminNotification, signal: AbortSignal): Promise<void>;
+  send(input: { destinationKey: string; message: AdminNotification }, signal: AbortSignal): Promise<void>;
 }
 interface Clock {
   now(): Date;
@@ -77,13 +77,17 @@ interface Clock {
 
 ### B4. Уведомления и outbox
 
+- [ ] Серверный siteKey выбирает primaryDestinationKey и adapterId через приватную конфигурацию. В P0 одно назначение на заявку; канал по умолчанию для всех клиентов отсутствует.
+- [ ] Реестр разрешённых адаптеров и recording для demo/тестов. Реальный адаптер Telegram/email/CRM подключается по конкретному заказу; все провайдеры заранее не реализовывать.
+- [ ] Outbox сохраняет adapter_id и версионированный destination_key, UNIQUE(lead_id). При изменении получателя используется новый ключ; ожидающая очередь сохраняет прежний. Не делать автоматический fallback в другой канал.
 - [ ] Outbox содержит ссылку на lead, а не вторую бесконтрольную копию контакта.
 - [ ] Claim пачки 20 задач транзакционно с FOR UPDATE SKIP LOCKED, status=processing, lease 120 сек и новым claim_token.
 - [ ] Короткий worker: не держать SQL-транзакцию во время HTTP отправки; по завершении update с условием claim_token.
 - [ ] Timeout канала 10 сек. После отказа schedule 1/5/15/30/60/120/240 минут, максимум 8 попыток; retry_after провайдера учитывается.
 - [ ] Просроченный lease возвращает задачу; окончательный отказ dead, доступен операторский повтор с отдельным логом.
 - [ ] Уведомление содержит leadId, услугу, пожелание, пометку ручного подтверждения и разрешённые оператором контактные поля.
-- [ ] Telegram Bot API — plain text без parse_mode для пользовательских строк; фиксированный chat_id из server env, не из запроса.
+- [ ] Адаптер разрешает получателя/credentials только из серверной конфигурации. Для Telegram — plain text без parse_mode и разрешённый chat_id; для почты/CRM — параметры согласованного провайдера. Body заявки не управляет адресом или webhook URL.
+- [ ] Тесты проверяют правильные назначения двух клиентов с разными адаптерами, неизвестный адаптер и смену назначения при незавершённой очереди. UI/API и логика сохранения при смене провайдера не меняются.
 - [ ] Не обещать exactly-once доставку: после отправки и crash возможен дубль; leadId позволяет сопоставление.
 - [ ] Защищённый POST /api/internal/outbox требует Bearer OUTBOX_SECRET. Без секрета не запускается; no-store, без вывода контактов. Реальный cron создаётся при настройке окружения, не сам по себе в фоне процесса Next.
 

@@ -2,7 +2,7 @@
 
 ## Состав
 
-Модульный монолит: Next.js App Router + TypeScript + Tailwind, серверный Node.js runtime, PostgreSQL через pg. Без монорепозитория, внешней CRM, отдельного API-сервиса и конструктора произвольных процессов.
+Модульный монолит: Next.js App Router + TypeScript + Tailwind, серверный Node.js runtime, PostgreSQL через pg. Канал доставки заявок настраивается под заказчика. Монорепозиторий, отдельный API-сервис и конструктор произвольных процессов не требуются.
 
 ```mermaid
 flowchart LR
@@ -31,6 +31,14 @@ flowchart LR
 
 Публичные данные для UI и сервера берутся из одного examples/sites/*.json. Обёртки src/config/sites и src/server/config/sites не создают независимые копии прайса; серверная обёртка добавляет только разрешения режима и приватные назначения.
 
+## Канал заказчика
+
+Для каждого siteKey сервер хранит primaryDestinationKey. Назначение содержит adapterId и ссылки на защищённые настройки получателя/учётных данных. Возможные адаптеры: telegram, email, crm-webhook; конкретный провайдер и формат определяются после выбора заказчика. Универсальный обязательный канал отсутствует.
+
+В P0 одна заявка создаёт одно задание для одного согласованного назначения. Несколько одновременных каналов, автоматическое переключение при ошибке и все провайдеры заранее не реализуются. Для demo/тестов используется recording-адаптер без внешней отправки; live требует настроенного и проверенного адаптера.
+
+Worker выбирает NotificationPort через явный реестр адаптеров. destinationKey сохраняется с заданием и обозначает неизменяемую версию назначения, например auto-admin-v1. При смене получателя создаётся новая версия; старая доступна до завершения её очереди. Ошибка или неизвестное назначение не перенаправляют заявку другому получателю. Канал, адрес и credentials клиент не присылает; интерфейс и OpenAPI остаются общими.
+
 ## Карта файлов и владельцы
 
 Строки ниже — целевые пути. Наличие папки в схеме не означает, что модуль уже реализован.
@@ -53,7 +61,8 @@ flowchart LR
 | src/server/leads/{create-lead,validation,ports}.ts | Сценарий, валидация и порты | Агент 2 |
 | src/server/config/sites.ts | Allowlist, mode, назначения | Агент 2 |
 | src/server/db/{pool,lead-repository,outbox-repository}.ts | Параметризованный SQL и транзакции | Агент 2 |
-| src/server/notifications/{dispatch,telegram}.ts | Повторы и адаптер доставки | Агент 2 |
+| src/server/notifications/{dispatch,registry,ports}.ts | Повторы, реестр и общий интерфейс доставки | Агент 2 |
+| src/server/notifications/adapters/*.ts | Recording для тестов и выбранный заказчиком провайдер | Агент 2 |
 | db/migrations/*.sql | Версионируемые миграции | Агент 2 |
 | scripts/backend/{migrate,export-leads,purge-leads}.mjs | Операции администратора | Агент 2 |
 | tests/{ui,e2e}/** | UI/браузер | Агент 1 |
@@ -66,7 +75,7 @@ src/shared/api.generated.ts создаётся архитектором кома
 Для первого релиза достаточно четырёх служебных сущностей, не бизнес-CRM:
 
 - **leads:** id UUID; site_key text; config_version text; lead_kind='booking'; service_id/resource_id; service_options jsonb с серверной проверкой; preferred_at timestamptz; timezone; телефон text в нормализованном формате; имя nullable; consent_version и consent_at/created_at timestamptz от сервера; status='new'; price_snapshot jsonb из сервера; attribution jsonb с разрешёнными ключами; idempotency_key UUID; payload_hmac text. UNIQUE(site_key,idempotency_key).
-- **notification_outbox:** id UUID; lead_id FK с каскадным удалением; channel; status pending/processing/sent/dead; attempts; next_attempt_at; lease_until; claim_token UUID; last_error_code без тела ответа. UNIQUE(lead_id,channel), индекс для очереди по status/next_attempt_at и индекс FK.
+- **notification_outbox:** id UUID; lead_id FK с каскадным удалением; adapter_id; destination_key; status pending/processing/sent/dead; attempts; next_attempt_at; lease_until; claim_token UUID; last_error_code без тела ответа. UNIQUE(lead_id) для одного назначения в P0, индекс для очереди по status/next_attempt_at и индекс FK. destination_key фиксирует версию назначения на момент создания задания.
 - **rate_limits:** site_key + HMAC(IP,секрет) + окно времени; атомарный счётчик и expires_at; уникальность ключа окна. Исходный IP не хранить. Лимиты: 5 новых попыток за 10 минут на IP/site и 100 за час на site; успешные повторы по тому же ключу не расходуют лимит.
 - **schema_migrations:** номер применённой миграции и время. Повторный запуск мигратора безопасен.
 
