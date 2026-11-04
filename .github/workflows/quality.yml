@@ -1,7 +1,7 @@
 name: Quality
 on:
   push:
-    branches: [main, codex/frontend-pr3, codex/backend-pr3]
+    branches: [main]
   pull_request:
     branches: [main]
 permissions:
