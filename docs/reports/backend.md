@@ -153,6 +153,7 @@ System (`npm run test:system`):
 | Integration | `npm run test:integration` | 33 теста: 33 passed, 0 failed |
 | Verify целиком | `npm run verify:backend` | exit 0 |
 | System | `npm run test:system` | 7 сценариев: 6 passed, 1 skipped (S1 UI) |
+| CI своего блока | `backend-tests.yml` на PR #3 | pass — run 42029276605 (Node 22, PostgreSQL 18 service, `npm run verify:backend`); общий quality workflow — pass, run 42029276618 |
 
 ### Оставшиеся внешние ограничения
 
