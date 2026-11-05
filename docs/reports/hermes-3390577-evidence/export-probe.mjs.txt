@@ -1,0 +1,21 @@
+import {mkdtempSync,mkdirSync,existsSync,unlinkSync,rmdirSync} from 'node:fs';
+import path from 'node:path';
+import {spawnSync} from 'node:child_process';
+const ROOT=process.cwd();
+const parent=mkdtempSync(path.join(path.dirname(ROOT),'lsf-export-probe-'));
+const containerDir=path.join(parent,'export.csv');mkdirSync(containerDir);
+const requested=path.join(parent,'missing-parent','export.csv');
+const unexpected=path.join(containerDir,'missing-parent');
+const url=new URL('postgresql://127.0.0.1:55543/lsf_test_backend');
+url.username='lsf_test';url.password='lsf_test_only';
+try{
+ const run=spawnSync(process.execPath,['--experimental-strip-types','scripts/backend/export-leads.ts','--out',requested,'--site','__review_no_records__'],{
+  env:{...process.env,DATABASE_URL:url.toString()},encoding:'utf8'
+ });
+ console.log(JSON.stringify({case:'missing parent path changes export destination',exit:run.status,
+  requestedCreated:existsSync(requested),unexpectedCreated:existsSync(unexpected),expected:'nonzero with no file; never write to another destination'}));
+}finally{
+ if(existsSync(unexpected))unlinkSync(unexpected);
+ if(existsSync(requested))unlinkSync(requested);
+ rmdirSync(containerDir);rmdirSync(parent);
+}

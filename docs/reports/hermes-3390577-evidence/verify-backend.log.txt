@@ -1,0 +1,711 @@
+
+> lipetsk-site-factory@0.1.0 verify:backend
+> npm run check:plan && npm run lint && npm run typecheck && npm run test:backend && npm run build && npm run test:integration
+
+
+> lipetsk-site-factory@0.1.0 check:plan
+> node scripts/verify-plan.mjs
+
+Contract fixtures: 5 valid, 8 rejected.
+OpenAPI internal refs: 13; Markdown files: 34; local links: 51.
+Architecture consistency checks passed. Business acceptance is not implemented yet.
+
+> lipetsk-site-factory@0.1.0 lint
+> eslint .
+
+
+C:\Users\s_fedorenko\Documents\Codex\2026-11-04\https-drive-google-com-drive-folders\work\lipetsk-site-factory\integration\src\server\leads\phone.ts
+  43:3  warning  Unused eslint-disable directive (no problems were reported from 'no-control-regex')
+
+✖ 1 problem (0 errors, 1 warning)
+  0 errors and 1 warning potentially fixable with the `--fix` option.
+
+
+> lipetsk-site-factory@0.1.0 typecheck
+> next typegen && tsc --noEmit
+
+Generating route types...
+✓ Types generated successfully
+
+> lipetsk-site-factory@0.1.0 test:backend
+> node --experimental-strip-types --test tests/backend/*.test.mjs
+
+TAP version 13
+# Subtest: BU20 порядок опций и форматирование телефона дают один HMAC
+ok 1 - BU20 порядок опций и форматирование телефона дают один HMAC
+  ---
+  duration_ms: 11.9077
+  type: 'test'
+  ...
+# Subtest: BU21 другой контакт/услуга/версия — другой HMAC
+ok 2 - BU21 другой контакт/услуга/версия — другой HMAC
+  ---
+  duration_ms: 2.3248
+  type: 'test'
+  ...
+# Subtest: BU20moscowIso стабильно для московского момента
+ok 3 - BU20moscowIso стабильно для московского момента
+  ---
+  duration_ms: 2.2791
+  type: 'test'
+  ...
+# Subtest: BU09: configVersion расходится с текущим — CONFIG_CHANGED
+ok 4 - BU09: configVersion расходится с текущим — CONFIG_CHANGED
+  ---
+  duration_ms: 27.0187
+  type: 'test'
+  ...
+# Subtest: BU10: consent.version расходится — CONSENT_CHANGED
+ok 5 - BU10: consent.version расходится — CONSENT_CHANGED
+  ---
+  duration_ms: 2.5255
+  type: 'test'
+  ...
+# Subtest: BU10/схема: accepted=false отсекает схема до сценария (const true)
+ok 6 - BU10/схема: accepted=false отсекает схема до сценария (const true)
+  ---
+  duration_ms: 828.2206
+  type: 'test'
+  ...
+# Subtest: сохранённый повтор не вызывает текущие проверки и возвращает прежний leadId
+ok 7 - сохранённый повтор не вызывает текущие проверки и возвращает прежний leadId
+  ---
+  duration_ms: 1.8342
+  type: 'test'
+  ...
+# Subtest: новая валидная заявка: row получает серверные consentAt/destinationKey
+ok 8 - новая валидная заявка: row получает серверные consentAt/destinationKey
+  ---
+  duration_ms: 7.0234
+  type: 'test'
+  ...
+# Subtest: BR2b: query host/hostaddr/port/dbname не переопределяют эффективный target
+ok 9 - BR2b: query host/hostaddr/port/dbname не переопределяют эффективный target
+  ---
+  duration_ms: 7.3148
+  type: 'test'
+  ...
+# Subtest: BR2c: протокол, не-loopback и имя без lsf_test_ отклоняются
+ok 10 - BR2c: протокол, не-loopback и имя без lsf_test_ отклоняются
+  ---
+  duration_ms: 1.6565
+  type: 'test'
+  ...
+# Subtest: BR2d-юнит: допустимые опции не мешают; эффективный target разобран верно
+ok 11 - BR2d-юнит: допустимые опции не мешают; эффективный target разобран верно
+  ---
+  duration_ms: 6.0809
+  type: 'test'
+  ...
+# Subtest: BU05 неизвестная услуга/опция/значение/ресурс — ошибка своего поля
+ok 12 - BU05 неизвестная услуга/опция/значение/ресурс — ошибка своего поля
+  ---
+  duration_ms: 6.0788
+  type: 'test'
+  ...
+# Subtest: BU06 обязательная wheel-size отсутствует
+ok 13 - BU06 обязательная wheel-size отсутствует
+  ---
+  duration_ms: 1.0898
+  type: 'test'
+  ...
+# Subtest: BU07 необязательный ресурс не передан — принято
+ok 14 - BU07 необязательный ресурс не передан — принято
+  ---
+  duration_ms: 1.1866
+  type: 'test'
+  ...
+# Subtest: BU08 ресурс не поддерживает услугу — отклонено
+ok 15 - BU08 ресурс не поддерживает услугу — отклонено
+  ---
+  duration_ms: 1.346
+  type: 'test'
+  ...
+# Subtest: BU09/B Bu10(бизнес) версии config/consent сравниваются со_site
+ok 16 - BU09/B Bu10(бизнес) версии config/consent сравниваются со_site
+  ---
+  duration_ms: 0.8196
+  type: 'test'
+  ...
+# Subtest: BU11 имя: отсутствует/валидное/пробельное/81 символ
+ok 17 - BU11 имя: отсутствует/валидное/пробельное/81 символ
+  ---
+  duration_ms: 5.3758
+  type: 'test'
+  ...
+# Subtest: BU12 demo принимает синтетику, live — нет; обычный формат live принимает
+ok 18 - BU12 demo принимает синтетику, live — нет; обычный формат live принимает
+  ---
+  duration_ms: 1.5859
+  type: 'test'
+  ...
+# Subtest: BU22 attribution выключена — null; включена — allowlist и лимит 80
+ok 19 - BU22 attribution выключена — null; включена — allowlist и лимит 80
+  ---
+  duration_ms: 1.2602
+  type: 'test'
+  ...
+# Subtest: BU23 цена/название/длительность берутся из конфигурации (snapshot)
+ok 20 - BU23 цена/название/длительность берутся из конфигурации (snapshot)
+  ---
+  duration_ms: 2.1747
+  type: 'test'
+  ...
+# Subtest: BU24 неизвестный adapter/destination — конфигурационная ошибка, без fake-success
+ok 21 - BU24 неизвестный adapter/destination — конфигурационная ошибка, без fake-success
+  ---
+  duration_ms: 10.9028
+  type: 'test'
+  ...
+# Subtest: BU25 расписание повторов: 1/5/15/30/60/120/240 минут, попытка 8 — dead
+ok 22 - BU25 расписание повторов: 1/5/15/30/60/120/240 минут, попытка 8 — dead
+  ---
+  duration_ms: 1.5789
+  type: 'test'
+  ...
+# Subtest: BU26 зависающий адаптер: настоящий runOutboxBatch прерывает send и планирет повтор
+ok 23 - BU26 зависающий адаптер: настоящий runOutboxBatch прерывает send и планирет повтор
+  ---
+  duration_ms: 10017.0071
+  type: 'test'
+  ...
+# Subtest: BU27 небезопасный test DSN и кривые env падают до любых SQL-действий
+ok 24 - BU27 небезопасный test DSN и кривые env падают до любых SQL-действий
+  ---
+  duration_ms: 23.8108
+  type: 'test'
+  ...
+# Subtest: BU28 отображение ошибок — только документированные коды и no-store
+ok 25 - BU28 отображение ошибок — только документированные коды и no-store
+  ---
+  duration_ms: 1.2336
+  type: 'test'
+  ...
+# Subtest: формат +7 со скобками и дефисами в live
+ok 26 - формат +7 со скобками и дефисами в live
+  ---
+  duration_ms: 6.4117
+  type: 'test'
+  ...
+# Subtest: форма 8 без плюса в live
+ok 27 - форма 8 без плюса в live
+  ---
+  duration_ms: 1.1084
+  type: 'test'
+  ...
+# Subtest: внешние и неразрывные пробелы допускаются
+ok 28 - внешние и неразрывные пробелы допускаются
+  ---
+  duration_ms: 0.8505
+  type: 'test'
+  ...
+# Subtest: пустой ввод и нестроковые значения
+ok 29 - пустой ввод и нестроковые значения
+  ---
+  duration_ms: 0.8756
+  type: 'test'
+  ...
+# Subtest: неверное число цифр
+ok 30 - неверное число цифр
+  ---
+  duration_ms: 1.3713
+  type: 'test'
+  ...
+# Subtest: другая страна и 10 цифр без префикса
+ok 31 - другая страна и 10 цифр без префикса
+  ---
+  duration_ms: 0.7295
+  type: 'test'
+  ...
+# Subtest: начальная 7 без плюса
+ok 32 - начальная 7 без плюса
+  ---
+  duration_ms: 1.5125
+  type: 'test'
+  ...
+# Subtest: плюс не в начале и лишние плюсы
+ok 33 - плюс не в начале и лишние плюсы
+  ---
+  duration_ms: 0.7204
+  type: 'test'
+  ...
+# Subtest: буквы и добавочный номер
+ok 34 - буквы и добавочный номер
+  ---
+  duration_ms: 1.5631
+  type: 'test'
+  ...
+# Subtest: переносы строк и управляющие символы
+ok 35 - переносы строк и управляющие символы
+  ---
+  duration_ms: 3.8996
+  type: 'test'
+  ...
+# Subtest: синтетический номер: demo принимает, live отклоняет
+ok 36 - синтетический номер: demo принимает, live отклоняет
+  ---
+  duration_ms: 3.9137
+  type: 'test'
+  ...
+# Subtest: обычный номер в demo отклоняется
+ok 37 - обычный номер в demo отклоняется
+  ---
+  duration_ms: 1.4813
+  type: 'test'
+  ...
+# Subtest: U+2028/U+2029/U+FEFF/U+200B внутри номера отклоняются
+ok 38 - U+2028/U+2029/U+FEFF/U+200B внутри номера отклоняются
+  ---
+  duration_ms: 2.2964
+  type: 'test'
+  ...
+# Subtest: U+2028/U+2029 не работают как разделители формата
+ok 39 - U+2028/U+2029 не работают как разделители формата
+  ---
+  duration_ms: 4.1273
+  type: 'test'
+  ...
+# Subtest: прочие неразрешённые пробелы отклоняются, U+0020/U+00A0 сохраняются
+ok 40 - прочие неразрешённые пробелы отклоняются, U+0020/U+00A0 сохраняются
+  ---
+  duration_ms: 0.9123
+  type: 'test'
+  ...
+# Subtest: BU13 календарная реальность даты, включая високосность
+ok 41 - BU13 календарная реальность даты, включая високосность
+  ---
+  duration_ms: 5.1866
+  type: 'test'
+  ...
+# Subtest: BU14 прошлое время и ровно now отклонены
+ok 42 - BU14 прошлое время и ровно now отклонены
+  ---
+  duration_ms: 1.0269
+  type: 'test'
+  ...
+# Subtest: BU15 московский день не зависит от локальной границы TZ
+ok 43 - BU15 московский день не зависит от локальной границы TZ
+  ---
+  duration_ms: 1.3297
+  type: 'test'
+  ...
+# Subtest: BU16 нерабочий день отклоняется
+ok 44 - BU16 нерабочий день отклоняется
+  ---
+  duration_ms: 3.5217
+  type: 'test'
+  ...
+# Subtest: BU17 opens допустим, closes и некратное шагу — нет
+ok 45 - BU17 opens допустим, closes и некратное шагу — нет
+  ---
+  duration_ms: 2.593
+  type: 'test'
+  ...
+# Subtest: BU18 горизонт: предельный день включительно, следующий — отказ
+ok 46 - BU18 горизонт: предельный день включительно, следующий — отказ
+  ---
+  duration_ms: 3.1474
+  type: 'test'
+  ...
+# Subtest: BU19 preferred обязателен только при preferenceRequired=true
+ok 47 - BU19 preferred обязателен только при preferenceRequired=true
+  ---
+  duration_ms: 1.4952
+  type: 'test'
+  ...
+# Subtest: BR4: ghost-конфиг грузится, но не становится готовым; битый JSON — ConfigProblem
+ok 48 - BR4: ghost-конфиг грузится, но не становится готовым; битый JSON — ConfigProblem
+  ---
+  duration_ms: 9.9415
+  type: 'test'
+  ...
+# Subtest: BR4: createLead с ghost-назначением — DEMO_NOT_READY без lead/outbox
+ok 49 - BR4: createLead с ghost-назначением — DEMO_NOT_READY без lead/outbox
+  ---
+  duration_ms: 5.4552
+  type: 'test'
+  ...
+# Subtest: BR4: назначение без адаптера (нет в destinations) — тоже DEMO_NOT_READY
+ok 50 - BR4: назначение без адаптера (нет в destinations) — тоже DEMO_NOT_READY
+  ---
+  duration_ms: 1.9594
+  type: 'test'
+  ...
+# Subtest: BR4: live с recording и всеми флагами остаётся LIVE_NOT_READY
+ok 51 - BR4: live с recording и всеми флагами остаётся LIVE_NOT_READY
+  ---
+  duration_ms: 1.7508
+  type: 'test'
+  ...
+# Subtest: BR4: корректный demo recording проходит гейт
+ok 52 - BR4: корректный demo recording проходит гейт
+  ---
+  duration_ms: 2.7875
+  type: 'test'
+  ...
+# Subtest: BR4: сохранённый повтор проходит даже при сломанной текущей конфигурации
+ok 53 - BR4: сохранённый повтор проходит даже при сломанной текущей конфигурации
+  ---
+  duration_ms: 1.3648
+  type: 'test'
+  ...
+# Subtest: BU02 неизвестные price/status/channel/consentAt отклоняются
+ok 54 - BU02 неизвестные price/status/channel/consentAt отклоняются
+  ---
+  duration_ms: 234.3751
+  type: 'test'
+  ...
+# Subtest: BU03 root array/null, неверные типы, отсутствующие required
+ok 55 - BU03 root array/null, неверные типы, отсутствующие required
+  ---
+  duration_ms: 3.3339
+  type: 'test'
+  ...
+# Subtest: BU10-sхема consent.accepted не boolean и не true отклоняются
+ok 56 - BU10-sхема consent.accepted не boolean и не true отклоняются
+  ---
+  duration_ms: 1.4784
+  type: 'test'
+  ...
+# Subtest: BU23-схема клиентская цена и серверные поля не принимаются
+ok 57 - BU23-схема клиентская цена и серверные поля не принимаются
+  ---
+  duration_ms: 1.4057
+  type: 'test'
+  ...
+1..57
+# tests 57
+# suites 0
+# pass 57
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 10747.2466
+
+> lipetsk-site-factory@0.1.0 build
+> next build --webpack
+
+▲ Next.js 16.4.3 (webpack)
+✓ Running next.config.ts took 267ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 29.6s
+  Running TypeScript ...
+  Finished TypeScript in 7.5s ...
+  Collecting page data using 8 workers ...
+  Generating static pages using 8 workers (0/7) ...
+  Generating static pages using 8 workers (1/7)
+  Generating static pages using 8 workers (3/7)
+  Generating static pages using 8 workers (5/7)
+✓ Generating static pages using 8 workers (7/7) in 6.4s
+  Finalizing page optimization ...
+  Collecting build traces ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /api/internal/outbox
+├ ƒ /api/leads
+├   /demo/[siteKey]
+│ ├ ● /demo/auto
+│ └ ● /demo/beauty
+└   /demo/[siteKey]/privacy
+  ├ ● /demo/auto/privacy
+  └ ● /demo/beauty/privacy
+
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+
+
+> lipetsk-site-factory@0.1.0 test:integration
+> node --experimental-strip-types scripts/backend/test-integration.mjs
+
+TAP version 13
+# Subtest: BI02 обычный POST: 201, один lead, один pending outbox, snapshot
+ok 1 - BI02 обычный POST: 201, один lead, один pending outbox, snapshot
+  ---
+  duration_ms: 479.882
+  type: 'test'
+  ...
+# Subtest: BI03 один payload/ключ повторно: 200, тот же leadId, replayed
+ok 2 - BI03 один payload/ключ повторно: 200, тот же leadId, replayed
+  ---
+  duration_ms: 65.8588
+  type: 'test'
+  ...
+# Subtest: BI04 двадцать конкурентных одинаковых POST: одна пара строк
+ok 3 - BI04 двадцать конкурентных одинаковых POST: одна пара строк
+  ---
+  duration_ms: 418.5227
+  type: 'test'
+  ...
+# Subtest: BI05 один ключ с разными payload: исходная строка не перезаписана
+ok 4 - BI05 один ключ с разными payload: исходная строка не перезаписана
+  ---
+  duration_ms: 131.1204
+  type: 'test'
+  ...
+# Subtest: BI06 два разных ключа: два lead, дедупликации по телефону нет
+ok 5 - BI06 два разных ключа: два lead, дедупликации по телефону нет
+  ---
+  duration_ms: 133.1526
+  type: 'test'
+  ...
+# Subtest: BI07 сохранённый повтор не зависит от устаревания текущих правил
+ok 6 - BI07 сохранённый повтор не зависит от устаревания текущих правил
+  ---
+  duration_ms: 143.1268
+  type: 'test'
+  ...
+# Subtest: BI09 БД недоступна: 503 STORAGE_UNAVAILABLE, no-store, без fake-success
+ok 7 - BI09 БД недоступна: 503 STORAGE_UNAVAILABLE, no-store, без fake-success
+  ---
+  duration_ms: 334.8273
+  type: 'test'
+  ...
+# Subtest: BI15 Origin отсутствует/чужой: 403 и ноль lead
+ok 8 - BI15 Origin отсутствует/чужой: 403 и ноль lead
+  ---
+  duration_ms: 75.4744
+  type: 'test'
+  ...
+# Subtest: BI16 сломанный JSON; ключ отсутствует/не UUID
+ok 9 - BI16 сломанный JSON; ключ отсутствует/не UUID
+  ---
+  duration_ms: 32.2644
+  type: 'test'
+  ...
+# Subtest: BI17 другой media type; фактические 16KiB+; ложный Content-Length
+ok 10 - BI17 другой media type; фактические 16KiB+; ложный Content-Length
+  ---
+  duration_ms: 32.9238
+  type: 'test'
+  ...
+# Subtest: BI18 серверная схема и бизнес-проверки без записей
+ok 11 - BI18 серверная схема и бизнес-проверки без записей
+  ---
+  duration_ms: 283.3356
+  type: 'test'
+  ...
+# Subtest: BI19 Auto и Beauty: разные назначения, общий механизм
+ok 12 - BI19 Auto и Beauty: разные назначения, общий механизм
+  ---
+  duration_ms: 135.2072
+  type: 'test'
+  ...
+# Subtest: BI20 чужой siteKey и чужие поля: 404/422, изоляция
+ok 13 - BI20 чужой siteKey и чужие поля: 404/422, изоляция
+  ---
+  duration_ms: 46.499
+  type: 'test'
+  ...
+# Subtest: BI10 пять новых ключей и шестой для client: 429 + Retry-After
+ok 14 - BI10 пять новых ключей и шестой для client: 429 + Retry-After
+  ---
+  duration_ms: 391.7859
+  type: 'test'
+  ...
+# Subtest: BI11 повтор в исчерпанном bucket: 200 и счётчик не растёт
+ok 15 - BI11 повтор в исчерпанном bucket: 200 и счётчик не растёт
+  ---
+  duration_ms: 344.7576
+  type: 'test'
+  ...
+# Subtest: BI12 лимит site на разных clientKey: 100 допусков, 101-й 429
+ok 16 - BI12 лимит site на разных clientKey: 100 допусков, 101-й 429
+  ---
+  duration_ms: 1821.6736
+  type: 'test'
+  ...
+# Subtest: BI13 переход окна: тот же effective bucket/клиент, реальный Clock сервера
+ok 17 - BI13 переход окна: тот же effective bucket/клиент, реальный Clock сервера
+  ---
+  duration_ms: 234.1067
+  type: 'test'
+  ...
+# Subtest: BI14 два процесса/pool делят один лимит (не Map в памяти)
+ok 18 - BI14 два процесса/pool делят один лимит (не Map в памяти)
+  ---
+  duration_ms: 3330.9976
+  type: 'test'
+  ...
+# Subtest: BI01 повтор миграций не меняет схему
+ok 19 - BI01 повтор миграций не меняет схему
+  ---
+  duration_ms: 565.9293
+  type: 'test'
+  ...
+# Subtest: BI08 ошибка вставки outbox: rollback lead, 503, ни одной неполной пары
+ok 20 - BI08 ошибка вставки outbox: rollback lead, 503, ни одной неполной пары
+  ---
+  duration_ms: 210.7765
+  type: 'test'
+  ...
+# Subtest: BI30 purge и retention: только старые строки, корректный CASCADE
+ok 21 - BI30 purge и retention: только старые строки, корректный CASCADE
+  ---
+  duration_ms: 1240.7833
+  type: 'test'
+  ...
+# Subtest: BI31 export: файл вне Git, без перезаписи, без PII в stdout
+ok 22 - BI31 export: файл вне Git, без перезаписи, без PII в stdout
+  ---
+  duration_ms: 1065.6639
+  type: 'test'
+  ...
+# Subtest: BR3 экспорт: dot-segments и junction не записывают файл внутрь checkout
+ok 23 - BR3 экспорт: dot-segments и junction не записывают файл внутрь checkout
+  ---
+  duration_ms: 1520.0856
+  type: 'test'
+  ...
+# Subtest: BI32 backup/restore на синтетике: source по TEST_DATABASE_URL, restore в свой уникальный БД
+ok 24 - BI32 backup/restore на синтетике: source по TEST_DATABASE_URL, restore в свой уникальный БД
+  ---
+  duration_ms: 3572.2949
+  type: 'test'
+  ...
+# Subtest: BI33 логи и ошибки: нет телефонов, имён, DSN и секретов
+ok 25 - BI33 логи и ошибки: нет телефонов, имён, DSN и секретов
+  ---
+  duration_ms: 819.7339
+  type: 'test'
+  ...
+# Subtest: BI36 лестница повторов на пачке из 20: 8 попыток -> dead, без девятой
+ok 26 - BI36 лестница повторов на пачке из 20: 8 попыток -> dead, без девятой
+  ---
+  duration_ms: 2021.1712
+  type: 'test'
+  ...
+# Subtest: BR1 конкурентность: две пачки параллельно, 12 задач, ровно одна receipt на задачу
+ok 27 - BR1 конкурентность: две пачки параллельно, 12 задач, ровно одна receipt на задачу
+  ---
+  duration_ms: 547.6145
+  type: 'test'
+  ...
+# Subtest: BR6/BI22 барьер: два соединения claimBatch одновременно — пересечений нет
+ok 28 - BR6/BI22 барьер: два соединения claimBatch одновременно — пересечений нет
+  ---
+  duration_ms: 503.4851
+  type: 'test'
+  ...
+# Subtest: BR1e обычный отказ попытки 8: dead без автоматической девятой
+ok 29 - BR1e обычный отказ попытки 8: dead без автоматической девятой
+  ---
+  duration_ms: 288.9215
+  type: 'test'
+  ...
+# Subtest: BR1a/BR1b/BR1c восстановление expired-claim: receipt->sent, нет receipt->dead, один владелец
+ok 30 - BR1a/BR1b/BR1c восстановление expired-claim: receipt->sent, нет receipt->dead, один владелец
+  ---
+  duration_ms: 316.1806
+  type: 'test'
+  ...
+# Subtest: BR1d lease-бюджет: отправка не начинается, если lease уже потерян
+ok 31 - BR1d lease-бюджет: отправка не начинается, если lease уже потерян
+  ---
+  duration_ms: 344.2841
+  type: 'test'
+  ...
+# Subtest: BI21 worker recording: одна receipt, outbox sent
+ok 32 - BI21 worker recording: одна receipt, outbox sent
+  ---
+  duration_ms: 381.0224
+  type: 'test'
+  ...
+# Subtest: BI22 два worker: задача не обрабатывается одновременно
+ok 33 - BI22 два worker: задача не обрабатывается одновременно
+  ---
+  duration_ms: 457.2064
+  type: 'test'
+  ...
+# Subtest: BI23 send отказ: lead сохранён, outbox перенесён, безопасный код
+ok 34 - BI23 send отказ: lead сохранён, outbox перенесён, безопасный код
+  ---
+  duration_ms: 431.3115
+  type: 'test'
+  ...
+# Subtest: BI24 worker crash, lease истёк: задача снова доступна
+ok 35 - BI24 worker crash, lease истёк: задача снова доступна
+  ---
+  duration_ms: 233.2984
+  type: 'test'
+  ...
+# Subtest: BI25 stale claim_token не перезаписывает новую попытку
+ok 36 - BI25 stale claim_token не перезаписывает новую попытку
+  ---
+  duration_ms: 211.6845
+  type: 'test'
+  ...
+# Subtest: BI26 recording успешна, crash до sent: повтор возвращает прежнюю receipt
+ok 37 - BI26 recording успешна, crash до sent: повтор возвращает прежнюю receipt
+  ---
+  duration_ms: 323.5775
+  type: 'test'
+  ...
+# Subtest: BI27 сохранённая очередь использует прежнее назначение
+ok 38 - BI27 сохранённая очередь использует прежнее назначение
+  ---
+  duration_ms: 220.0173
+  type: 'test'
+  ...
+# Subtest: BI28 internal route без/с неверным секретом: 401, очередь не тронута
+ok 39 - BI28 internal route без/с неверным секретом: 401, очередь не тронута
+  ---
+  duration_ms: 151.6007
+  type: 'test'
+  ...
+# Subtest: BI29 internal route с секретом: только агрегатные числа
+ok 40 - BI29 internal route с секретом: только агрегатные числа
+  ---
+  duration_ms: 49.7135
+  type: 'test'
+  ...
+# Subtest: BR2a: test-mode с несовпадающим DATABASE_URL — nonzero до любых SQL
+ok 41 - BR2a: test-mode с несовпадающим DATABASE_URL — nonzero до любых SQL
+  ---
+  duration_ms: 395.794
+  type: 'test'
+  ...
+# Subtest: BR2b: host в query не перенаправляет соединение — отказ до connect
+ok 42 - BR2b: host в query не перенаправляет соединение — отказ до connect
+  ---
+  duration_ms: 849.341
+  type: 'test'
+  ...
+# Subtest: BR2d: одинаковый эффективный target проходит и миграции идемпотентны
+ok 43 - BR2d: одинаковый эффективный target проходит и миграции идемпотентны
+  ---
+  duration_ms: 411.684
+  type: 'test'
+  ...
+# Subtest: BR4: ghost-назначение — 503 DEMO_NOT_READY без lead/outbox/расхода лимита
+ok 44 - BR4: ghost-назначение — 503 DEMO_NOT_READY без lead/outbox/расхода лимита
+  ---
+  duration_ms: 709.245
+  type: 'test'
+  ...
+# Subtest: BR4: сохранённый replay работает при сломанной текущей конфигурации
+ok 45 - BR4: сохранённый replay работает при сломанной текущей конфигурации
+  ---
+  duration_ms: 127.27
+  type: 'test'
+  ...
+# Subtest: BR4: ghost-приложение не принимает новую заявку и после повтора соседа
+ok 46 - BR4: ghost-приложение не принимает новую заявку и после повтора соседа
+  ---
+  duration_ms: 109.0416
+  type: 'test'
+  ...
+1..46
+# tests 46
+# suites 0
+# pass 46
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 39659.5013
