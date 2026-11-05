@@ -1,0 +1,44 @@
+# CI серверного блока PR-3. Общий Quality workflow не заменяет и не меняет его.
+name: Backend tests
+on:
+  push:
+    branches: [main, codex/backend-pr3]
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+      # Публичные test-only credentials сервисного контейнера, не секреты.
+      TEST_DATABASE_URL: "postgresql://lsf_test:lsf_test_only@127.0.0.1:5432/lsf_test_backend"
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_DB: lsf_test_backend
+          POSTGRES_USER: lsf_test
+          POSTGRES_PASSWORD: lsf_test_only
+        ports:
+          - 127.0.0.1:5432:5432
+        options: >-
+          --health-cmd "pg_isready -U lsf_test -d lsf_test_backend"
+          --health-interval 2s --health-timeout 3s --health-retries 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Миграции дважды (идемпотентность)
+        run: |
+          npm run db:migrate
+          npm run db:migrate
+        env:
+          DATABASE_URL: "postgresql://lsf_test:lsf_test_only@127.0.0.1:5432/lsf_test_backend"
+      - name: Полная проверка серверного блока
+        run: npm run verify:backend
