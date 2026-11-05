@@ -252,8 +252,12 @@ receipt по одной. Очистка — только свои keys/leadId/с
 - `npm run test:backend`: 57/57 (сохранены все 15 phone-тестов, прежние 48 unit + 9 новых BR-unit).
 - `npm run test:integration`: 46/46 (было 33, добавлены outbox-br 6 и readiness 7 сценариев; нумерация BI продолжается, новые ID: BR2a/b/d, BR3, BR4-HTTP×3, BI36, BR1a–e, барьер).
 - `npm run verify:backend`: exit 0 (unit 57, build ok, integration 46).
-- Общий `test:system` без skip: отдельный checkout, SHA ниже.
-- CI своего блока на финальном SHA: запуски ниже.
+- Общий `test:system` без skip: отдельный временный checkout объединённого снимка
+  `origin/codex/pr3-final-review` (a4d50f7) + `codex/backend-pr3` (b225029),
+  merge-коммит проверки 5b9a482: 7 passed / 0 skipped (13.7 с), включая
+  UI Auto `/demo/auto` и Beauty с мастером/без. Ветки не изменялись, в main не лилось.
+- CI своего блока на SHA b225029: backend pass — runs 42093496808, 42093504947
+  (в логах # tests 57 / # tests 46, fail 0); quality pass — run 42093504996.
 
 ### Изменённый runbook (сводно)
 
