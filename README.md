@@ -4,6 +4,8 @@
 
 **Текущий пакет: PR3-BATCH-2, 05.11.2026.** Два разработчика выполняют большие независимые блоки целиком, архитектор проводит финальную интеграцию и проверку. Общие типы, зависимости, lockfile и команды подготовлены; наличие тестовых команд не означает, что будущие функции уже реализованы.
 
+**Финальный контроль выполнен: changes-required.** Основной путь Auto/Beauty → PostgreSQL → recording работает, но найдены дефекты очереди, защитных границ и обработки ошибок. [Отчёт и свидетельства](docs/reports/pr3-final-review.md), [один пакет правок Hermes](agents/tasks/PR3_BACKEND_FINAL_FIXES.md), [один пакет правок Antigravity](agents/tasks/PR3_FRONTEND_FINAL_FIXES.md), [промты продолжения](agents/START_FINAL_FIXES.md). Продуктовый код остаётся в ветках разработчиков до повторного контроля.
+
 - **[Hermes — полное серверное ТЗ](agents/PR3_BACKEND_HERMES.md):** API, PostgreSQL, конкурентная идемпотентность, outbox/worker, recording, эксплуатация; 28 unit- и 33 integration-сценария.
 - **[Antigravity — полное интерфейсное ТЗ](agents/PR3_FRONTEND_ANTIGRAVITY.md):** Auto/Beauty, три шага, доступность, HTTP/retry; 20 unit- и 28 browser-сценариев.
 - **[Общее соглашение интеграции](docs/09-batch-contract.md)** и **[готовые запросы запуска](agents/START_FULL_BLOCKS.md)**.
