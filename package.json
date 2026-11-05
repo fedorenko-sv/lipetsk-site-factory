@@ -2,6 +2,7 @@
   "name": "lipetsk-site-factory",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "description": "Architecture baseline for reusable service lead websites",
   "engines": {
     "node": ">=22 <23"
@@ -14,12 +15,27 @@
     "lint": "eslint .",
     "typecheck": "next typegen && tsc --noEmit",
     "check:plan": "node scripts/verify-plan.mjs",
-    "verify:architecture": "npm run check:plan && npm run lint && npm run typecheck && npm run build"
+    "verify:architecture": "npm run check:plan && npm run lint && npm run typecheck && npm run build",
+    "test:backend": "node --experimental-strip-types --test tests/backend/*.test.mjs",
+    "test:ui": "node --experimental-strip-types --test tests/ui/*.test.mjs",
+    "test:e2e": "playwright test --config playwright.config.ts",
+    "test:integration": "node --experimental-strip-types scripts/backend/test-integration.mjs",
+    "test:system": "node --experimental-strip-types scripts/backend/test-system.mjs",
+    "db:test:up": "docker compose -f db/compose.test.yml up -d --wait",
+    "db:test:down": "docker compose -f db/compose.test.yml down",
+    "db:migrate": "node --experimental-strip-types scripts/backend/migrate.ts",
+    "outbox:once": "node --experimental-strip-types scripts/backend/outbox-once.ts",
+    "verify:backend": "npm run check:plan && npm run lint && npm run typecheck && npm run test:backend && npm run build && npm run test:integration",
+    "verify:frontend": "npm run check:plan && npm run lint && npm run typecheck && npm run test:ui && npm run build && npm run test:e2e",
+    "verify:release": "npm run verify:architecture && npm run test:backend && npm run test:ui && npm run test:integration && npm run test:e2e && npm run test:system"
   },
   "dependencies": {
     "next": "16.4.3",
     "react": "19.3.1",
-    "react-dom": "19.3.1"
+    "react-dom": "19.3.1",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "pg": "8.22.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.0.0",
@@ -30,7 +46,7 @@
     "@types/react-dom": "^19.0.0",
     "eslint": "9.39.5",
     "eslint-config-next": "16.4.3",
-    "ajv": "8.20.0",
-    "ajv-formats": "3.0.1"
+    "@types/pg": "8.23.1",
+    "@playwright/test": "1.64.1"
   }
 }
