@@ -1,0 +1,74 @@
+[
+  {
+    "case": "real UI -> API -> PostgreSQL -> worker -> recording -> replay",
+    "siteKey": "auto",
+    "resource": null,
+    "created": 201,
+    "replayed": 200,
+    "rows": 1,
+    "outbox": "sent",
+    "receipts": 1
+  },
+  {
+    "case": "real UI -> API -> PostgreSQL -> worker -> recording -> replay",
+    "siteKey": "beauty",
+    "resource": "master-a",
+    "created": 201,
+    "replayed": 200,
+    "rows": 1,
+    "outbox": "sent",
+    "receipts": 1
+  },
+  {
+    "case": "real UI -> API -> PostgreSQL -> worker -> recording -> replay",
+    "siteKey": "beauty",
+    "resource": null,
+    "created": 201,
+    "replayed": 200,
+    "rows": 1,
+    "outbox": "sent",
+    "receipts": 1
+  },
+  {
+    "case": "422 preferred.time while on contact",
+    "contactVisible": true,
+    "fieldMessageVisible": false,
+    "activeElement": {
+      "tag": "BODY",
+      "testId": null
+    },
+    "expected": "show/focus affected field or error summary; preserve contacts"
+  },
+  {
+    "case": "201 receipt violates leadId UUID schema",
+    "successVisible": true,
+    "expected": "invalid-response; no success"
+  },
+  {
+    "case": "invalid phone focus and association",
+    "activeElement": {
+      "tag": "BODY",
+      "testId": null
+    },
+    "describedBy": null,
+    "expected": "focus on field/summary and associated error"
+  },
+  {
+    "case": "unknown inherited site key",
+    "site": "constructor",
+    "httpStatus": 500,
+    "expected": 404
+  },
+  {
+    "case": "unknown inherited site key",
+    "site": "toString",
+    "httpStatus": 500,
+    "expected": 404
+  },
+  {
+    "case": "unknown inherited site key",
+    "site": "__proto__",
+    "httpStatus": 500,
+    "expected": 404
+  }
+]

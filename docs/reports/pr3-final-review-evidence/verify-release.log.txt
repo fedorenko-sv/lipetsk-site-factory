@@ -1,0 +1,810 @@
+
+> lipetsk-site-factory@0.1.0 verify:release
+> npm run verify:architecture && npm run test:backend && npm run test:ui && npm run test:integration && npm run test:e2e && npm run test:system
+
+
+> lipetsk-site-factory@0.1.0 verify:architecture
+> npm run check:plan && npm run lint && npm run typecheck && npm run build
+
+
+> lipetsk-site-factory@0.1.0 check:plan
+> node scripts/verify-plan.mjs
+
+Contract fixtures: 5 valid, 8 rejected.
+OpenAPI internal refs: 13; Markdown files: 29; local links: 40.
+Architecture consistency checks passed. Business acceptance is not implemented yet.
+
+> lipetsk-site-factory@0.1.0 lint
+> eslint .
+
+
+C:\Users\s_fedorenko\Documents\Codex\2026-11-04\https-drive-google-com-drive-folders\work\lipetsk-site-factory\integration\src\server\leads\phone.ts
+  43:3  warning  Unused eslint-disable directive (no problems were reported from 'no-control-regex')
+
+✖ 1 problem (0 errors, 1 warning)
+  0 errors and 1 warning potentially fixable with the `--fix` option.
+
+
+> lipetsk-site-factory@0.1.0 typecheck
+> next typegen && tsc --noEmit
+
+Generating route types...
+✓ Types generated successfully
+
+> lipetsk-site-factory@0.1.0 build
+> next build --webpack
+
+▲ Next.js 16.4.3 (webpack)
+✓ Running next.config.ts took 100ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 15.4s
+  Running TypeScript ...
+  Finished TypeScript in 6.3s ...
+  Collecting page data using 8 workers ...
+  Generating static pages using 8 workers (0/7) ...
+  Generating static pages using 8 workers (1/7)
+  Generating static pages using 8 workers (3/7)
+  Generating static pages using 8 workers (5/7)
+✓ Generating static pages using 8 workers (7/7) in 3.4s
+  Finalizing page optimization ...
+  Collecting build traces ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /api/internal/outbox
+├ ƒ /api/leads
+├   /demo/[siteKey]
+│ ├ ● /demo/auto
+│ └ ● /demo/beauty
+└   /demo/[siteKey]/privacy
+  ├ ● /demo/auto/privacy
+  └ ● /demo/beauty/privacy
+
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+
+
+> lipetsk-site-factory@0.1.0 test:backend
+> node --experimental-strip-types --test tests/backend/*.test.mjs
+
+TAP version 13
+# Subtest: BU20 порядок опций и форматирование телефона дают один HMAC
+ok 1 - BU20 порядок опций и форматирование телефона дают один HMAC
+  ---
+  duration_ms: 6.9956
+  type: 'test'
+  ...
+# Subtest: BU21 другой контакт/услуга/версия — другой HMAC
+ok 2 - BU21 другой контакт/услуга/версия — другой HMAC
+  ---
+  duration_ms: 2.2016
+  type: 'test'
+  ...
+# Subtest: BU20moscowIso стабильно для московского момента
+ok 3 - BU20moscowIso стабильно для московского момента
+  ---
+  duration_ms: 1.6272
+  type: 'test'
+  ...
+# Subtest: BU09: configVersion расходится с текущим — CONFIG_CHANGED
+ok 4 - BU09: configVersion расходится с текущим — CONFIG_CHANGED
+  ---
+  duration_ms: 11.1113
+  type: 'test'
+  ...
+# Subtest: BU10: consent.version расходится — CONSENT_CHANGED
+ok 5 - BU10: consent.version расходится — CONSENT_CHANGED
+  ---
+  duration_ms: 1.0777
+  type: 'test'
+  ...
+# Subtest: BU10/схема: accepted=false отсекает схема до сценария (const true)
+ok 6 - BU10/схема: accepted=false отсекает схема до сценария (const true)
+  ---
+  duration_ms: 490.5597
+  type: 'test'
+  ...
+# Subtest: сохранённый повтор не вызывает текущие проверки и возвращает прежний leadId
+ok 7 - сохранённый повтор не вызывает текущие проверки и возвращает прежний leadId
+  ---
+  duration_ms: 1.0401
+  type: 'test'
+  ...
+# Subtest: новая валидная заявка: row получает серверные consentAt/destinationKey
+ok 8 - новая валидная заявка: row получает серверные consentAt/destinationKey
+  ---
+  duration_ms: 3.3606
+  type: 'test'
+  ...
+# Subtest: BU05 неизвестная услуга/опция/значение/ресурс — ошибка своего поля
+ok 9 - BU05 неизвестная услуга/опция/значение/ресурс — ошибка своего поля
+  ---
+  duration_ms: 4.4402
+  type: 'test'
+  ...
+# Subtest: BU06 обязательная wheel-size отсутствует
+ok 10 - BU06 обязательная wheel-size отсутствует
+  ---
+  duration_ms: 0.9007
+  type: 'test'
+  ...
+# Subtest: BU07 необязательный ресурс не передан — принято
+ok 11 - BU07 необязательный ресурс не передан — принято
+  ---
+  duration_ms: 0.6243
+  type: 'test'
+  ...
+# Subtest: BU08 ресурс не поддерживает услугу — отклонено
+ok 12 - BU08 ресурс не поддерживает услугу — отклонено
+  ---
+  duration_ms: 0.773
+  type: 'test'
+  ...
+# Subtest: BU09/B Bu10(бизнес) версии config/consent сравниваются со_site
+ok 13 - BU09/B Bu10(бизнес) версии config/consent сравниваются со_site
+  ---
+  duration_ms: 0.3538
+  type: 'test'
+  ...
+# Subtest: BU11 имя: отсутствует/валидное/пробельное/81 символ
+ok 14 - BU11 имя: отсутствует/валидное/пробельное/81 символ
+  ---
+  duration_ms: 2.9515
+  type: 'test'
+  ...
+# Subtest: BU12 demo принимает синтетику, live — нет; обычный формат live принимает
+ok 15 - BU12 demo принимает синтетику, live — нет; обычный формат live принимает
+  ---
+  duration_ms: 0.8568
+  type: 'test'
+  ...
+# Subtest: BU22 attribution выключена — null; включена — allowlist и лимит 80
+ok 16 - BU22 attribution выключена — null; включена — allowlist и лимит 80
+  ---
+  duration_ms: 0.7123
+  type: 'test'
+  ...
+# Subtest: BU23 цена/название/длительность берутся из конфигурации (snapshot)
+ok 17 - BU23 цена/название/длительность берутся из конфигурации (snapshot)
+  ---
+  duration_ms: 1.2959
+  type: 'test'
+  ...
+# Subtest: BU24 неизвестный adapter/destination — конфигурационная ошибка, без fake-success
+ok 18 - BU24 неизвестный adapter/destination — конфигурационная ошибка, без fake-success
+  ---
+  duration_ms: 7.3587
+  type: 'test'
+  ...
+# Subtest: BU25 расписание повторов: 1/5/15/30/60/120/240 минут, попытка 8 — dead
+ok 19 - BU25 расписание повторов: 1/5/15/30/60/120/240 минут, попытка 8 — dead
+  ---
+  duration_ms: 1.1427
+  type: 'test'
+  ...
+# Subtest: BU26 ошибка адаптера — безопасный код; timeout задан; тело провайдера не уходит
+ok 20 - BU26 ошибка адаптера — безопасный код; timeout задан; тело провайдера не уходит
+  ---
+  duration_ms: 12.7565
+  type: 'test'
+  ...
+# Subtest: BU27 небезопасный test DSN и кривые env падают до любых SQL-действий
+ok 21 - BU27 небезопасный test DSN и кривые env падают до любых SQL-действий
+  ---
+  duration_ms: 2.807
+  type: 'test'
+  ...
+# Subtest: BU28 отображение ошибок — только документированные коды и no-store
+ok 22 - BU28 отображение ошибок — только документированные коды и no-store
+  ---
+  duration_ms: 1.4564
+  type: 'test'
+  ...
+# Subtest: формат +7 со скобками и дефисами в live
+ok 23 - формат +7 со скобками и дефисами в live
+  ---
+  duration_ms: 3.8208
+  type: 'test'
+  ...
+# Subtest: форма 8 без плюса в live
+ok 24 - форма 8 без плюса в live
+  ---
+  duration_ms: 0.695
+  type: 'test'
+  ...
+# Subtest: внешние и неразрывные пробелы допускаются
+ok 25 - внешние и неразрывные пробелы допускаются
+  ---
+  duration_ms: 0.4784
+  type: 'test'
+  ...
+# Subtest: пустой ввод и нестроковые значения
+ok 26 - пустой ввод и нестроковые значения
+  ---
+  duration_ms: 0.447
+  type: 'test'
+  ...
+# Subtest: неверное число цифр
+ok 27 - неверное число цифр
+  ---
+  duration_ms: 0.6605
+  type: 'test'
+  ...
+# Subtest: другая страна и 10 цифр без префикса
+ok 28 - другая страна и 10 цифр без префикса
+  ---
+  duration_ms: 0.6242
+  type: 'test'
+  ...
+# Subtest: начальная 7 без плюса
+ok 29 - начальная 7 без плюса
+  ---
+  duration_ms: 0.4944
+  type: 'test'
+  ...
+# Subtest: плюс не в начале и лишние плюсы
+ok 30 - плюс не в начале и лишние плюсы
+  ---
+  duration_ms: 0.33
+  type: 'test'
+  ...
+# Subtest: буквы и добавочный номер
+ok 31 - буквы и добавочный номер
+  ---
+  duration_ms: 1.1379
+  type: 'test'
+  ...
+# Subtest: переносы строк и управляющие символы
+ok 32 - переносы строк и управляющие символы
+  ---
+  duration_ms: 1.668
+  type: 'test'
+  ...
+# Subtest: синтетический номер: demo принимает, live отклоняет
+ok 33 - синтетический номер: demo принимает, live отклоняет
+  ---
+  duration_ms: 0.6104
+  type: 'test'
+  ...
+# Subtest: обычный номер в demo отклоняется
+ok 34 - обычный номер в demo отклоняется
+  ---
+  duration_ms: 0.433
+  type: 'test'
+  ...
+# Subtest: U+2028/U+2029/U+FEFF/U+200B внутри номера отклоняются
+ok 35 - U+2028/U+2029/U+FEFF/U+200B внутри номера отклоняются
+  ---
+  duration_ms: 2.6386
+  type: 'test'
+  ...
+# Subtest: U+2028/U+2029 не работают как разделители формата
+ok 36 - U+2028/U+2029 не работают как разделители формата
+  ---
+  duration_ms: 0.4805
+  type: 'test'
+  ...
+# Subtest: прочие неразрешённые пробелы отклоняются, U+0020/U+00A0 сохраняются
+ok 37 - прочие неразрешённые пробелы отклоняются, U+0020/U+00A0 сохраняются
+  ---
+  duration_ms: 0.583
+  type: 'test'
+  ...
+# Subtest: BU13 календарная реальность даты, включая високосность
+ok 38 - BU13 календарная реальность даты, включая високосность
+  ---
+  duration_ms: 3.5606
+  type: 'test'
+  ...
+# Subtest: BU14 прошлое время и ровно now отклонены
+ok 39 - BU14 прошлое время и ровно now отклонены
+  ---
+  duration_ms: 0.8499
+  type: 'test'
+  ...
+# Subtest: BU15 московский день не зависит от локальной границы TZ
+ok 40 - BU15 московский день не зависит от локальной границы TZ
+  ---
+  duration_ms: 1.1798
+  type: 'test'
+  ...
+# Subtest: BU16 нерабочий день отклоняется
+ok 41 - BU16 нерабочий день отклоняется
+  ---
+  duration_ms: 1.1257
+  type: 'test'
+  ...
+# Subtest: BU17 opens допустим, closes и некратное шагу — нет
+ok 42 - BU17 opens допустим, closes и некратное шагу — нет
+  ---
+  duration_ms: 1.9412
+  type: 'test'
+  ...
+# Subtest: BU18 горизонт: предельный день включительно, следующий — отказ
+ok 43 - BU18 горизонт: предельный день включительно, следующий — отказ
+  ---
+  duration_ms: 1.0907
+  type: 'test'
+  ...
+# Subtest: BU19 preferred обязателен только при preferenceRequired=true
+ok 44 - BU19 preferred обязателен только при preferenceRequired=true
+  ---
+  duration_ms: 1.7786
+  type: 'test'
+  ...
+# Subtest: BU02 неизвестные price/status/channel/consentAt отклоняются
+ok 45 - BU02 неизвестные price/status/channel/consentAt отклоняются
+  ---
+  duration_ms: 123.0279
+  type: 'test'
+  ...
+# Subtest: BU03 root array/null, неверные типы, отсутствующие required
+ok 46 - BU03 root array/null, неверные типы, отсутствующие required
+  ---
+  duration_ms: 2.1818
+  type: 'test'
+  ...
+# Subtest: BU10-sхема consent.accepted не boolean и не true отклоняются
+ok 47 - BU10-sхема consent.accepted не boolean и не true отклоняются
+  ---
+  duration_ms: 0.707
+  type: 'test'
+  ...
+# Subtest: BU23-схема клиентская цена и серверные поля не принимаются
+ok 48 - BU23-схема клиентская цена и серверные поля не принимаются
+  ---
+  duration_ms: 1.0424
+  type: 'test'
+  ...
+1..48
+# tests 48
+# suites 0
+# pass 48
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 909.6341
+
+> lipetsk-site-factory@0.1.0 test:ui
+> node --experimental-strip-types --test tests/ui/*.test.mjs
+
+TAP version 13
+# Subtest: FU01: fixed/from, целые копейки — точное представление и «от»
+ok 1 - FU01: fixed/from, целые копейки — точное представление и «от»
+  ---
+  duration_ms: 45.1796
+  type: 'test'
+  ...
+# Subtest: FU02: 180050, 50, 0 — копейки сохранены, ноль валиден
+ok 2 - FU02: 180050, 50, 0 — копейки сохранены, ноль валиден
+  ---
+  duration_ms: 1.0954
+  type: 'test'
+  ...
+# Subtest: FU03: Переходы трёх шагов/назад — состояние сохраняется
+ok 3 - FU03: Переходы трёх шагов/назад — состояние сохраняется
+  ---
+  duration_ms: 21.2993
+  type: 'test'
+  ...
+# Subtest: FU04: Неполная required option — следующий шаг недоступен
+ok 4 - FU04: Неполная required option — следующий шаг недоступен
+  ---
+  duration_ms: 1.2206
+  type: 'test'
+  ...
+# Subtest: FU05: Смена услуги — сброс несовместимых option/resource
+ok 5 - FU05: Смена услуги — сброс несовместимых option/resource
+  ---
+  duration_ms: 1.4279
+  type: 'test'
+  ...
+# Subtest: FU06: Compatible master остаётся — без лишней потери выбора
+ok 6 - FU06: Compatible master остаётся — без лишней потери выбора
+  ---
+  duration_ms: 0.6757
+  type: 'test'
+  ...
+# Subtest: FU07: Московская дата при другом TZ браузера — правильные min/max/day
+ok 7 - FU07: Московская дата при другом TZ браузера — правильные min/max/day
+  ---
+  duration_ms: 1.5353
+  type: 'test'
+  ...
+# Subtest: FU08: today/past/now/horizon — те же границы, что в общем контракте
+ok 8 - FU08: today/past/now/horizon — те же границы, что в общем контракте
+  ---
+  duration_ms: 3.191
+  type: 'test'
+  ...
+# Subtest: FU09: Рабочие дни, opens/closes, time step — только допустимые предпочтения
+ok 9 - FU09: Рабочие дни, opens/closes, time step — только допустимые предпочтения
+  ---
+  duration_ms: 5.0121
+  type: 'test'
+  ...
+# Subtest: FU10: Смена даты — несовместимое время сбрасывается
+ok 10 - FU10: Смена даты — несовместимое время сбрасывается
+  ---
+  duration_ms: 9.8401
+  type: 'test'
+  ...
+# Subtest: FU11: Payload Auto/Beauty — ровно поля схемы, без channel/price
+ok 11 - FU11: Payload Auto/Beauty — ровно поля схемы, без channel/price
+  ---
+  duration_ms: 2.949
+  type: 'test'
+  ...
+# Subtest: FU12: Пустое имя/ресурс/attribution off — не отправляются
+ok 12 - FU12: Пустое имя/ресурс/attribution off — не отправляются
+  ---
+  duration_ms: 0.887
+  type: 'test'
+  ...
+# Subtest: FU13: UUID одной неизменённой попытки — сохраняется на network/timeout
+ok 13 - FU13: UUID одной неизменённой попытки — сохраняется на network/timeout
+  ---
+  duration_ms: 6.2801
+  type: 'test'
+  ...
+# Subtest: FU14: Редактирование/422/новая заявка — новый ключ
+ok 14 - FU14: Редактирование/422/новая заявка — новый ключ
+  ---
+  duration_ms: 0.8514
+  type: 'test'
+  ...
+# Subtest: FU15: Повторный submit во время submitting — один transport call
+ok 15 - FU15: Повторный submit во время submitting — один transport call
+  ---
+  duration_ms: 0.4482
+  type: 'test'
+  ...
+# Subtest: FU16: Поздний ответ старой попытки — не перезаписывает текущий state
+ok 16 - FU16: Поздний ответ старой попытки — не перезаписывает текущий state
+  ---
+  duration_ms: 0.5093
+  type: 'test'
+  ...
+# Subtest: FU17: Receipt guard — только валидный 200/201 даёт успех
+ok 17 - FU17: Receipt guard — только валидный 200/201 даёт успех
+  ---
+  duration_ms: 0.7121
+  type: 'test'
+  ...
+# Subtest: FU18: Error mapping всех HTTP codes — без проверки по тексту сообщения
+ok 18 - FU18: Error mapping всех HTTP codes — без проверки по тексту сообщения
+  ---
+  duration_ms: 0.8674
+  type: 'test'
+  ...
+# Subtest: FU19: Retry-After отсутствует/неверен/валиден — безопасная обработка
+ok 19 - FU19: Retry-After отсутствует/неверен/валиден — безопасная обработка
+  ---
+  duration_ms: 2.3585
+  type: 'test'
+  ...
+# Subtest: FU20: Abort/timeout — сохранённый payload/key, ошибка определена
+ok 20 - FU20: Abort/timeout — сохранённый payload/key, ошибка определена
+  ---
+  duration_ms: 0.4978
+  type: 'test'
+  ...
+1..20
+# tests 20
+# suites 0
+# pass 20
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 431.0396
+
+> lipetsk-site-factory@0.1.0 test:integration
+> node --experimental-strip-types scripts/backend/test-integration.mjs
+
+TAP version 13
+# Subtest: BI02 обычный POST: 201, один lead, один pending outbox, snapshot
+ok 1 - BI02 обычный POST: 201, один lead, один pending outbox, snapshot
+  ---
+  duration_ms: 464.3939
+  type: 'test'
+  ...
+# Subtest: BI03 один payload/ключ повторно: 200, тот же leadId, replayed
+ok 2 - BI03 один payload/ключ повторно: 200, тот же leadId, replayed
+  ---
+  duration_ms: 76.7198
+  type: 'test'
+  ...
+# Subtest: BI04 двадцать конкурентных одинаковых POST: одна пара строк
+ok 3 - BI04 двадцать конкурентных одинаковых POST: одна пара строк
+  ---
+  duration_ms: 522.0915
+  type: 'test'
+  ...
+# Subtest: BI05 один ключ с разными payload: исходная строка не перезаписана
+ok 4 - BI05 один ключ с разными payload: исходная строка не перезаписана
+  ---
+  duration_ms: 169.2149
+  type: 'test'
+  ...
+# Subtest: BI06 два разных ключа: два lead, дедупликации по телефону нет
+ok 5 - BI06 два разных ключа: два lead, дедупликации по телефону нет
+  ---
+  duration_ms: 162.6001
+  type: 'test'
+  ...
+# Subtest: BI07 сохранённый повтор не зависит от устаревания текущих правил
+ok 6 - BI07 сохранённый повтор не зависит от устаревания текущих правил
+  ---
+  duration_ms: 159.2305
+  type: 'test'
+  ...
+# Subtest: BI09 БД недоступна: 503 STORAGE_UNAVAILABLE, no-store, без fake-success
+ok 7 - BI09 БД недоступна: 503 STORAGE_UNAVAILABLE, no-store, без fake-success
+  ---
+  duration_ms: 363.3389
+  type: 'test'
+  ...
+# Subtest: BI15 Origin отсутствует/чужой: 403 и ноль lead
+ok 8 - BI15 Origin отсутствует/чужой: 403 и ноль lead
+  ---
+  duration_ms: 75.8265
+  type: 'test'
+  ...
+# Subtest: BI16 сломанный JSON; ключ отсутствует/не UUID
+ok 9 - BI16 сломанный JSON; ключ отсутствует/не UUID
+  ---
+  duration_ms: 34.8909
+  type: 'test'
+  ...
+# Subtest: BI17 другой media type; фактические 16KiB+; ложный Content-Length
+ok 10 - BI17 другой media type; фактические 16KiB+; ложный Content-Length
+  ---
+  duration_ms: 46.3893
+  type: 'test'
+  ...
+# Subtest: BI18 серверная схема и бизнес-проверки без записей
+ok 11 - BI18 серверная схема и бизнес-проверки без записей
+  ---
+  duration_ms: 276.8045
+  type: 'test'
+  ...
+# Subtest: BI19 Auto и Beauty: разные назначения, общий механизм
+ok 12 - BI19 Auto и Beauty: разные назначения, общий механизм
+  ---
+  duration_ms: 140.3831
+  type: 'test'
+  ...
+# Subtest: BI20 чужой siteKey и чужие поля: 404/422, изоляция
+ok 13 - BI20 чужой siteKey и чужие поля: 404/422, изоляция
+  ---
+  duration_ms: 53.3621
+  type: 'test'
+  ...
+# Subtest: BI10 пять новых ключей и шестой для client: 429 + Retry-After
+ok 14 - BI10 пять новых ключей и шестой для client: 429 + Retry-After
+  ---
+  duration_ms: 401.755
+  type: 'test'
+  ...
+# Subtest: BI11 повтор в исчерпанном bucket: 200 и счётчик не растёт
+ok 15 - BI11 повтор в исчерпанном bucket: 200 и счётчик не растёт
+  ---
+  duration_ms: 347.4818
+  type: 'test'
+  ...
+# Subtest: BI12 лимит site на разных clientKey: 100 допусков, 101-й 429
+ok 16 - BI12 лимит site на разных clientKey: 100 допусков, 101-й 429
+  ---
+  duration_ms: 1929.6202
+  type: 'test'
+  ...
+# Subtest: BI13 завершение окна: в новом окне заявка снова допустима
+ok 17 - BI13 завершение окна: в новом окне заявка снова допустима
+  ---
+  duration_ms: 186.0176
+  type: 'test'
+  ...
+# Subtest: BI14 два процесса/pool делят один лимит (не Map в памяти)
+ok 18 - BI14 два процесса/pool делят один лимит (не Map в памяти)
+  ---
+  duration_ms: 3130.7325
+  type: 'test'
+  ...
+# Subtest: BI01 повтор миграций не меняет схему
+ok 19 - BI01 повтор миграций не меняет схему
+  ---
+  duration_ms: 545.7263
+  type: 'test'
+  ...
+# Subtest: BI08 ошибка вставки outbox: rollback lead, 503, ни одной неполной пары
+ok 20 - BI08 ошибка вставки outbox: rollback lead, 503, ни одной неполной пары
+  ---
+  duration_ms: 238.8248
+  type: 'test'
+  ...
+# Subtest: BI30 purge и retention: только старые строки, корректный CASCADE
+ok 21 - BI30 purge и retention: только старые строки, корректный CASCADE
+  ---
+  duration_ms: 1282.3094
+  type: 'test'
+  ...
+# Subtest: BI31 export: файл вне Git, без перезаписи, без PII в stdout
+ok 22 - BI31 export: файл вне Git, без перезаписи, без PII в stdout
+  ---
+  duration_ms: 1057.563
+  type: 'test'
+  ...
+# NOTICE:  database "lsf_test_backend_r" does not exist, skipping
+# Subtest: BI32 backup/restore на синтетике: связи восстановлены
+ok 23 - BI32 backup/restore на синтетике: связи восстановлены
+  ---
+  duration_ms: 3244.6304
+  type: 'test'
+  ...
+# Subtest: BI33 логи и ошибки: нет телефонов, имён, DSN и секретов
+ok 24 - BI33 логи и ошибки: нет телефонов, имён, DSN и секретов
+  ---
+  duration_ms: 845.5607
+  type: 'test'
+  ...
+# Subtest: BI21 worker recording: одна receipt, outbox sent
+ok 25 - BI21 worker recording: одна receipt, outbox sent
+  ---
+  duration_ms: 2571.7362
+  type: 'test'
+  ...
+# Subtest: BI22 два worker: задача не обрабатывается одновременно
+ok 26 - BI22 два worker: задача не обрабатывается одновременно
+  ---
+  duration_ms: 235.8648
+  type: 'test'
+  ...
+# Subtest: BI23 send отказ: lead сохранён, outbox перенесён, безопасный код
+ok 27 - BI23 send отказ: lead сохранён, outbox перенесён, безопасный код
+  ---
+  duration_ms: 201.4201
+  type: 'test'
+  ...
+# Subtest: BI24 worker crash, lease истёк: задача снова доступна
+ok 28 - BI24 worker crash, lease истёк: задача снова доступна
+  ---
+  duration_ms: 152.1357
+  type: 'test'
+  ...
+# Subtest: BI25 stale claim_token не перезаписывает новую попытку
+ok 29 - BI25 stale claim_token не перезаписывает новую попытку
+  ---
+  duration_ms: 153.0932
+  type: 'test'
+  ...
+# Subtest: BI26 recording успешна, crash до sent: повтор возвращает прежнюю receipt
+ok 30 - BI26 recording успешна, crash до sent: повтор возвращает прежнюю receipt
+  ---
+  duration_ms: 219.4586
+  type: 'test'
+  ...
+# Subtest: BI27 сохранённая очередь использует прежнее назначение
+ok 31 - BI27 сохранённая очередь использует прежнее назначение
+  ---
+  duration_ms: 207.4108
+  type: 'test'
+  ...
+# Subtest: BI28 internal route без/с неверным секретом: 401, очередь не тронута
+ok 32 - BI28 internal route без/с неверным секретом: 401, очередь не тронута
+  ---
+  duration_ms: 161.8997
+  type: 'test'
+  ...
+# Subtest: BI29 internal route с секретом: только агрегатные числа
+ok 33 - BI29 internal route с секретом: только агрегатные числа
+  ---
+  duration_ms: 66.0542
+  type: 'test'
+  ...
+1..33
+# tests 33
+# suites 0
+# pass 33
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 30917.7952
+
+> lipetsk-site-factory@0.1.0 test:e2e
+> playwright test --config playwright.config.ts
+
+[WebServer] (node:24620) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 56 tests using 1 worker
+
+(node:16572) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 [chromium] › tests\e2e\accessibility-responsive.spec.ts:12:1 › FE19: Клавиатура всех шагов и radio (1.1s)
+  ok  2 [chromium] › tests\e2e\accessibility-responsive.spec.ts:28:1 › FE20: Модальное окно / отсутствие dialog (511ms)
+  ok  3 [chromium] › tests\e2e\accessibility-responsive.spec.ts:35:1 › FE21: 360/390/430/1280 и zoom — нет горизонтального overflow (1.1s)
+  ok  4 [chromium] › tests\e2e\accessibility-responsive.spec.ts:55:1 › FE22: Длинная услуга/ошибка — layout работоспособен (530ms)
+  ok  5 [chromium] › tests\e2e\accessibility-responsive.spec.ts:69:1 › FE23: Иной timezone браузера — Europe/Moscow сохраняется в POST (1.2s)
+  ok  6 [chromium] › tests\e2e\booking.spec.ts:12:1 › FE01: Auto первый экран, 3 цены и CTA (684ms)
+  ok  7 [chromium] › tests\e2e\booking.spec.ts:30:1 › FE02: Полный Auto happy path (1.1s)
+  ok  8 [chromium] › tests\e2e\booking.spec.ts:80:1 › FE03: Полный Beauty happy path (1.3s)
+  ok  9 [chromium] › tests\e2e\booking.spec.ts:121:1 › FE04: Beauty без мастера — resourceId отсутствует (1.1s)
+  ok 10 [chromium] › tests\e2e\booking.spec.ts:158:1 › FE05: Required wheel-size не выбран — ошибка и нет перехода (799ms)
+  ok 11 [chromium] › tests\e2e\booking.spec.ts:175:1 › FE06: Нет даты/времени, нерабочий/прошлый день — нет перехода (833ms)
+  ok 12 [chromium] › tests\e2e\booking.spec.ts:187:1 › FE07: Некорректный телефон — нет POST, читаемая ошибка (988ms)
+  ok 13 [chromium] › tests\e2e\booking.spec.ts:212:1 › FE08: Неотмеченное согласие — нет POST (932ms)
+  ok 14 [chromium] › tests\e2e\booking.spec.ts:237:1 › FE09: Назад и редактирование — данные сохранены, сводка актуальна (1.1s)
+  ok 15 [chromium] › tests\e2e\booking.spec.ts:263:1 › FE10: Двойной click/Enter — один запрос (1.5s)
+  ok 16 [chromium] › tests\e2e\retry.spec.ts:11:1 › FE11: Network abort → ручной retry — ввод и key прежние (1.1s)
+  ok 17 [chromium] › tests\e2e\retry.spec.ts:58:1 › FE12: Timeout → retry — ввод и key прежние, нет ложного успеха (1.2s)
+  ok 18 [chromium] › tests\e2e\retry.spec.ts:100:1 › FE13: 422 fieldErrors — у соответствующих полей (1.0s)
+  ok 19 [chromium] › tests\e2e\retry.spec.ts:133:1 › FE14: 409 config/consent — нет автоповтора/автосогласия (1.5s)
+  ok 20 [chromium] › tests\e2e\retry.spec.ts:171:1 › FE15: 429 Retry-After — кнопка/статус согласно cooldown (3.5s)
+  ok 21 [chromium] › tests\e2e\retry.spec.ts:207:1 › FE16: 500/503 — поля сохранены, повтор возможен (1.2s)
+  ok 22 [chromium] › tests\e2e\retry.spec.ts:240:1 › FE17: 200 с HTML/битым JSON/неверным receipt — не показывает успех (1.0s)
+  ok 23 [chromium] › tests\e2e\retry.spec.ts:266:1 › FE18: Повтор receipt 200 replayed — тот же результат (1.1s)
+  ok 24 [chromium] › tests\e2e\security-routes.spec.ts:11:1 › FE24: Unknown site — 404 в browser (592ms)
+  ok 25 [chromium] › tests\e2e\security-routes.spec.ts:16:1 › FE25: Privacy / метаданные / noindex (894ms)
+  ok 26 [chromium] › tests\e2e\security-routes.spec.ts:39:1 › FE26: Storage/URL/console — нет контакта в persistence/логах (890ms)
+  ok 27 [chromium] › tests\e2e\security-routes.spec.ts:61:1 › FE27: Новая заявка после успеха — контакт/согласие очищены (1.5s)
+  ok 28 [chromium] › tests\e2e\security-routes.spec.ts:109:1 › FE28: Без backend и без route mock — честная ошибка, не успех (1.3s)
+(node:25324) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 29 [webkit] › tests\e2e\accessibility-responsive.spec.ts:12:1 › FE19: Клавиатура всех шагов и radio (1.9s)
+  ok 30 [webkit] › tests\e2e\accessibility-responsive.spec.ts:28:1 › FE20: Модальное окно / отсутствие dialog (977ms)
+  ok 31 [webkit] › tests\e2e\accessibility-responsive.spec.ts:35:1 › FE21: 360/390/430/1280 и zoom — нет горизонтального overflow (2.2s)
+  ok 32 [webkit] › tests\e2e\accessibility-responsive.spec.ts:55:1 › FE22: Длинная услуга/ошибка — layout работоспособен (1.1s)
+  ok 33 [webkit] › tests\e2e\accessibility-responsive.spec.ts:69:1 › FE23: Иной timezone браузера — Europe/Moscow сохраняется в POST (3.2s)
+  ok 34 [webkit] › tests\e2e\booking.spec.ts:12:1 › FE01: Auto первый экран, 3 цены и CTA (1.5s)
+  ok 35 [webkit] › tests\e2e\booking.spec.ts:30:1 › FE02: Полный Auto happy path (3.6s)
+  ok 36 [webkit] › tests\e2e\booking.spec.ts:80:1 › FE03: Полный Beauty happy path (3.2s)
+  ok 37 [webkit] › tests\e2e\booking.spec.ts:121:1 › FE04: Beauty без мастера — resourceId отсутствует (3.1s)
+  ok 38 [webkit] › tests\e2e\booking.spec.ts:158:1 › FE05: Required wheel-size не выбран — ошибка и нет перехода (2.2s)
+  ok 39 [webkit] › tests\e2e\booking.spec.ts:175:1 › FE06: Нет даты/времени, нерабочий/прошлый день — нет перехода (1.9s)
+  ok 40 [webkit] › tests\e2e\booking.spec.ts:187:1 › FE07: Некорректный телефон — нет POST, читаемая ошибка (3.4s)
+  ok 41 [webkit] › tests\e2e\booking.spec.ts:212:1 › FE08: Неотмеченное согласие — нет POST (2.7s)
+  ok 42 [webkit] › tests\e2e\booking.spec.ts:237:1 › FE09: Назад и редактирование — данные сохранены, сводка актуальна (3.3s)
+  ok 43 [webkit] › tests\e2e\booking.spec.ts:263:1 › FE10: Двойной click/Enter — один запрос (3.4s)
+  ok 44 [webkit] › tests\e2e\retry.spec.ts:11:1 › FE11: Network abort → ручной retry — ввод и key прежние (3.7s)
+  ok 45 [webkit] › tests\e2e\retry.spec.ts:58:1 › FE12: Timeout → retry — ввод и key прежние, нет ложного успеха (3.5s)
+  ok 46 [webkit] › tests\e2e\retry.spec.ts:100:1 › FE13: 422 fieldErrors — у соответствующих полей (3.1s)
+  ok 47 [webkit] › tests\e2e\retry.spec.ts:133:1 › FE14: 409 config/consent — нет автоповтора/автосогласия (3.9s)
+  ok 48 [webkit] › tests\e2e\retry.spec.ts:171:1 › FE15: 429 Retry-After — кнопка/статус согласно cooldown (5.3s)
+  ok 49 [webkit] › tests\e2e\retry.spec.ts:207:1 › FE16: 500/503 — поля сохранены, повтор возможен (3.1s)
+  ok 50 [webkit] › tests\e2e\retry.spec.ts:240:1 › FE17: 200 с HTML/битым JSON/неверным receipt — не показывает успех (3.0s)
+  ok 51 [webkit] › tests\e2e\retry.spec.ts:266:1 › FE18: Повтор receipt 200 replayed — тот же результат (3.2s)
+  ok 52 [webkit] › tests\e2e\security-routes.spec.ts:11:1 › FE24: Unknown site — 404 в browser (892ms)
+  ok 53 [webkit] › tests\e2e\security-routes.spec.ts:16:1 › FE25: Privacy / метаданные / noindex (2.5s)
+  ok 54 [webkit] › tests\e2e\security-routes.spec.ts:39:1 › FE26: Storage/URL/console — нет контакта в persistence/логах (2.7s)
+  ok 55 [webkit] › tests\e2e\security-routes.spec.ts:61:1 › FE27: Новая заявка после успеха — контакт/согласие очищены (4.8s)
+  ok 56 [webkit] › tests\e2e\security-routes.spec.ts:109:1 › FE28: Без backend и без route mock — честная ошибка, не успех (3.1s)
+
+  56 passed (2.0m)
+
+> lipetsk-site-factory@0.1.0 test:system
+> node --experimental-strip-types scripts/backend/test-system.mjs
+
+[WebServer] (node:17380) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 7 tests using 1 worker
+
+(node:18488) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  -  1 [system-chromium] › tests\system\pr3-real.spec.ts:91:3 › PR-3 system smoke › S1 UI Auto-шаги (testid контракта) — ожидает объединения с frontend
+  ok 2 [system-chromium] › tests\system\pr3-real.spec.ts:113:3 › PR-3 system smoke › S2 API+SQL: точные site/service/предпочтение/consent/snapshot (497ms)
+  ok 3 [system-chromium] › tests\system\pr3-real.spec.ts:140:3 › PR-3 system smoke › S3 worker: internal run даёт recording receipt и sent (113ms)
+  ok 4 [system-chromium] › tests\system\pr3-real.spec.ts:159:3 › PR-3 system smoke › S4 повтор payload/key — 200 replayed, без второго lead (181ms)
+  ok 5 [system-chromium] › tests\system\pr3-real.spec.ts:184:3 › PR-3 system smoke › S5 Beauty с мастером и без — назначения различаются (API; UI ждёт frontend) (199ms)
+  ok 6 [system-chromium] › tests\system\pr3-real.spec.ts:214:3 › PR-3 system smoke › S6 отказ recording на уровне тестовой БД: lead жив, outbox в повторе (253ms)
+  ok 7 [system-chromium] › tests\system\pr3-real.spec.ts:254:3 › PR-3 system smoke › S7 очистка: pool закрыт, тестовые строки удалены (74ms)
+
+  1 skipped
+  6 passed (7.8s)
