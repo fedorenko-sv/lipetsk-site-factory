@@ -1,10 +1,13 @@
-/* Technical Theme — Graphite & Amber Accent */
+/* Technical Theme — Graphite & Amber Accent (Auto) */
 .theme-technical {
   --bg-base: #121316;
-  --bg-surface: #1a1c21;
-  --bg-surface-elevated: #22252c;
+  --bg-surface: #181a1f;
+  --bg-surface-elevated: #1f2229;
   --bg-surface-hover: #262a33;
+  --bg-surface-active: #2e333e;
   --border-default: #2a2e37;
+  --border-strong: #3e4450;
+  --border-focus: #f59e0b;
   --border-accent: rgba(245, 158, 11, 0.4);
   --text-main: #f3f4f6;
   --text-muted: #9ca3af;
@@ -15,10 +18,15 @@
   --badge-demo-bg: #221e14;
   --badge-demo-border: #78350f;
   --badge-demo-text: #fbbf24;
+  --error-bg: #2a1215;
+  --error-border: #881337;
+  --error-text: #fca5a5;
+  --success-bg: #0d2818;
+  --success-border: #166534;
+  --success-text: #86efac;
 
   background-color: var(--bg-base);
   color: var(--text-main);
   min-height: 100vh;
   color-scheme: dark;
 }
-

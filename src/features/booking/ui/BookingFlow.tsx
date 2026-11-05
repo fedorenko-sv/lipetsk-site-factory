@@ -1,81 +1,204 @@
 "use client";
 
-import { useState } from "react";
-import type { SiteConfig } from "@/config/sites/types";
-import { OfferStep, formatPrice } from "./OfferStep";
+import { useReducer, useRef, useEffect, useCallback } from "react";
+import type { SiteConfig } from "@/shared/contracts";
+import {
+  bookingReducer,
+  createInitialState,
+  buildLeadPayload,
+  generateUUID,
+  validateStep3,
+} from "../client/state";
+import { submitLead, SubmitError } from "../client/lead-client";
+import { OfferStep } from "./OfferStep";
+import { PreferenceStep } from "./PreferenceStep";
+import { ContactStep } from "./ContactStep";
 
 interface BookingFlowProps {
   config: SiteConfig;
 }
 
 export function BookingFlow({ config }: BookingFlowProps) {
-  const [selectedServiceId, setSelectedServiceId] = useState<string | null>(
-    config.services[0]?.id ?? null
-  );
-  const [isNoticeOpen, setIsNoticeOpen] = useState(false);
+  const [state, dispatch] = useReducer(bookingReducer, config, createInitialState);
 
-  const selectedService = config.services.find((s) => s.id === selectedServiceId);
+  const offerHeadingRef = useRef<HTMLHeadingElement | null>(null);
+  const preferenceHeadingRef = useRef<HTMLHeadingElement | null>(null);
+  const contactHeadingRef = useRef<HTMLHeadingElement | null>(null);
+
+  const currentSubmitKeyRef = useRef<string | null>(null);
+
+  // Focus management on step change
+  useEffect(() => {
+    if (state.step === "offer") {
+      offerHeadingRef.current?.focus();
+    } else if (state.step === "preference") {
+      preferenceHeadingRef.current?.focus();
+    } else if (state.step === "contact") {
+      contactHeadingRef.current?.focus();
+    }
+  }, [state.step]);
+
+  // Rate-limiting cooldown countdown
+  useEffect(() => {
+    if (!state.cooldownSeconds || state.cooldownSeconds <= 0) return;
+
+    const timer = setInterval(() => {
+      dispatch({ type: "SET_COOLDOWN", seconds: (state.cooldownSeconds ?? 1) - 1 });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [state.cooldownSeconds]);
+
+  const handleNextToPreference = useCallback(() => {
+    dispatch({ type: "GO_TO_STEP", targetStep: "preference", config });
+  }, [config]);
+
+  const handleNextToContact = useCallback(() => {
+    dispatch({ type: "GO_TO_STEP", targetStep: "contact", config });
+  }, [config]);
+
+  const handleBackToOffer = useCallback(() => {
+    dispatch({ type: "GO_TO_STEP", targetStep: "offer", config });
+  }, [config]);
+
+  const handleBackToPreference = useCallback(() => {
+    dispatch({ type: "GO_TO_STEP", targetStep: "preference", config });
+  }, [config]);
+
+  const handleSelectService = useCallback(
+    (serviceId: string) => {
+      dispatch({ type: "SELECT_SERVICE", serviceId, config });
+    },
+    [config]
+  );
+
+  const handleSubmit = useCallback(async () => {
+    if (state.submitState === "submitting") return;
+    if (state.cooldownSeconds && state.cooldownSeconds > 0) return;
+
+    // Validate step 3 fields first
+    const step3Check = validateStep3(state, config);
+    if (!step3Check.valid) {
+      dispatch({
+        type: "SUBMIT_ERROR",
+        error: new SubmitError({
+          kind: "http",
+          message: "Пожалуйста, проверьте введённые данные",
+          fieldErrors: step3Check.errors,
+        }),
+      });
+      return;
+    }
+
+    const payload = buildLeadPayload(state, config);
+    if (!payload) {
+      dispatch({
+        type: "SUBMIT_ERROR",
+        error: new SubmitError({
+          kind: "http",
+          message: "Не удалось сформировать заявку. Проверьте заполненные поля.",
+        }),
+      });
+      return;
+    }
+
+    // Determine idempotency key
+    // If payload is unchanged from last submission, preserve key. Otherwise, create a fresh UUID.
+    const isPayloadUnchanged =
+      state.lastSubmittedPayload &&
+      JSON.stringify(state.lastSubmittedPayload) === JSON.stringify(payload);
+
+    const idempotencyKey =
+      isPayloadUnchanged && state.idempotencyKey
+        ? state.idempotencyKey
+        : generateUUID();
+
+    currentSubmitKeyRef.current = idempotencyKey;
+
+    dispatch({
+      type: "START_SUBMIT",
+      idempotencyKey,
+      payload,
+    });
+
+    try {
+      const result = await submitLead(payload, { idempotencyKey });
+
+      // Late response check: only accept if key matches current submission
+      if (currentSubmitKeyRef.current === idempotencyKey) {
+        dispatch({ type: "SUBMIT_SUCCESS", receipt: result.receipt });
+      }
+    } catch (err: unknown) {
+      if (currentSubmitKeyRef.current === idempotencyKey) {
+        if (err instanceof SubmitError) {
+          dispatch({ type: "SUBMIT_ERROR", error: err });
+        } else {
+          dispatch({
+            type: "SUBMIT_ERROR",
+            error: new SubmitError({
+              kind: "network",
+              message: "Не удалось отправить заявку. Попробуйте повторить.",
+            }),
+          });
+        }
+      }
+    }
+  }, [state, config]);
+
+  const handleReset = useCallback(() => {
+    currentSubmitKeyRef.current = null;
+    dispatch({ type: "RESET_NEW_LEAD", config });
+  }, [config]);
+
+  const themeClass = config.theme === "editorial" ? "theme-editorial" : "theme-technical";
 
   return (
-    <div className="min-h-screen bg-[#121316] text-[#f3f4f6]">
-      <OfferStep
-        config={config}
-        selectedServiceId={selectedServiceId}
-        onSelectService={(id) => setSelectedServiceId(id)}
-        onCtaClick={() => setIsNoticeOpen(true)}
-      />
+    <div className={`min-h-screen ${themeClass}`}>
+      {state.step === "offer" && (
+        <OfferStep
+          config={config}
+          selectedServiceId={state.serviceId}
+          onSelectService={handleSelectService}
+          onNext={handleNextToPreference}
+          headingRef={offerHeadingRef}
+        />
+      )}
 
-      {/* Preparation State Modal / Dialog */}
-      {isNoticeOpen && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="prep-modal-title"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-in fade-in duration-200"
-          onClick={() => setIsNoticeOpen(false)}
-        >
-          <div
-            className="w-full max-w-md bg-[#181a1f] border border-[#2a2e37] rounded-2xl p-6 shadow-2xl relative text-left"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Badge */}
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-400/10 text-amber-300 border border-amber-400/20 mb-3">
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-              Этап F1 · Прототип
-            </div>
+      {state.step === "preference" && (
+        <PreferenceStep
+          config={config}
+          state={state}
+          onSelectService={handleSelectService}
+          onSetOption={(optionId, value) =>
+            dispatch({ type: "SET_OPTION", optionId, value })
+          }
+          onSetResource={(resourceId) =>
+            dispatch({ type: "SET_RESOURCE", resourceId })
+          }
+          onSetDate={(date) => dispatch({ type: "SET_DATE", date, config })}
+          onSetTime={(time) => dispatch({ type: "SET_TIME", time })}
+          onBack={handleBackToOffer}
+          onNext={handleNextToContact}
+          headingRef={preferenceHeadingRef}
+        />
+      )}
 
-            <h3 id="prep-modal-title" className="text-xl font-bold text-white mb-2 tracking-tight">
-              Выбор времени готовится
-            </h3>
-
-            <p className="text-sm text-[#9ca3af] leading-relaxed mb-4">
-              На данном этапе готов первый экран с предложением и прейскурантом.
-              Выбор предпочтительного времени и контактная форма будут подключены на следующих этапах (F2–F3).
-            </p>
-
-            {selectedService && (
-              <div className="bg-[#121316] rounded-xl p-3.5 border border-[#2a2e37] mb-5 text-xs">
-                <span className="text-[#6b7280] block mb-1">Предварительно выбрано:</span>
-                <div className="flex items-center justify-between text-sm font-medium">
-                  <span className="text-white">{selectedService.name}</span>
-                  <span className="text-amber-400 font-bold ml-2">
-                    {formatPrice(selectedService.price)}
-                  </span>
-                </div>
-              </div>
-            )}
-
-            <button
-              type="button"
-              onClick={() => setIsNoticeOpen(false)}
-              className="w-full py-3 px-4 rounded-xl font-semibold text-sm bg-amber-400 hover:bg-amber-300 text-stone-950 transition-colors cursor-pointer"
-            >
-              Понятно, вернуться к прайсу
-            </button>
-          </div>
-        </div>
+      {state.step === "contact" && (
+        <ContactStep
+          config={config}
+          state={state}
+          onSetPhone={(phone) => dispatch({ type: "SET_PHONE", phone })}
+          onSetName={(name) => dispatch({ type: "SET_NAME", name })}
+          onSetConsent={(accepted) =>
+            dispatch({ type: "SET_CONSENT", accepted })
+          }
+          onSubmit={handleSubmit}
+          onRetry={handleSubmit}
+          onReset={handleReset}
+          onBack={handleBackToPreference}
+          headingRef={contactHeadingRef}
+        />
       )}
     </div>
   );
 }
-

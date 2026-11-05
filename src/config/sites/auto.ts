@@ -1,5 +1,4 @@
-import autoJson from "../../../examples/sites/auto.json";
-import type { SiteConfig } from "./types";
+import autoJson from "../../../examples/sites/auto.json" with { type: "json" };
+import type { SiteConfig } from "../../shared/contracts.ts";
 
-export const autoConfig: SiteConfig = autoJson as SiteConfig;
-
+export const autoConfig = autoJson as unknown as SiteConfig;
