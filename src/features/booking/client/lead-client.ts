@@ -46,16 +46,51 @@ export class SubmitError extends Error {
   }
 }
 
+export const UUID_WIRE_REGEX =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 export function isReceiptValid(data: unknown): data is LeadReceipt {
-  if (!data || typeof data !== "object") return false;
+  if (!data || typeof data !== "object" || Array.isArray(data)) return false;
   const obj = data as Record<string, unknown>;
-  return (
-    typeof obj.leadId === "string" &&
-    obj.leadId.length > 0 &&
-    obj.status === "received" &&
-    typeof obj.replayed === "boolean" &&
-    typeof obj.message === "string"
-  );
+
+  const allowedKeys = new Set(["leadId", "status", "replayed", "message"]);
+  const keys = Object.keys(obj);
+  if (keys.length !== 4) return false;
+  for (const k of keys) {
+    if (!allowedKeys.has(k)) return false;
+  }
+
+  if (typeof obj.leadId !== "string" || !UUID_WIRE_REGEX.test(obj.leadId)) {
+    return false;
+  }
+  if (obj.status !== "received") {
+    return false;
+  }
+  if (typeof obj.replayed !== "boolean") {
+    return false;
+  }
+  if (
+    typeof obj.message !== "string" ||
+    obj.message.length < 1 ||
+    obj.message.length > 300
+  ) {
+    return false;
+  }
+
+  return true;
+}
+
+export function parseRetryAfter(headerValue: string | null | undefined): number | undefined {
+  if (!headerValue) return undefined;
+  const trimmed = headerValue.trim();
+  if (!/^\d+$/.test(trimmed)) {
+    return undefined;
+  }
+  const parsed = parseInt(trimmed, 10);
+  if (Number.isSafeInteger(parsed) && parsed > 0) {
+    return parsed;
+  }
+  return undefined;
 }
 
 export async function submitLead(
@@ -66,12 +101,15 @@ export async function submitLead(
   const controller = new AbortController();
 
   let timedOut = false;
+  let externallyAborted = false;
+
   const timer = setTimeout(() => {
     timedOut = true;
     controller.abort();
   }, timeoutMs);
 
   const abortListener = () => {
+    externallyAborted = true;
     controller.abort();
   };
 
@@ -80,10 +118,10 @@ export async function submitLead(
       clearTimeout(timer);
       throw new SubmitError({
         kind: "network",
-        message: "Запрос был отменён",
+        message: "Запрос был отменен",
       });
     }
-    options.signal.addEventListener("abort", abortListener);
+    options.signal.addEventListener("abort", abortListener, { once: true });
   }
 
   try {
@@ -97,15 +135,19 @@ export async function submitLead(
       signal: controller.signal,
     });
 
-    clearTimeout(timer);
-
     const httpStatus = response.status;
 
     if (httpStatus === 200 || httpStatus === 201) {
       let data: unknown;
       try {
         data = await response.json();
-      } catch {
+      } catch (e) {
+        if (timedOut) {
+          throw e;
+        }
+        if (externallyAborted) {
+          throw e;
+        }
         throw new SubmitError({
           kind: "invalid-response",
           httpStatus,
@@ -127,25 +169,25 @@ export async function submitLead(
       };
     }
 
-    // HTTP Error
+    // HTTP Error response
     let errorEnvelope: ApiErrorEnvelope | null = null;
     try {
       const errJson = await response.json();
       if (errJson && typeof errJson === "object" && "error" in errJson) {
         errorEnvelope = errJson as ApiErrorEnvelope;
       }
-    } catch {
-      // response was not JSON
+    } catch (e) {
+      if (timedOut) {
+        throw e;
+      }
+      if (externallyAborted) {
+        throw e;
+      }
+      // Non-JSON or malformed error body
     }
 
-    let retryAfterSeconds: number | undefined;
     const retryHeader = response.headers.get("retry-after");
-    if (retryHeader) {
-      const parsedSeconds = parseInt(retryHeader, 10);
-      if (Number.isInteger(parsedSeconds) && parsedSeconds > 0) {
-        retryAfterSeconds = parsedSeconds;
-      }
-    }
+    const retryAfterSeconds = parseRetryAfter(retryHeader);
 
     throw new SubmitError({
       kind: "http",
@@ -157,8 +199,6 @@ export async function submitLead(
       message: errorEnvelope?.error?.message ?? `Ошибка сервера: HTTP ${httpStatus}`,
     });
   } catch (err: unknown) {
-    clearTimeout(timer);
-
     if (err instanceof SubmitError) {
       throw err;
     }
@@ -170,10 +210,22 @@ export async function submitLead(
       });
     }
 
-    if (err instanceof Error && err.name === "AbortError") {
+    if (
+      externallyAborted ||
+      (err instanceof Error && err.name === "AbortError" && options.signal?.aborted)
+    ) {
       throw new SubmitError({
         kind: "network",
         message: "Запрос был отменен",
+      });
+    }
+
+    if (err instanceof Error && err.name === "AbortError") {
+      throw new SubmitError({
+        kind: timedOut ? "timeout" : "network",
+        message: timedOut
+          ? "Время ожидания ответа сервера истекло (15 с)"
+          : "Запрос был отменен",
       });
     }
 
@@ -182,6 +234,7 @@ export async function submitLead(
       message: "Не удалось подключиться к серверу. Проверьте интернет-соединение.",
     });
   } finally {
+    clearTimeout(timer);
     if (options.signal) {
       options.signal.removeEventListener("abort", abortListener);
     }

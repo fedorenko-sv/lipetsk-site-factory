@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import type { SiteConfig } from "@/shared/contracts";
 import { formatPrice } from "../client/formatters";
 import {
@@ -37,6 +38,11 @@ export function PreferenceStep({
   const currentService =
     config.services.find((s) => s.id === state.serviceId) ?? config.services[0];
 
+  const serviceRef = useRef<HTMLSelectElement | null>(null);
+  const resourceRef = useRef<HTMLSelectElement | null>(null);
+  const dateRef = useRef<HTMLInputElement | null>(null);
+  const timeRef = useRef<HTMLSelectElement | null>(null);
+
   const { minDate, maxDate } = getDateBounds(config.booking.horizonDays);
   const availableSlots = state.preferred?.date
     ? getAvailableTimeSlots(state.preferred.date, config.booking)
@@ -50,6 +56,36 @@ export function PreferenceStep({
   const availableResources = config.resources.filter((r) =>
     currentService.resourceIds.includes(r.id)
   );
+
+  // Focus management on step 2 errors
+  useEffect(() => {
+    if (state.fieldErrors["preferred.time"]) {
+      timeRef.current?.focus();
+      return;
+    }
+    if (state.fieldErrors["preferred.date"] || state.fieldErrors["preferred"]) {
+      dateRef.current?.focus();
+      return;
+    }
+    if (state.fieldErrors["resourceId"]) {
+      resourceRef.current?.focus();
+      return;
+    }
+    if (state.fieldErrors["serviceId"]) {
+      serviceRef.current?.focus();
+      return;
+    }
+    for (const key of Object.keys(state.fieldErrors)) {
+      if (key.startsWith("serviceOptions.")) {
+        const optId = key.replace("serviceOptions.", "");
+        const el = document.getElementById(`option-${optId}`);
+        if (el) {
+          el.focus();
+          return;
+        }
+      }
+    }
+  }, [state.fieldErrors]);
 
   return (
     <div data-testid="preference-step" className="w-full max-w-2xl mx-auto px-4 py-6 sm:px-6 sm:py-10 pb-32 sm:pb-12">
@@ -81,15 +117,18 @@ export function PreferenceStep({
         </h1>
       </header>
 
-      {/* Service selection dropdown / card */}
+      {/* Service selection dropdown */}
       <section className="mb-6 p-4 sm:p-5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-default)]">
         <label htmlFor="service-selector" className="block text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-2">
           Выбранная услуга
         </label>
         <select
           id="service-selector"
+          ref={serviceRef}
           value={state.serviceId}
           onChange={(e) => onSelectService(e.target.value)}
+          aria-invalid={Boolean(state.fieldErrors["serviceId"])}
+          aria-describedby={state.fieldErrors["serviceId"] ? "err-service" : undefined}
           className="w-full min-h-[44px] p-3 rounded-lg bg-[var(--bg-surface-elevated)] border border-[var(--border-default)] text-[var(--text-main)] font-medium focus:border-[var(--color-accent)] focus:outline-none"
         >
           {config.services.map((s) => (
@@ -98,6 +137,11 @@ export function PreferenceStep({
             </option>
           ))}
         </select>
+        {state.fieldErrors["serviceId"] && (
+          <p id="err-service" role="alert" className="mt-1.5 text-xs text-[var(--error-text)]">
+            {state.fieldErrors["serviceId"]}
+          </p>
+        )}
 
         <div className="mt-3 flex items-center justify-between text-xs text-[var(--text-muted)]">
           <span>Категория: {currentService.category}</span>
@@ -150,7 +194,7 @@ export function PreferenceStep({
         </section>
       )}
 
-      {/* Resource Selection (optional for Beauty, hidden for Auto) */}
+      {/* Resource Selection */}
       {config.booking.resourceSelection !== "hidden" && availableResources.length > 0 && (
         <section className="mb-6 p-4 sm:p-5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-default)]">
           <label htmlFor="resource-select" className="block text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-1.5">
@@ -161,9 +205,12 @@ export function PreferenceStep({
           </p>
           <select
             id="resource-select"
+            ref={resourceRef}
             data-testid="resource-select"
             value={state.resourceId ?? ""}
             onChange={(e) => onSetResource(e.target.value ? e.target.value : undefined)}
+            aria-invalid={Boolean(state.fieldErrors["resourceId"])}
+            aria-describedby={state.fieldErrors["resourceId"] ? "err-resource" : undefined}
             className="w-full min-h-[44px] p-3 rounded-lg bg-[var(--bg-surface-elevated)] border border-[var(--border-default)] text-[var(--text-main)] focus:border-[var(--color-accent)] focus:outline-none"
           >
             <option value="">Любой мастер</option>
@@ -174,7 +221,7 @@ export function PreferenceStep({
             ))}
           </select>
           {state.fieldErrors["resourceId"] && (
-            <p role="alert" className="mt-1.5 text-xs text-[var(--error-text)]">
+            <p id="err-resource" role="alert" className="mt-1.5 text-xs text-[var(--error-text)]">
               {state.fieldErrors["resourceId"]}
             </p>
           )}
@@ -199,16 +246,24 @@ export function PreferenceStep({
             <input
               type="date"
               id="preferred-date"
+              ref={dateRef}
               data-testid="preferred-date"
               min={minDate}
               max={maxDate}
               value={state.preferred?.date ?? ""}
               onChange={(e) => onSetDate(e.target.value)}
               aria-invalid={Boolean(state.fieldErrors["preferred.date"] || state.fieldErrors["preferred"])}
+              aria-describedby={
+                state.fieldErrors["preferred.date"]
+                  ? "err-preferred-date"
+                  : state.fieldErrors["preferred"]
+                  ? "err-preferred"
+                  : undefined
+              }
               className="w-full min-h-[44px] p-3 rounded-lg bg-[var(--bg-surface-elevated)] border border-[var(--border-default)] text-[var(--text-main)] focus:border-[var(--color-accent)] focus:outline-none"
             />
             {state.fieldErrors["preferred.date"] && (
-              <p role="alert" className="mt-1.5 text-xs text-[var(--error-text)]">
+              <p id="err-preferred-date" role="alert" className="mt-1.5 text-xs text-[var(--error-text)]">
                 {state.fieldErrors["preferred.date"]}
               </p>
             )}
@@ -226,11 +281,13 @@ export function PreferenceStep({
             </label>
             <select
               id="preferred-time"
+              ref={timeRef}
               data-testid="preferred-time"
               value={state.preferred?.time ?? ""}
               onChange={(e) => onSetTime(e.target.value)}
               disabled={!state.preferred?.date || availableSlots.length === 0}
               aria-invalid={Boolean(state.fieldErrors["preferred.time"])}
+              aria-describedby={state.fieldErrors["preferred.time"] ? "err-preferred-time" : undefined}
               className="w-full min-h-[44px] p-3 rounded-lg bg-[var(--bg-surface-elevated)] border border-[var(--border-default)] text-[var(--text-main)] focus:border-[var(--color-accent)] focus:outline-none disabled:opacity-50"
             >
               {!state.preferred?.date ? (
@@ -249,7 +306,7 @@ export function PreferenceStep({
               )}
             </select>
             {state.fieldErrors["preferred.time"] && (
-              <p role="alert" className="mt-1.5 text-xs text-[var(--error-text)]">
+              <p id="err-preferred-time" role="alert" className="mt-1.5 text-xs text-[var(--error-text)]">
                 {state.fieldErrors["preferred.time"]}
               </p>
             )}
@@ -257,7 +314,7 @@ export function PreferenceStep({
         </div>
 
         {state.fieldErrors["preferred"] && (
-          <p role="alert" className="mt-3 text-xs text-[var(--error-text)]">
+          <p id="err-preferred" role="alert" className="mt-3 text-xs text-[var(--error-text)]">
             {state.fieldErrors["preferred"]}
           </p>
         )}
@@ -280,4 +337,3 @@ export function PreferenceStep({
     </div>
   );
 }
-

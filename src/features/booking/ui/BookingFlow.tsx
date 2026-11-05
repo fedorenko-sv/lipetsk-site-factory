@@ -7,6 +7,7 @@ import {
   createInitialState,
   buildLeadPayload,
   generateUUID,
+  validateStep2,
   validateStep3,
 } from "../client/state";
 import { submitLead, SubmitError } from "../client/lead-client";
@@ -76,7 +77,21 @@ export function BookingFlow({ config }: BookingFlowProps) {
     if (state.submitState === "submitting") return;
     if (state.cooldownSeconds && state.cooldownSeconds > 0) return;
 
-    // Validate step 3 fields first
+    // Validate step 2 fields first
+    const step2Check = validateStep2(state, config);
+    if (!step2Check.valid) {
+      dispatch({
+        type: "SUBMIT_ERROR",
+        error: new SubmitError({
+          kind: "http",
+          message: "Пожалуйста, проверьте параметры услуги и времени",
+          fieldErrors: step2Check.errors,
+        }),
+      });
+      return;
+    }
+
+    // Validate step 3 fields next
     const step3Check = validateStep3(state, config);
     if (!step3Check.valid) {
       dispatch({

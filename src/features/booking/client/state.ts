@@ -45,6 +45,17 @@ export type BookingAction =
   | { type: "SET_COOLDOWN"; seconds: number }
   | { type: "RESET_NEW_LEAD"; config: SiteConfig };
 
+export function isStep2ErrorKey(key: string): boolean {
+  return (
+    key === "serviceId" ||
+    key === "resourceId" ||
+    key === "preferred" ||
+    key.startsWith("preferred.") ||
+    key === "serviceOptions" ||
+    key.startsWith("serviceOptions.")
+  );
+}
+
 export function generateUUID(): string {
   if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
     return crypto.randomUUID();
@@ -263,37 +274,45 @@ export function bookingReducer(state: BookingState, action: BookingAction): Book
         nextResource = undefined;
       }
 
+      const nextFieldErrors = { ...state.fieldErrors };
+      delete nextFieldErrors["serviceId"];
+
       return {
         ...state,
         serviceId: action.serviceId,
         serviceOptions: nextOptions,
         resourceId: nextResource,
-        fieldErrors: {},
+        fieldErrors: nextFieldErrors,
+        submitState: state.submitState === "error" ? "idle" : state.submitState,
+        submitError: state.fieldErrors["serviceId"] ? undefined : state.submitError,
       };
     }
 
     case "SET_OPTION": {
+      const nextFieldErrors = { ...state.fieldErrors };
+      delete nextFieldErrors[`serviceOptions.${action.optionId}`];
+      delete nextFieldErrors["serviceOptions"];
+
       return {
         ...state,
         serviceOptions: {
           ...state.serviceOptions,
           [action.optionId]: action.value,
         },
-        fieldErrors: {
-          ...state.fieldErrors,
-          [`serviceOptions.${action.optionId}`]: "",
-        },
+        fieldErrors: nextFieldErrors,
+        submitState: state.submitState === "error" ? "idle" : state.submitState,
       };
     }
 
     case "SET_RESOURCE": {
+      const nextFieldErrors = { ...state.fieldErrors };
+      delete nextFieldErrors["resourceId"];
+
       return {
         ...state,
         resourceId: action.resourceId,
-        fieldErrors: {
-          ...state.fieldErrors,
-          resourceId: "",
-        },
+        fieldErrors: nextFieldErrors,
+        submitState: state.submitState === "error" ? "idle" : state.submitState,
       };
     }
 
@@ -307,6 +326,10 @@ export function bookingReducer(state: BookingState, action: BookingAction): Book
         nextTime = undefined;
       }
 
+      const nextFieldErrors = { ...state.fieldErrors };
+      delete nextFieldErrors["preferred.date"];
+      delete nextFieldErrors["preferred"];
+
       return {
         ...state,
         preferred: nextTime
@@ -314,77 +337,81 @@ export function bookingReducer(state: BookingState, action: BookingAction): Book
           : action.date
           ? { date: action.date, time: "", timezone: "Europe/Moscow" }
           : undefined,
-        fieldErrors: {
-          ...state.fieldErrors,
-          "preferred.date": "",
-          preferred: "",
-        },
+        fieldErrors: nextFieldErrors,
+        submitState: state.submitState === "error" ? "idle" : state.submitState,
       };
     }
 
     case "SET_TIME": {
       if (!state.preferred?.date) return state;
+
+      const nextFieldErrors = { ...state.fieldErrors };
+      delete nextFieldErrors["preferred.time"];
+      delete nextFieldErrors["preferred"];
+
       return {
         ...state,
         preferred: {
           ...state.preferred,
           time: action.time,
         },
-        fieldErrors: {
-          ...state.fieldErrors,
-          "preferred.time": "",
-          preferred: "",
-        },
+        fieldErrors: nextFieldErrors,
+        submitState: state.submitState === "error" ? "idle" : state.submitState,
       };
     }
 
     case "SET_PHONE": {
+      const nextFieldErrors = { ...state.fieldErrors };
+      delete nextFieldErrors["customer.phone"];
+
       return {
         ...state,
         customer: {
           ...state.customer,
           phone: action.phone,
         },
-        fieldErrors: {
-          ...state.fieldErrors,
-          "customer.phone": "",
-        },
+        fieldErrors: nextFieldErrors,
+        submitState: state.submitState === "error" ? "idle" : state.submitState,
+        submitError: state.fieldErrors["customer.phone"] ? undefined : state.submitError,
       };
     }
 
     case "SET_NAME": {
+      const nextFieldErrors = { ...state.fieldErrors };
+      delete nextFieldErrors["customer.name"];
+
       return {
         ...state,
         customer: {
           ...state.customer,
           name: action.name,
         },
-        fieldErrors: {
-          ...state.fieldErrors,
-          "customer.name": "",
-        },
+        fieldErrors: nextFieldErrors,
+        submitState: state.submitState === "error" ? "idle" : state.submitState,
       };
     }
 
     case "SET_CONSENT": {
+      const nextFieldErrors = { ...state.fieldErrors };
+      delete nextFieldErrors["consent.accepted"];
+
       return {
         ...state,
         consentAccepted: action.accepted,
-        fieldErrors: {
-          ...state.fieldErrors,
-          "consent.accepted": "",
-        },
+        fieldErrors: nextFieldErrors,
+        submitState: state.submitState === "error" ? "idle" : state.submitState,
+        submitError: state.submitError?.code === "CONSENT_CHANGED" ? undefined : state.submitError,
       };
     }
 
     case "GO_TO_STEP": {
       const target = action.targetStep;
       if (target === "offer") {
-        return { ...state, step: "offer", fieldErrors: {} };
+        return { ...state, step: "offer" };
       }
 
       if (target === "preference") {
-        return { ...state, step: "preference", fieldErrors: {} };
+        return { ...state, step: "preference" };
       }
 
       if (target === "contact") {
@@ -393,10 +420,22 @@ export function bookingReducer(state: BookingState, action: BookingAction): Book
           return {
             ...state,
             step: "preference",
-            fieldErrors: step2Check.errors,
+            fieldErrors: {
+              ...state.fieldErrors,
+              ...step2Check.errors,
+            },
           };
         }
-        return { ...state, step: "contact", fieldErrors: {} };
+
+        // Clean any resolved step2 errors
+        const cleanFieldErrors = { ...state.fieldErrors };
+        for (const k of Object.keys(cleanFieldErrors)) {
+          if (isStep2ErrorKey(k)) {
+            delete cleanFieldErrors[k];
+          }
+        }
+
+        return { ...state, step: "contact", fieldErrors: cleanFieldErrors };
       }
 
       return state;
@@ -428,11 +467,15 @@ export function bookingReducer(state: BookingState, action: BookingAction): Book
         ...(action.error.fieldErrors ?? {}),
       };
 
+      const isConsentChanged = action.error.code === "CONSENT_CHANGED";
+
       return {
         ...state,
         submitState: "error",
         submitError: action.error,
         fieldErrors,
+        // Uncheck consent if server reported consent conditions changed
+        consentAccepted: isConsentChanged ? false : state.consentAccepted,
         cooldownSeconds: action.error.retryAfterSeconds,
       };
     }
