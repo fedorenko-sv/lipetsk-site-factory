@@ -13,10 +13,47 @@ import { BASE, TEST_DSN, OUTBOX_SECRET, SYNTHETIC_PHONE, db, makeBody, post, fre
 const repoRoot = process.cwd();
 const container = "lsf-test-backend-pg";
 
-function docker(args, options = {}) {
-  return execFileSync("docker", ["exec", container, ...args], {
-    encoding: "buffer", maxBuffer: 64 * 1024 * 1024, ...options,
+// Клиентские утилиты PostgreSQL выполняются внутри контейнера с сервером:
+// локально это compose-контейнер, в CI — контейнер service-postgres (docker
+// доступный на runner). Хостовые бинари — только запасной вариант (могут быть
+// старее сервера).
+function findPgContainer() {
+  const named = spawnSync("docker", ["inspect", container], { stdio: "ignore" });
+  if (named.status === 0) return container;
+  const ps = spawnSync("docker", ["ps", "--filter", "ancestor=postgres:18", "--format", "{{.ID}}"], {
+    encoding: "utf8",
   });
+  if (ps.status === 0) {
+    const id = ps.stdout.trim().split("\n")[0];
+    if (id) return id;
+  }
+  return null;
+}
+const pgContainer = findPgContainer();
+const localPg = pgContainer === null
+  && spawnSync("pg_dump", ["--version"], { encoding: "utf8" }).status === 0;
+
+function pgTool(tool, args, options = {}) {
+  if (pgContainer) {
+    return execFileSync("docker", ["exec", "-i", pgContainer, tool, ...args], {
+      encoding: "buffer", maxBuffer: 64 * 1024 * 1024, ...options,
+    });
+  }
+  if (localPg) {
+    const url = new URL(TEST_DSN);
+    const base = [tool, "-h", url.hostname, "-p", String(url.port || 5432), "-U", decodeURIComponent(url.username)];
+    return execFileSync(tool, [...base, ...args], {
+      encoding: "buffer",
+      maxBuffer: 64 * 1024 * 1024,
+      env: { ...process.env, PGPASSWORD: decodeURIComponent(url.password ?? "") },
+      ...options,
+    });
+  }
+  throw new Error("нет доступа к pg_dump/psql (ни контейнер, ни хостовые утилиты)");
+}
+
+function docker(args, options = {}) {
+  return pgTool(args[0], args.slice(1), options);
 }
 
 test("BI01 повтор миграций не меняет схему", async () => {
@@ -185,19 +222,19 @@ test("BI32 backup/restore на синтетике: связи восстанов
     writeFileSync(dumpPath, dump);
     docker(["psql", "-U", "lsf_test", "-d", "postgres", "-c", "DROP DATABASE IF EXISTS lsf_test_backend_r"]);
     docker(["psql", "-U", "lsf_test", "-d", "postgres", "-c", "CREATE DATABASE lsf_test_backend_r OWNER lsf_test"]);
-    const { spawnSync: sh } = await import("node:child_process");
-    const restore = sh(
-      "docker",
-      ["exec", "-i", container, "psql", "-U", "lsf_test", "-d", "lsf_test_backend_r", "-v", "ON_ERROR_STOP=1", "-q"],
-      { input: readFileSync(dumpPath), maxBuffer: 64 * 1024 * 1024 },
+    const restore = pgTool(
+      "psql",
+      ["-U", "lsf_test", "-d", "lsf_test_backend_r", "-v", "ON_ERROR_STOP=1", "-q"],
+      { input: readFileSync(dumpPath) },
     );
-    assert.equal(restore.status, 0, String(restore.stderr ?? ""));
+    void restore;
     const tcount = (query) => {
-      const r = sh("docker", ["exec", container, "psql", "-U", "lsf_test", "-d", "lsf_test_backend_r", "-tAc", query], {
-        encoding: "utf8",
-      });
-      assert.equal(r.status, 0, String(r.stderr ?? ""));
-      return parseInt(String(r.stdout).trim(), 10);
+      const out = pgTool(
+        "psql",
+        ["-U", "lsf_test", "-d", "lsf_test_backend_r", "-tAc", query],
+        { encoding: "utf8" },
+      );
+      return parseInt(String(out).trim(), 10);
     };
     assert.equal(
       tcount(`SELECT count(*)::int FROM leads WHERE idempotency_key='${marker}'`),
