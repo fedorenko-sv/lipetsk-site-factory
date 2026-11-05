@@ -7,20 +7,28 @@ import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { Client } from "pg";
-import { assertSafeTestDatabaseUrl } from "../../src/server/config/guards.ts";
+import { assertSafeTestDatabaseUrl, sameEffectiveTarget } from "../../src/server/config/guards.ts";
 
 const MIGRATOR_LOCK_KEY = 741_000_1;
 
 async function main(): Promise<void> {
-  const url = process.env.DATABASE_URL;
+  let url = process.env.DATABASE_URL;
+  // BR2: в тестовом режиме валидируется и используется именно TEST_DATABASE_URL.
+  // Несовпадение фактического DATABASE_URL с проверенным test-DSN — отказ до
+  // connect() и до любого SQL; test-guard не подменяет production-политику.
+  if (process.env.LSF_MIGRATE_TEST_MODE === "1") {
+    const testUrl = assertSafeTestDatabaseUrl(process.env.TEST_DATABASE_URL);
+    if (url && !sameEffectiveTarget(url, testUrl)) {
+      console.error("тестовый режим: DATABASE_URL указывает не на проверенный TEST_DATABASE_URL");
+      process.exitCode = 1;
+      return;
+    }
+    url = testUrl;
+  }
   if (!url) {
     console.error("DATABASE_URL не задан");
     process.exitCode = 1;
     return;
-  }
-  // Защита от запуска против непроверенной базы в тестовом режиме.
-  if (process.env.LSF_MIGRATE_TEST_MODE === "1") {
-    assertSafeTestDatabaseUrl(process.env.TEST_DATABASE_URL ?? url);
   }
   const dir = path.join(process.cwd(), "db", "migrations");
   const files = readdirSync(dir).filter((f) => f.endsWith(".sql")).sort();
