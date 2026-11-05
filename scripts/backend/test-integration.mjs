@@ -23,6 +23,7 @@ const ROOT = process.cwd();
 const FIXTURE_DSN = "postgresql://lsf_test:lsf_test_only@127.0.0.1:55543/lsf_test_backend";
 const MAIN_PORT = 3022;
 const DOWN_PORT = 3024;
+const READY_PORT = 3026; // BR4/BR5: приложение с некорректной готовностью назначения
 const NEXT_BIN = path.join(ROOT, "node_modules", "next", "dist", "bin", "next");
 
 const TEST_DSN = assertSafeTestDatabaseUrl(process.env.TEST_DATABASE_URL || FIXTURE_DSN);
@@ -45,7 +46,7 @@ const destinations = {
   }),
 };
 
-function appEnv(port, databaseUrl) {
+function appEnv(port, databaseUrl, overrides = {}) {
   return {
     ...process.env,
     NODE_ENV: "production",
@@ -56,19 +57,20 @@ function appEnv(port, databaseUrl) {
     TRUSTED_IP_HEADER: "X-Test-Client",
     ...envSecrets,
     ...destinations,
+    ...overrides,
   };
 }
 
 const logDir = mkdtempSync(path.join(tmpdir(), "lsf-int-"));
 const children = [];
 
-function startApp(port, databaseUrl, logName) {
+function startApp(port, databaseUrl, logName, overrides = {}) {
   const logFile = path.join(logDir, logName);
   const stream = createWriteStream(logFile, { flags: "a" });
   const child = spawn(
     process.execPath,
     [NEXT_BIN, "start", "--hostname", "127.0.0.1", "--port", String(port)],
-    { cwd: ROOT, env: appEnv(port, databaseUrl), stdio: ["ignore", "pipe", "pipe"] },
+    { cwd: ROOT, env: appEnv(port, databaseUrl, overrides), stdio: ["ignore", "pipe", "pipe"] },
   );
   child.stdout.pipe(stream);
   child.stderr.pipe(stream);
@@ -131,12 +133,24 @@ async function main() {
 
   const mainApp = startApp(MAIN_PORT, TEST_DSN, "main.log");
   startApp(DOWN_PORT, "postgresql://lsf_test:lsf_test_only@127.0.0.1:59999/lsf_test_backend", "down.log");
+  // BR4: корректный loopback DSN, но в реестре назначений неизвестный адаптер и
+  // ENABLE_LIVE_LEADS=true. Сервис обязан подняться; отказ — только на запросе.
+  startApp(READY_PORT, TEST_DSN, "readiness.log", {
+    ENABLE_LIVE_LEADS: "true",
+    NOTIFICATION_DESTINATIONS_JSON: JSON.stringify({
+      "demo-auto-v1": { adapterId: "ghost-channel" },
+      "demo-beauty-v1": { adapterId: "ghost-channel" },
+    }),
+  });
   try {
     if (!(await waitForHttp(`http://127.0.0.1:${MAIN_PORT}/`, 90_000))) {
       throw new Error("основное приложение не поднялось на 3022");
     }
     if (!(await waitForHttp(`http://127.0.0.1:${DOWN_PORT}/`, 90_000))) {
       throw new Error("деградированное приложение не поднялось на 3024");
+    }
+    if (!(await waitForHttp(`http://127.0.0.1:${READY_PORT}/`, 90_000))) {
+      throw new Error("readiness-приложение не поднялось на 3026");
     }
     const testList = ["tests", "integration"];
     const result = spawnSync(
@@ -146,7 +160,7 @@ async function main() {
         "--test",
         // Один PostgreSQL на все сценарии: файлы обязаны идти последовательно.
         "--test-concurrency=1",
-        ...["idempotency", "leads-http", "limits", "outbox", "maintenance"].map(
+        ...["idempotency", "leads-http", "limits", "outbox", "outbox-br", "readiness", "maintenance"].map(
           (name) => path.join(...testList, `${name}.test.mjs`),
         ),
       ],
@@ -157,6 +171,7 @@ async function main() {
           ...process.env,
           TEST_BASE_URL: `http://127.0.0.1:${MAIN_PORT}`,
           TEST_BASE_URL_DOWN: `http://127.0.0.1:${DOWN_PORT}`,
+          TEST_BASE_URL_READY: `http://127.0.0.1:${READY_PORT}`,
           TEST_DATABASE_URL: TEST_DSN,
           TEST_PAYLOAD_HMAC_KEY: envSecrets.IDEMPOTENCY_HMAC_KEY,
           TEST_RATE_LIMIT_HMAC_KEY: envSecrets.RATE_LIMIT_HMAC_KEY,

@@ -5,7 +5,6 @@
  */
 import { existsSync } from "node:fs";
 import { writeFile } from "node:fs/promises";
-import path from "node:path";
 import process from "node:process";
 import { Client } from "pg";
 import { assertExportPathOutsideRepo } from "../../src/server/config/guards.ts";
@@ -40,14 +39,16 @@ async function main(): Promise<void> {
     return;
   }
   const repoRoot = process.cwd();
+  let target: string;
   try {
-    assertExportPathOutsideRepo(out, repoRoot);
+    // BR3: сначала фактический нормализованный путь (dot segments, ссылки),
+    // затем граница «вне checkout». Пишем именно в возвращённый путь.
+    target = assertExportPathOutsideRepo(out, repoRoot);
   } catch {
     console.error("файл экспорта должен лежать вне папки репозитория");
     process.exitCode = 1;
     return;
   }
-  const target = path.resolve(out);
   if (existsSync(target)) {
     console.error("файл уже существует: перезапись запрещена");
     process.exitCode = 1;

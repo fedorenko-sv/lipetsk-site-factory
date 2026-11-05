@@ -11,6 +11,7 @@ export const TEST_DSN = process.env.TEST_DATABASE_URL;
 export const OUTBOX_SECRET = process.env.TEST_OUTBOX_SECRET;
 export const HMAC_KEY = process.env.TEST_PAYLOAD_HMAC_KEY;
 export const ORIGIN = process.env.TEST_ALLOWED_ORIGIN;
+export const RATE_KEY = process.env.TEST_RATE_LIMIT_HMAC_KEY;
 
 export const SYNTHETIC_PHONE = "+7" + "0".repeat(10);
 export const CONFIG_VERSION = "demo-2026-11-04";

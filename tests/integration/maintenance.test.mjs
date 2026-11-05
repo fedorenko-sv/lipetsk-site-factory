@@ -9,28 +9,44 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import process from "node:process";
 import { BASE, TEST_DSN, OUTBOX_SECRET, SYNTHETIC_PHONE, db, makeBody, post, freshClient, clearRateLimits } from "./helpers.mjs";
+import {
+  assertSafeTestDatabaseUrl, effectiveTestTarget,
+} from "../../src/server/config/guards.ts";
 
 const repoRoot = process.cwd();
-const container = "lsf-test-backend-pg";
+const namedContainer = "lsf-test-backend-pg";
 
-// Клиентские утилиты PostgreSQL выполняются внутри контейнера с сервером:
-// локально это compose-контейнер, в CI — контейнер service-postgres (docker
-// доступный на runner). Хостовые бинари — только запасной вариант (могут быть
-// старее сервера).
-function findPgContainer() {
-  const named = spawnSync("docker", ["inspect", container], { stdio: "ignore" });
-  if (named.status === 0) return container;
+// BR6/BI32: утилиты PostgreSQL выбираются по проверенному эффективному target
+// TEST_DATABASE_URL, а не по «первому попавшемуся postgres-контейнеру».
+const pgUser = decodeURIComponent(new URL(TEST_DSN).username);
+const pgTarget = effectiveTestTarget(assertSafeTestDatabaseUrl(TEST_DSN));
+
+function dockerAvailable() {
+  return spawnSync("docker", ["version"], { stdio: "ignore" }).status === 0;
+}
+
+function findPgContainerByTarget(port) {
+  const candidates = [];
+  if (spawnSync("docker", ["inspect", namedContainer], { stdio: "ignore" }).status === 0) {
+    candidates.push(namedContainer);
+  }
   const ps = spawnSync("docker", ["ps", "--filter", "ancestor=postgres:18", "--format", "{{.ID}}"], {
     encoding: "utf8",
   });
   if (ps.status === 0) {
-    const id = ps.stdout.trim().split("\n")[0];
-    if (id) return id;
+    for (const id of ps.stdout.trim().split("\n")) if (id) candidates.push(id);
+  }
+  const tail = new RegExp(`:${port}$`, "m");
+  for (const id of candidates) {
+    const mapped = spawnSync("docker", ["port", id, "5432/tcp"], { encoding: "utf8" });
+    if (mapped.status === 0 && tail.test(mapped.stdout)) return id;
   }
   return null;
 }
-const pgContainer = findPgContainer();
-const localPg = pgContainer === null
+
+const hasDocker = dockerAvailable();
+const pgContainer = hasDocker ? findPgContainerByTarget(pgTarget.port) : null;
+const localPg = !hasDocker
   && spawnSync("pg_dump", ["--version"], { encoding: "utf8" }).status === 0;
 
 function pgTool(tool, args, options = {}) {
@@ -49,11 +65,13 @@ function pgTool(tool, args, options = {}) {
       ...options,
     });
   }
-  throw new Error("нет доступа к pg_dump/psql (ни контейнер, ни хостовые утилиты)");
+  throw new Error(
+    `нет контейнера/утилит под проверенный target ${pgTarget.host}:${pgTarget.port}`,
+  );
 }
 
-function docker(args, options = {}) {
-  return pgTool(args[0], args.slice(1), options);
+function adminSql(statement) {
+  return pgTool("psql", ["-U", pgUser, "-d", "postgres", "-tAc", statement], { encoding: "utf8" });
 }
 
 test("BI01 повтор миграций не меняет схему", async () => {
@@ -190,8 +208,54 @@ test("BI31 export: файл вне Git, без перезаписи, без PII 
   }
 });
 
-test("BI32 backup/restore на синтетике: связи восстановлены", async () => {
-  // Реальный pg_dump/pg_restore внутри тестового контейнера.
+test("BR3 экспорт: dot-segments и junction не записывают файл внутрь checkout", () => {
+  const cli = (args, cwd = repoRoot) => spawnSync(
+    process.execPath,
+    ["--experimental-strip-types", path.join(repoRoot, "scripts/backend/export-leads.ts"), ...args],
+    { cwd, encoding: "utf8", env: { ...process.env, DATABASE_URL: TEST_DSN } },
+  );
+  const dir = mkdtempSync(path.join(tmpdir(), "lsf-br3-"));
+  const outsideEscape = path.join(dir, "..", path.relative(path.dirname(dir), repoRoot));
+  const created = [];
+  try {
+    // outside/../inside: формально строка «снаружи», нормализуется внутрь.
+    const sneaky = `${outsideEscape}${path.sep}evil.csv`;
+    const r1 = cli(["--out", sneaky]);
+    assert.equal(r1.status, 1, "outside/../inside обязан быть отвергнут");
+    const evilPath = path.resolve(sneaky);
+    assert.ok(!existsSync(evilPath), "файл внутри checkout не создан");
+    // Вложенный вариант: наружу и обратно через несколько пар сегментов.
+    const nested = `${outsideEscape}${path.sep}..${path.sep}${path.basename(repoRoot)}${path.sep}nested-evil.csv`;
+    const r2 = cli(["--out", nested]);
+    assert.equal(r2.status, 1, "вложенный outside/../inside обязан быть отвергнут");
+    assert.ok(!existsSync(path.resolve(nested)));
+    // Junction/symlink наружу внутрь checkout (если ОС разрешает) — тоже отказ.
+    const link = path.join(dir, "link-inside");
+    const mk = spawnSync("cmd", ["/c", "mklink", "/J", link, repoRoot], { encoding: "utf8" });
+    if (mk.status === 0) {
+      const r3 = cli(["--out", path.join(link, "junction-evil.csv")]);
+      assert.equal(r3.status, 1, "путь через junction не обходит границу");
+      assert.ok(!existsSync(path.join(repoRoot, "junction-evil.csv")));
+    } else {
+      console.log("BR3: создание junction недоступно в этой среде — проверка границы через realpath выполнена на dot-segments");
+    }
+  } finally {
+    for (const f of created) rmSync(f, { force: true });
+    rmSync(dir, { recursive: true, force: true });
+  }
+  // Разрешённый относительный снаружи-путь (../outside.csv) обязан работать.
+  const outsideFile = path.join(path.dirname(repoRoot), "lsf-br3-outside.csv");
+  try {
+    const ok = cli(["--out", "../lsf-br3-outside.csv"]);
+    assert.equal(ok.status, 0, `допустимый ../outside.csv должен писаться: ${ok.stderr}`);
+    created.push(outsideFile);
+    assert.ok(existsSync(outsideFile));
+  } finally {
+    if (existsSync(outsideFile)) rmSync(outsideFile, { force: true });
+  }
+});
+
+test("BI32 backup/restore на синтетике: source по TEST_DATABASE_URL, restore в свой уникальный БД", async () => {
   const marker = randomUUID();
   const leadId = randomUUID();
   await db(async (c) => {
@@ -214,43 +278,43 @@ test("BI32 backup/restore на синтетике: связи восстанов
       [outbox.rows[0].id, leadId],
     );
   });
+  // Restore-БД: собственный уникальный идентификатор с обязательным префиксом.
+  const restoreDb = `lsf_test_r_${process.pid}_${randomUUID().slice(0, 8)}`;
+  assert.ok(restoreDb.startsWith("lsf_test_"), "имя restore-БД вне разрешённого префикса");
+  assert.ok(restoreDb.length <= 63, "имя restore-БД длиннее лимита PostgreSQL");
+  const existed = adminSql(`SELECT 1 FROM pg_database WHERE datname='${restoreDb}'`);
+  assert.equal(String(existed).trim(), "", "restore-БД уже существует — не перехватываем чужую");
   const dir = mkdtempSync(path.join(tmpdir(), "lsf-bk-"));
   const dumpPath = path.join(dir, "backup.sql");
+  let createdRestore = false;
   try {
-    const dump = docker(["pg_dump", "-U", "lsf_test", "-d", "lsf_test_backend", "--no-owner"]);
+    // source — ровно проверенный target из TEST_DATABASE_URL.
+    const dump = pgTool("pg_dump", ["-U", pgUser, "-d", pgTarget.database, "--no-owner"]);
     const { writeFileSync } = await import("node:fs");
     writeFileSync(dumpPath, dump);
-    docker(["psql", "-U", "lsf_test", "-d", "postgres", "-c", "DROP DATABASE IF EXISTS lsf_test_backend_r"]);
-    docker(["psql", "-U", "lsf_test", "-d", "postgres", "-c", "CREATE DATABASE lsf_test_backend_r OWNER lsf_test"]);
-    const restore = pgTool(
-      "psql",
-      ["-U", "lsf_test", "-d", "lsf_test_backend_r", "-v", "ON_ERROR_STOP=1", "-q"],
-      { input: readFileSync(dumpPath) },
+    adminSql(`CREATE DATABASE ${restoreDb} OWNER ${pgUser}`);
+    createdRestore = true;
+    pgTool("psql", [
+      "-U", pgUser, "-d", restoreDb, "-v", "ON_ERROR_STOP=1", "-q",
+    ], { input: readFileSync(dumpPath) });
+    const tcount = (query) => parseInt(
+      String(pgTool("psql", ["-U", pgUser, "-d", restoreDb, "-tAc", query], { encoding: "utf8" })).trim(),
+      10,
     );
-    void restore;
-    const tcount = (query) => {
-      const out = pgTool(
-        "psql",
-        ["-U", "lsf_test", "-d", "lsf_test_backend_r", "-tAc", query],
-        { encoding: "utf8" },
-      );
-      return parseInt(String(out).trim(), 10);
-    };
+    assert.equal(tcount(`SELECT count(*) FROM leads WHERE idempotency_key='${marker}'`), 1);
     assert.equal(
-      tcount(`SELECT count(*)::int FROM leads WHERE idempotency_key='${marker}'`),
-      1,
-    );
-    assert.equal(
-      tcount(`SELECT count(*)::int FROM notification_receipts r
+      tcount(`SELECT count(*) FROM notification_receipts r
         JOIN notification_outbox o ON o.id=r.outbox_id
         JOIN leads l ON l.id=r.lead_id WHERE l.idempotency_key='${marker}'`),
       1,
     );
   } finally {
-    docker(["psql", "-U", "lsf_test", "-d", "postgres", "-c", "DROP DATABASE IF EXISTS lsf_test_backend_r"]);
+    if (createdRestore) adminSql(`DROP DATABASE ${restoreDb}`);
     await db((c) => c.query("DELETE FROM leads WHERE idempotency_key=$1", [marker]));
     rmSync(dir, { recursive: true, force: true });
   }
+  const gone = adminSql(`SELECT 1 FROM pg_database WHERE datname='${restoreDb}'`);
+  assert.equal(String(gone).trim(), "", "своя restore-БД удалена");
 });
 
 test("BI33 логи и ошибки: нет телефонов, имён, DSN и секретов", async () => {

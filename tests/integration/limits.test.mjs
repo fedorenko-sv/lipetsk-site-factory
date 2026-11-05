@@ -1,9 +1,9 @@
 // BI10–BI14: персистентные лимиты 5/10мин на site+IP и 100/час на site.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { randomUUID } from "node:crypto";
+import { createHash, createHmac, randomUUID } from "node:crypto";
 import {
-  BASE, db, makeBody, post, freshClient, clearRateLimits,
+  BASE, RATE_KEY, db, makeBody, post, freshClient, clearRateLimits,
   spawnSecondApp, killTree, waitForHttp,
 } from "./helpers.mjs";
 
@@ -79,30 +79,43 @@ test("BI12 лимит site на разных clientKey: 100 допусков, 10
   }
 });
 
-test("BI13 завершение окна: в новом окне заявка снова допустима", async () => {
+test("BI13 переход окна: тот же effective bucket/клиент, реальный Clock сервера", async () => {
   await clearRateLimits();
   const client = freshClient();
+  assert.ok(RATE_KEY, "harness обязан передать TEST_RATE_LIMIT_HMAC_KEY");
+  // Тот же ключ, что вычисляет leads-handler:
+  // sha256( HMAC-SHA256(rateKey, rawClient) ).
+  const clientHmac = createHash("sha256")
+    .update(createHmac("sha256", RATE_KEY).update(client).digest("hex"))
+    .digest("hex");
+  const bucketKey = `auto|${clientHmac}`;
+  const window = Math.floor(Date.now() / 1000 / 600) * 600;
   try {
-    // Имитация исчерпанного ПРОШЛОГО окна для того же client-ключа.
-    const clientHmac = await db(async (c) => {
-      // HMAC считается тем же секретом, что и в приложении; но проверка окон не
-      // требует точного HMAC: вставим окно, сдвинутое на шаг назад, с count=5.
-      const epoch = Math.floor(Date.now() / 1000);
-      const pastWindow = Math.floor(epoch / 600) * 600 - 600;
-      await c.query(
-        `INSERT INTO rate_limits (scope, key_hmac, window_start, count, expires_at)
-         VALUES ('site_client', 'auto|BI13-past-window', to_timestamp($1), 5, to_timestamp($2))`,
-        [pastWindow, pastWindow + 700],
-      );
-      return null;
-    });
-    void clientHmac;
-    const response = await post(BASE, makeBody(), { key: randomUUID(), client });
-    assert.equal(response.status, 201, "прошлое окно не блокирует текущее");
-    const current = await db((c) => c.query(
-      "SELECT count::int AS n FROM rate_limits WHERE scope='site_client' AND key_hmac <> 'auto|BI13-past-window'",
+    // Текущее окно того же effective bucket закрыто (5 из 5).
+    await db((c) => c.query(
+      `INSERT INTO rate_limits (scope, key_hmac, window_start, count, expires_at)
+       VALUES ('site_client', $1, to_timestamp($2), 5, to_timestamp($3))`,
+      [bucketKey, window, window + 600 + 86_400],
     ));
-    assert.equal(current.rows[0].n, 1);
+    const blocked = await post(BASE, makeBody(), { key: randomUUID(), client });
+    assert.equal(blocked.status, 429, "заполненное текущее окно блокирует того же клиента");
+    // Сдвиг того же bucket в прошлое окно: серверные часы видят новое окно.
+    await db((c) => c.query(
+      `UPDATE rate_limits SET window_start = to_timestamp($2),
+              expires_at = to_timestamp($3)
+       WHERE scope='site_client' AND key_hmac=$1`,
+      [bucketKey, window - 600, window - 600 + 600 + 86_400],
+    ));
+    const allowed = await post(BASE, makeBody(), { key: randomUUID(), client });
+    assert.equal(allowed.status, 201, "переход окна для того же effective bucket открывает приём");
+    const fresh = await db((c) => c.query(
+      `SELECT count::int AS n FROM rate_limits
+       WHERE scope='site_client' AND key_hmac=$1
+         AND window_start = to_timestamp($2)`,
+      [bucketKey, window],
+    ));
+    assert.equal(fresh.rowCount, 1, "создано новое окно для того же ключа");
+    assert.equal(fresh.rows[0].n, 1);
   } finally {
     await clearRateLimits();
   }

@@ -1,0 +1,1 @@
+{"case":"headers arrive, JSON body stalls","timeoutMs":500,"observedAfterMs":1000,"headersReceived":true,"outcome":"pending","expected":"timeout"}

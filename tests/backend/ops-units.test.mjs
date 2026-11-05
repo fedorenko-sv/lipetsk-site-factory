@@ -8,7 +8,8 @@ import {
   ADAPTER_TIMEOUT_MS, MAX_ATTEMPTS, RETRY_DELAY_MINUTES,
   decideAfterFailure, withProviderRetryFloor,
 } from "../../src/server/notifications/schedule.ts";
-import { NotificationSendError } from "../../src/server/leads/ports.ts";
+import { NotificationSendError, SYSTEM_CLOCK } from "../../src/server/leads/ports.ts";
+import { runOutboxBatch } from "../../src/server/notifications/worker.ts";
 import {
   ConfigProblem, loadRuntimeConfig,
 } from "../../src/server/config/runtime.ts";
@@ -90,18 +91,43 @@ test("BU25 расписание повторов: 1/5/15/30/60/120/240 мину�
   assert.equal(withProviderRetryFloor({ kind: "dead" }, 60, now).kind, "dead");
 });
 
-test("BU26 ошибка адаптера — безопасный код; timeout задан; тело провайдера не уходит", async () => {
-  const error = new NotificationSendError("PROVIDER_UNAVAILABLE");
-  assert.equal(error.safeCode, "PROVIDER_UNAVAILABLE");
-  assert.ok(!String(error.message).includes("http"), "без URL/тела провайдера");
-  assert.equal(ADAPTER_TIMEOUT_MS, 10_000);
-  // Сигнал по таймауту прерывает зависающий send (проверка механики, не 10с).
-  const controller = new AbortController();
-  const hang = (signal) => new Promise((resolve, reject) => {
-    signal.addEventListener("abort", () => reject(new NotificationSendError("TIMEOUT")));
-  });
-  setTimeout(() => controller.abort(), 10);
-  await assert.rejects(hang(controller.signal), (e) => e.safeCode === "TIMEOUT");
+test("BU26 зависающий адаптер: настоящий runOutboxBatch прерывает send и планирет повтор", async () => {
+  // Зависающий adapter fixture: send не резолвится, реагирует только на abort.
+  const hangingAdapter = {
+    send(_job, signal) {
+      return new Promise((_resolve, reject) => {
+        signal.addEventListener("abort", () => reject(new NotificationSendError("TIMEOUT")));
+      });
+    },
+  };
+  const registry = new AdapterRegistry();
+  registry.register("recording", () => hangingAdapter);
+  const scheduled = [];
+  const job = {
+    id: "job-1", leadId: "lead-1", siteKey: "auto", destinationKey: "demo-auto-v1",
+    adapterId: "recording", claimToken: "tok-1", attempts: 1, recovery: false,
+  };
+  const repo = {
+    async claimBatch() { return [job]; },
+    async markSent() { throw new Error("markSent при зависшем send недостижим"); },
+    async scheduleRetry(id, token, nextAttemptAt, errorCode) {
+      scheduled.push({ id, token, nextAttemptAt, errorCode });
+      return true;
+    },
+    async markDead() { throw new Error("dead при попытке 1 недопустим"); },
+    async hasReceipt() { return false; },
+  };
+  const startedAt = Date.now();
+  const counts = await runOutboxBatch(repo, registry, SYSTEM_CLOCK, 20);
+  const elapsed = Date.now() - startedAt;
+  assert.deepEqual(counts, { processed: 1, sent: 0, retried: 1, dead: 0 });
+  assert.equal(scheduled.length, 1);
+  assert.equal(scheduled[0].errorCode, "TIMEOUT", "безопасный код таймаута вместо PII/тела");
+  assert.equal(scheduled[0].id, job.id);
+  assert.ok(elapsed >= ADAPTER_TIMEOUT_MS - 200 && elapsed < ADAPTER_TIMEOUT_MS + 5000,
+    `abort на штатном таймауте ${ADAPTER_TIMEOUT_MS} мс, факт ${elapsed}`);
+  const expectedNext = SYSTEM_CLOCK.now().getTime() + 60_000; // попытка 1 -> +1 минута
+  assert.ok(Math.abs(scheduled[0].nextAttemptAt.getTime() - expectedNext) < 5000);
 });
 
 test("BU27 небезопасный test DSN и кривые env падают до любых SQL-действий", () => {
@@ -119,9 +145,9 @@ test("BU27 небезопасный test DSN и кривые env падают д
     assertSafeTestDatabaseUrl("postgresql://u:***@localhost:55432/lsf_test_x"),
     "postgresql://u:***@localhost:55432/lsf_test_x",
   );
-  assert.throws(() => assertExportPathOutsideRepo("out.csv", "/repo"), UnsafeDatabaseError);
-  assert.throws(() => assertExportPathOutsideRepo("/repo/sub/out.csv", "/repo"), UnsafeDatabaseError);
-  assertExportPathOutsideRepo("/tmp/out.csv", "/repo");
+  assert.throws(() => assertExportPathOutsideRepo(`${process.cwd()}/out.csv`, process.cwd()), UnsafeDatabaseError);
+  assert.throws(() => assertExportPathOutsideRepo(`${process.cwd()}/sub/out.csv`, process.cwd()), UnsafeDatabaseError);
+  assert.equal(typeof assertExportPathOutsideRepo("../out.csv", process.cwd()), "string");
   assert.throws(() => loadRuntimeConfig({ ...baseEnv, IDEMPOTENCY_HMAC_KEY: "short" }), ConfigProblem);
   assert.throws(() => loadRuntimeConfig({ ...baseEnv, OUTBOX_SECRET: "short" }), ConfigProblem);
   assert.throws(() => loadRuntimeConfig({ ...baseEnv, DATABASE_URL: "" }), ConfigProblem);

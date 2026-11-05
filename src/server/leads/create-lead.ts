@@ -15,6 +15,7 @@ import { matchServiceSelection, normalizeAttribution, normalizeName } from "./ma
 import { buildCanonical, computePayloadHmac, moscowIso } from "./canonical.ts";
 import type { LeadStore, NewLeadDecision, PreparedLeadRow } from "./store-port.ts";
 import type { Clock } from "./ports.ts";
+import { isKnownAdapterId } from "../notifications/registry.ts";
 
 export interface CreateLeadDeps {
   runtime: RuntimeConfig;
@@ -29,21 +30,28 @@ export type CreateLeadResult =
   | { kind: "field-error"; code: "VALIDATION_FAILED"; fieldErrors: Record<string, string> }
   | { kind: "error"; code: ApiErrorCode; retryAfterSeconds?: number };
 
-/** Готовность режима: demo требует настроенное recording-назначение, live — утверждённые входы. */
+/** Готовность режима: demo требует настроенный recording-адаптер и назначение. */
 export function checkModeReady(
   config: SiteConfig,
   destination: SiteDestination | undefined,
   runtime: RuntimeConfig,
 ): { ok: true } | { ok: false; code: "DEMO_NOT_READY" | "LIVE_NOT_READY" } {
   if (config.mode === "live") {
-    if (!runtime.enableLiveLeads) return { ok: false, code: "LIVE_NOT_READY" };
-    if (!config.legal.approved || config.legal.operatorName === null) {
-      return { ok: false, code: "LIVE_NOT_READY" };
-    }
-    if (!destination) return { ok: false, code: "LIVE_NOT_READY" };
-    return { ok: true };
+    // BR4: в согласованном стеке нет ни одного реального канала — recording
+    // является только demo-свидетельством. ENABLE_LIVE_LEADS и legal-флаги
+    // сами по себе live не открывают: будущий гейт обязан дополнительно
+    // проверить реальный канал (не recording), доверенный ingress и
+    // утверждённый retention. Telegram/email/CRM не подключались заказчиком.
+    void runtime;
+    return { ok: false, code: "LIVE_NOT_READY" };
   }
-  if (!destination) return { ok: false, code: "DEMO_NOT_READY" };
+  // BR4: demo-lead допустим только с известным реестру и реально собранным
+  // демо-адаптером (сейчас это recording). Гейт в сценарии новой заявки:
+  // сохранённый идентичный replay его не проходит (store.shortcut до validateNew).
+  if (!destination || !isKnownAdapterId(destination.adapterId)
+    || destination.adapterId !== "recording") {
+    return { ok: false, code: "DEMO_NOT_READY" };
+  }
   return { ok: true };
 }
 
