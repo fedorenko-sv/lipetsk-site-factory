@@ -166,3 +166,98 @@ System (`npm run test:system`):
 - Порты тестовой инфраструктуры: 55543 (PostgreSQL), 3022–3024 (приложения),
   59999 (заведомо недоступная БД для 503-сценариев).
 
+
+---
+
+## PR3-BR — пакет финальных исправлений BR1–BR6 (05.11.2026)
+
+Исходный снимок проверки: `0770274`, замечания — `docs/reports/pr3-final-review.md`,
+задание — `agents/tasks/PR3_BACKEND_FINAL_FIXES.md`. `origin/main` включён обычным
+merge. Объединённая `codex/pr3-final-review` (frontend) в ветку не сливалась.
+
+### BR1 — последняя попытка очереди (P1)
+
+| Регрессия | Файл/тест | Фактический результат |
+| --- | --- | --- |
+| BR1a crash на попытке 8 до receipt | `tests/integration/outbox-br.test.mjs` «BR1a/BR1b/BR1c» | dead + `LEASE_EXPIRED`, attempts=8, processing не остаётся |
+| BR1b receipt записана до sent | тот же тест | sent, ровно 1 receipt, без повторной отправки (spy sends=0) |
+| BR1c два worker на expired claim | тот же тест (`Promise.all` двух `runOutboxBatch`) | один владелец; stale/чужой claim token — no-op |
+| BR1d бюджет пачки/lease | «BR1d lease-бюджет» | отправка с потерянным lease не начинается (`SEND_BUDGET`, retry), spy sends=0 |
+| BR1e обычный отказ попытки 8 | «BR1e» + «BI36 лестница» | dead без девятой попытки; повторный прогон processed=0 |
+| Лестница 20 задач | «BI36» (настоящий PgOutboxRepo) | 8 раундов: retried×7, dead×20, attempts=8, leads целы |
+
+Реализация: `worker.ts` — восстановительный claim истёкших `processing` (любой
+attempts) без роста счётчика, `hasReceipt` → sent/dead; конкурентность пачки 4
+(BATCH_CONCURRENCY) при бюджете ≤50 с на lease 120 с; перед отправкой — проверка
+остатка lease против adapter timeout.
+
+### BR2 — guard эффективного target (P1)
+
+| Регрессия | Тест | Результат |
+| --- | --- | --- |
+| BR2a несовпадение DATABASE_URL | `readiness.test.mjs` «BR2a» (реальный migrate.ts) | nonzero, до connect/SQL, за <20 с |
+| BR2b host в query | «BR2b» + unit `guards-units` | отказ (host/hostaddr/port/dbname/database/dup) |
+| BR2c протокол/host/префикс | unit `guards-units` | mysql/http, чужой host, имя без `lsf_test_` — отказ |
+| BR2d опции + идемпотентность | «BR2d» (`?sslmode=disable`) | миграции проходят |
+| BR2e production mode | `migrate.ts` без test-mode | test-guard не подменяет production-политику (production DSN проверяется только production-политикой runbook) |
+
+### BR3 — экспорт через `..` (P2)
+
+`guards.ts` нормализует реальный путь (realpath существующего родителя) и затем
+проверяет границу checkout. Тест «BR3 экспорт» (maintenance): outside/../inside —
+отказ без создания файла; вложенный вариант — отказ; junction (при доступности) —
+отказ; `../outside.csv` — работает; wx/no-overwrite и отсутствие PII в stdout
+сохранены (BI31).
+
+### BR4 — готовность назначения и live (P1)
+
+Гейт в сценарии новой заявки (`checkModeReady` внутри `validateNew` под
+транзакцией), загрузка конфигурации остаётся shape-only — сохранённый replay не
+ломается. Live закрыт всегда: реальных каналов нет, recording — только demo.
+
+| Сценарий | Тест | Результат |
+| --- | --- | --- |
+| unknown/ghost adapter | unit `readiness-units` + integration «BR4: ghost-назначение» | 503 DEMO_NOT_READY, счётчики leads/outbox/receipts/rate не изменились |
+| отсутствующее назначение | unit | DEMO_NOT_READY |
+| корректный demo recording | unit + «BR4: ghost... рабочий путь» (BASE 201) | ok |
+| live+recording+все флаги | unit | LIVE_NOT_READY (в т.ч. при ENABLE_LIVE_LEADS=true и approved legal) |
+| replay при сломанной конфигурации | integration «BR4: сохранённый replay» | 200 replayed, существующий lead не тронут |
+| ghost-приложение поднимается | harness (`:3026`) | сервис зелен, отказ только на новых заявках |
+
+### BR5 — системные UI-проверки (приёмка)
+
+`tests/system/pr3-real.spec.ts` переписан без единого skip: S1 открывает
+`/demo/auto` (offer → preference с опциями/датой/временем → contact), сверяет
+leadId именно UI-отправки с lead/outbox/receipt; S5 — настоящий Beauty в браузере
+с мастером (`resource_id=master-a`) и без (`NULL`), назначения `demo-beauty-v1`,
+receipt по одной. Очистка — только свои keys/leadId/строки rate_limits
+(identity high-water), без `DELETE ... WHERE true`.
+В самостоятельной backend-ветке UI-мастера нет (frontend в
+`codex/pr3-final-review`, merge запрещён заданием), поэтому итоговый интегрированный
+прогон без skip выполнен в отдельном checkout объединённого снимка; оба SHA — ниже в
+этом отчёте. Архитектор ранее подтвердил три реальных browser-пути вручную
+(201 → sent/receipt → replay 200); теперь контур автоматизирован.
+
+### BR6 — укрепление проверок
+
+| Пункт | Что изменено | Результат |
+| --- | --- | --- |
+| BU26 | unit вызывает настоящий `runOutboxBatch` с зависающим adapter fixture | abort на 10 000 мс, retry+1 мин, безопасный `TIMEOUT`, lead не меняется |
+| BI13 | реальный effective bucket `auto|clientHmac` того же клиента, переход окна через реальный Clock сервера | 429 в заполненном окне → 201 в новом окне того же ключа |
+| BI22 | конкурентный `claimBatch` двух пулов с барьером `Promise.all` | пересечений нет, union покрывает задачи, по одному claim token на батч |
+| BI32 | source/restore по проверенному target `TEST_DATABASE_URL`; контейнер ищется по маппингу порта DSN; restore-БД уникальна (`lsf_test_r_*`), существование проверяется, удаляется только своя | dump/restore/сверка связей/уборка — pass |
+
+### Команды и числа
+
+- `npm run test:backend`: 57/57 (сохранены все 15 phone-тестов, прежние 48 unit + 9 новых BR-unit).
+- `npm run test:integration`: 46/46 (было 33, добавлены outbox-br 6 и readiness 7 сценариев; нумерация BI продолжается, новые ID: BR2a/b/d, BR3, BR4-HTTP×3, BI36, BR1a–e, барьер).
+- `npm run verify:backend`: exit 0 (unit 57, build ok, integration 46).
+- Общий `test:system` без skip: отдельный checkout, SHA ниже.
+- CI своего блока на финальном SHA: запуски ниже.
+
+### Изменённый runbook (сводно)
+
+- `LSF_MIGRATE_TEST_MODE=1` + `TEST_DATABASE_URL`: обязателен, проверяется эффективный target; при несовпадении с `DATABASE_URL` — отказ до SQL.
+- Экспорт: путь нормализуется и обязан быть снаружи checkout; запись через `..`/junction внутрь — отказ CLI с nonzero.
+- Очередь: зависшая `processing` получает исход автоматически (receipt→sent / dead `LEASE_EXPIRED`). Операторское действие для `dead`: разбор `last_error_code`, после починки канала — `UPDATE notification_outbox SET status='pending', attempts=0, next_attempt_at=now()` по id.
+- Готовность: `DEMO_NOT_READY` = назначение/демо-адаптер не собраны; живые каналы не включались, `ENABLE_LIVE_LEADS=true` live не открывает.
