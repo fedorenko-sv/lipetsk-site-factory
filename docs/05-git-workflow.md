@@ -36,7 +36,7 @@ npm ci
 
 ## Общие файлы
 
-contracts/**, src/shared/api.generated.ts, package.json/package-lock.json, tsconfig, CI, env-шаблон и настройки deployment меняет архитектор. Разработчик отправляет текст запроса: причина, предлагаемая зависимость/поле, пример запроса и влияние на другую ветку. Архитектор проверяет, коммитит в main и сообщает SHA; оба включают этот коммит.
+contracts/**, src/shared/contracts.ts, package.json/package-lock.json, tsconfig, общий quality workflow и настройки deployment меняет архитектор. Для PR3-BATCH-2 общий инструментарий уже подготовлен. Собственные frontend-tests.yml/backend-tests.yml ведут разработчики; .env.example и backend-runbook разрешены Hermes. Самостоятельное исполнение всего блока не требует промежуточных согласований.
 
 Ни один разработчик не переписывает API под свой текущий UI. Изменение 1.0.0 должно иметь совместимый переход или одновременное обновление обоих исполнителей.
 
