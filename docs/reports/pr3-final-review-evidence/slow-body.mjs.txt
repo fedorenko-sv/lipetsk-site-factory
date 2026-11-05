@@ -1,0 +1,23 @@
+import http from 'node:http';
+import { submitLead } from '../../src/features/booking/client/lead-client.ts';
+const server = http.createServer((req, res) => {
+  if(req.url === '/warm') { res.end('ok'); return; }
+  res.writeHead(201, { 'Content-Type': 'application/json' });
+  res.flushHeaders(); res.write('{"leadId":');
+});
+await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+const originalFetch = globalThis.fetch;
+const base = `http://127.0.0.1:${server.address().port}`;
+await (await originalFetch(base+'/warm')).text();
+let headersReceived = false;
+globalThis.fetch = async (_url, init) => {
+ const response = await originalFetch(base+'/stall', init);
+ headersReceived = true; return response;
+};
+let outcome = 'pending';
+const pending = submitLead({}, { idempotencyKey: '00000000-0000-4000-8000-000000000001', timeoutMs: 500 })
+ .then(() => outcome = 'success', error => outcome = error.kind ?? error.name);
+await new Promise(resolve => setTimeout(resolve, 1000));
+console.log(JSON.stringify({case:'headers arrive, JSON body stalls',timeoutMs:500,observedAfterMs:1000,headersReceived,outcome,expected:'timeout'}));
+server.closeAllConnections(); await pending;
+await new Promise(resolve => server.close(resolve)); globalThis.fetch = originalFetch;

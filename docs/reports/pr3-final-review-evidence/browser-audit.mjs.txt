@@ -1,0 +1,127 @@
+import assert from 'node:assert/strict';
+import {Client} from 'pg';
+import {chromium} from 'playwright';
+import {spawn,spawnSync} from 'node:child_process';
+import {readFileSync,mkdirSync,createWriteStream,writeFileSync} from 'node:fs';
+import {randomBytes} from 'node:crypto';
+import path from 'node:path';
+import {setTimeout as delay} from 'node:timers/promises';
+import {assertSafeTestDatabaseUrl} from '../../src/server/config/guards.ts';
+
+const ROOT=process.cwd();
+const OUT=path.resolve(ROOT,'../../../outputs/pr3-final-review');
+mkdirSync(OUT,{recursive:true});
+const BASE='http://127.0.0.1:3026';
+const dbName=`lsf_test_ui_review_${Date.now()}`;
+if(!/^lsf_test_ui_review_[0-9]+$/.test(dbName)) throw new Error('unsafe fixture');
+const url=new URL('postgresql://127.0.0.1:55543/postgres');
+url.username='lsf_test';url.password='lsf_test_only';
+const admin=new Client({connectionString:url.toString()});
+await admin.connect();
+let db,child,browser;
+const observations=[];
+const observe=value=>{ observations.push(value);console.log(JSON.stringify(value)); };
+const secret=()=>randomBytes(24).toString('hex');
+const outboxSecret=secret();
+try{
+ await admin.query(`CREATE DATABASE ${dbName}`);
+ url.pathname='/'+dbName;
+ const dsn=assertSafeTestDatabaseUrl(url.toString());
+ const env={...process.env,NODE_ENV:'production',NEXT_TELEMETRY_DISABLED:'1',
+  DATABASE_URL:dsn,TEST_DATABASE_URL:dsn,ALLOWED_ORIGINS:BASE,ALLOWED_SITE_KEYS:'auto,beauty',ENABLE_LIVE_LEADS:'false',
+  IDEMPOTENCY_HMAC_KEY:secret(),RATE_LIMIT_HMAC_KEY:secret(),OUTBOX_SECRET:outboxSecret,
+  SITE_DESTINATIONS_JSON:JSON.stringify({auto:{destinationKey:'demo-auto-v1',version:1},beauty:{destinationKey:'demo-beauty-v1',version:1}}),
+  NOTIFICATION_DESTINATIONS_JSON:JSON.stringify({'demo-auto-v1':{adapterId:'recording'},'demo-beauty-v1':{adapterId:'recording'}})
+ };
+ const migrated=spawnSync(process.execPath,['--experimental-strip-types','scripts/backend/migrate.ts'],{
+  env:{...env,LSF_MIGRATE_TEST_MODE:'1'},stdio:'ignore'
+ });
+ assert.equal(migrated.status,0,'migrations');
+ db=new Client({connectionString:dsn});await db.connect();
+ const log=createWriteStream('work/review/browser-app.log');
+ child=spawn(process.execPath,[path.join(ROOT,'node_modules/next/dist/bin/next'),'start','--hostname','127.0.0.1','--port','3026'],{env,stdio:['ignore','pipe','pipe']});
+ child.stdout.pipe(log);child.stderr.pipe(log);
+ let ready=false;
+ for(let i=0;i<100;i++){
+  try{const r=await fetch(BASE);if(r.ok){ready=true;break;}}catch{}
+  await delay(300);
+ }
+ assert.equal(ready,true,'app readiness');
+ browser=await chromium.launch({headless:true});
+ const context=await browser.newContext({viewport:{width:390,height:844},timezoneId:'America/New_York'});
+
+ function futureDate(site){
+  const moscow=new Date(Date.now()+3*3600000);
+  const day=new Date(Date.UTC(moscow.getUTCFullYear(),moscow.getUTCMonth(),moscow.getUTCDate()+2));
+  while(!site.booking.workingHours.days.includes(day.getUTCDay()||7))day.setUTCDate(day.getUTCDate()+1);
+  return day.toISOString().slice(0,10);
+ }
+ async function toContact(page,siteKey,resource){
+  const cfg=JSON.parse(readFileSync(`examples/sites/${siteKey}.json`,'utf8'));
+  await page.goto(`${BASE}/demo/${siteKey}`);await page.waitForLoadState('networkidle');
+  if(siteKey==='auto') await page.screenshot({path:path.join(OUT,'auto-offer-real-390.png'),fullPage:true});
+  await page.getByTestId('next-to-preference').click();
+  if(siteKey==='auto')await page.getByTestId('service-option-wheel-size').selectOption('R16');
+  if(siteKey==='beauty'&&resource)await page.getByTestId('resource-select').selectOption(resource);
+  await page.getByTestId('preferred-date').fill(futureDate(cfg));
+  await page.getByTestId('preferred-time').selectOption('10:30');
+  await page.getByTestId('next-to-contact').click();
+  await page.getByTestId('customer-phone').fill('+7'+'0'.repeat(10));
+  await page.getByTestId('consent').check();
+ }
+ for(const [siteKey,resource] of [['auto',null],['beauty','master-a'],['beauty',null]]){
+  const page=await context.newPage();let request;
+  page.on('request',req=>{if(req.url()===`${BASE}/api/leads`&&req.method()==='POST')request=req;});
+  await toContact(page,siteKey,resource);
+  const received=page.waitForResponse(res=>res.url()===`${BASE}/api/leads`&&res.request().method()==='POST');
+  await page.getByTestId('lead-submit').click();
+  const response=await received;assert.equal(response.status(),201);
+  const receipt=await response.json();await page.getByTestId('lead-success').waitFor();
+  const id=(await page.getByTestId('lead-id').textContent()).trim();assert.equal(id,receipt.leadId);
+  let rows=await db.query(`SELECT l.site_key,l.service_options,l.resource_id,
+    o.destination_key,o.status,(SELECT count(*)::int FROM notification_receipts r WHERE r.outbox_id=o.id) AS receipts
+    FROM leads l JOIN notification_outbox o ON o.lead_id=l.id WHERE l.id=$1`,[id]);
+  assert.equal(rows.rowCount,1);assert.equal(rows.rows[0].site_key,siteKey);assert.equal(rows.rows[0].resource_id,resource);
+  const worker=await fetch(`${BASE}/api/internal/outbox`,{method:'POST',headers:{Authorization:`Bearer ${outboxSecret}`}});
+  assert.equal(worker.status,200);
+  rows=await db.query(`SELECT o.status,r.destination_key FROM notification_outbox o JOIN notification_receipts r ON r.outbox_id=o.id WHERE o.lead_id=$1`,[id]);
+  assert.equal(rows.rowCount,1);assert.equal(rows.rows[0].status,'sent');assert.equal(rows.rows[0].destination_key,`demo-${siteKey}-v1`);
+  const replay=await fetch(`${BASE}/api/leads`,{method:'POST',headers:{Origin:BASE,'Content-Type':'application/json','Idempotency-Key':request.headers()['idempotency-key']},body:request.postData()});
+  assert.equal(replay.status,200);const repeat=await replay.json();assert.equal(repeat.leadId,id);assert.equal(repeat.replayed,true);
+  const count=await db.query('SELECT count(*)::int AS n FROM leads WHERE id=$1',[id]);assert.equal(count.rows[0].n,1);
+  observe({case:'real UI -> API -> PostgreSQL -> worker -> recording -> replay',siteKey,resource,created:201,replayed:200,rows:1,outbox:'sent',receipts:1});
+  await page.screenshot({path:path.join(OUT,`${siteKey}-${resource??'any'}-real-received-390.png`),fullPage:true});
+  await page.close();
+ }
+
+ const errText='Проверьте желаемое время в параметрах';
+ const fieldPage=await context.newPage();
+ await fieldPage.route(`${BASE}/api/leads`,r=>r.fulfill({status:422,contentType:'application/json',body:JSON.stringify({error:{code:'VALIDATION_FAILED',message:'Проверьте поля формы.',requestId:crypto.randomUUID(),fieldErrors:{'preferred.time':errText}}})}));
+ await toContact(fieldPage,'auto');await fieldPage.getByTestId('lead-submit').click();await fieldPage.getByTestId('lead-error').waitFor();
+ observe({case:'422 preferred.time while on contact',contactVisible:await fieldPage.getByTestId('contact-step').isVisible(),fieldMessageVisible:await fieldPage.getByText(errText,{exact:true}).isVisible(),activeElement:await fieldPage.evaluate(()=>({tag:document.activeElement.tagName,testId:document.activeElement.dataset.testid??null})),expected:'show/focus affected field or error summary; preserve contacts'});
+ await fieldPage.screenshot({path:path.join(OUT,'missing-preference-error.png'),fullPage:true});await fieldPage.close();
+
+ const receiptPage=await context.newPage();
+ await receiptPage.route(`${BASE}/api/leads`,r=>r.fulfill({status:201,contentType:'application/json',body:JSON.stringify({leadId:'not-a-uuid',status:'received',replayed:false,message:'Заявка получена.'})}));
+ await toContact(receiptPage,'auto');await receiptPage.getByTestId('lead-submit').click();await receiptPage.waitForTimeout(300);
+ observe({case:'201 receipt violates leadId UUID schema',successVisible:await receiptPage.getByTestId('lead-success').isVisible(),expected:'invalid-response; no success'});
+ await receiptPage.close();
+
+ const focusPage=await context.newPage();await toContact(focusPage,'auto');await focusPage.getByTestId('customer-phone').fill('');
+ await focusPage.getByTestId('lead-submit').click();await focusPage.getByTestId('lead-error').waitFor();
+ observe({case:'invalid phone focus and association',activeElement:await focusPage.evaluate(()=>({tag:document.activeElement.tagName,testId:document.activeElement.dataset.testid??null})),describedBy:await focusPage.getByTestId('customer-phone').getAttribute('aria-describedby'),expected:'focus on field/summary and associated error'});await focusPage.close();
+
+ for(const site of ['constructor','toString','__proto__']){
+  const r=await fetch(`${BASE}/demo/${site}`);observe({case:'unknown inherited site key',site,httpStatus:r.status,expected:404});
+ }
+ await context.close();
+ writeFileSync(path.join(OUT,'browser-observations.json'),JSON.stringify(observations,null,2));
+}finally{
+ if(browser)await browser.close();
+ if(child&&child.exitCode===null){
+  if(process.platform==='win32')spawnSync('taskkill',['/pid',String(child.pid),'/T','/F'],{stdio:'ignore'});
+  else {child.kill('SIGTERM');await new Promise(resolve=>child.once('exit',resolve));}
+ }
+ if(db)await db.end();
+ await admin.query(`DROP DATABASE IF EXISTS ${dbName}`);await admin.end();
+}
