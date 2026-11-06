@@ -4,8 +4,9 @@ import { Client } from "pg";
 import { writeFile, mkdir } from "node:fs/promises";
 import { setTimeout as delay } from "node:timers/promises";
 import { assertSafeTestDatabaseUrl } from "../src/server/config/guards.ts";
+import { base, database } from "./detailing-preview-address.mjs";
 const dsn = assertSafeTestDatabaseUrl(
-  "postgresql://lsf_test:lsf_test_only@127.0.0.1:55543/lsf_test_detailing_preview",
+  "postgresql://lsf_test:lsf_test_only@127.0.0.1:55543/" + database,
 );
 await mkdir("work/detailing/screenshots", { recursive: true });
 const browser = await chromium.launch();
@@ -16,7 +17,7 @@ const page = await browser.newPage({
 const client = new Client({ connectionString: dsn });
 await client.connect();
 try {
-  await page.goto("http://127.0.0.1:3032/demo/detailing");
+  await page.goto(base + "/demo/detailing");
   await page.getByRole("button", { name: "Выбрать зону: Диски", exact: true }).click();
   await page.getByRole("button", { name: "Выбрать время" }).click();
   assert.equal(await page.getByLabel("Выбранная услуга").inputValue(), "wheel-care");

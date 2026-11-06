@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DetailingLanding } from "@/features/detailing/DetailingLanding";
 import "@/features/detailing/detailing.css";
+import "@/features/detailing/art-direction.css";
 
 export const metadata: Metadata = {
   title: "OBLIK — детейлинг-ателье · демо",

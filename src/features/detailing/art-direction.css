@@ -1,0 +1,669 @@
+/* OBLIK / Ателье света. All cinematic effects are confined to the landing. */
+.detailing {
+  --dt-signal: #e58a68;
+  --dt-paper: #e8e4dc;
+  --dt-muted: #adb2ad;
+  --dt-print: #26251f;
+  --dt-ease: cubic-bezier(0.23, 1, 0.32, 1);
+}
+.dt-header {
+  height: 96px;
+}
+.dt-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 13px;
+}
+.dt-wordmark .dt-mark {
+  width: 42px;
+  height: 42px;
+  color: var(--dt-accent);
+}
+.dt-wordmark .dt-wordmark-type {
+  margin: 0;
+  color: var(--dt-ink);
+  font: inherit;
+  letter-spacing: 0.13em;
+}
+.dt-wordmark small {
+  display: block;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.045em;
+  line-height: 1.4;
+  margin-top: 3px;
+  color: #c1c1bc;
+}
+.dt-header nav a {
+  position: relative;
+}
+.dt-header nav a::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -5px;
+  height: 1px;
+  background: var(--dt-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 220ms var(--dt-ease);
+}
+.dt-header nav a:focus-visible::after {
+  transform: scaleX(1);
+}
+.dt-hero {
+  min-height: 710px;
+  height: 100svh;
+  max-height: 1120px;
+  background: #080a0b;
+}
+.dt-hero-film {
+  inset: 0;
+  mask-image: none;
+}
+.dt-hero-film::after {
+  z-index: 1;
+  display: block;
+  background:
+    linear-gradient(to top, #080a0b 0%, #080a0b99 10%, transparent 24%),
+    linear-gradient(90deg, #050607d9 0%, #05060770 28%, transparent 60%);
+}
+.dt-hero-film video,
+.dt-film-still {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  margin: 0;
+  object-fit: cover;
+  object-position: 55% 62%;
+}
+.dt-hero-copy {
+  width: min(89%, 830px);
+  padding-top: clamp(128px, 16.5svh, 190px);
+  animation: none;
+}
+.dt-hero h1 {
+  font-size: clamp(90px, 9.35vw, 160px);
+  line-height: 0.88;
+}
+.dt-hero h1 > span,
+.dt-hero h1 em {
+  display: inline-block;
+}
+.dt-hero h1 em {
+  margin-left: 0.12em;
+}
+.dt-hero-description {
+  line-height: 1.5;
+  margin: 25px 0 22px !important;
+  color: #e2ded5;
+}
+.dt-button {
+  gap: 28px;
+}
+.dt-button span,
+.dt-header-cta span {
+  display: inline-block;
+  transition: transform 200ms var(--dt-ease);
+}
+.dt-film-console {
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  bottom: clamp(20px, 4.1svh, 54px);
+  display: grid;
+  grid-template-columns: minmax(95px, 1fr) auto minmax(95px, 1fr);
+  align-items: end;
+  gap: 24px;
+  color: var(--dt-ink);
+}
+.dt-film-signature {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  color: #c4c3b9;
+  white-space: nowrap;
+}
+.dt-film-signature small {
+  color: #b5b4ae;
+  font-size: 13px;
+}
+.dt-film-signature span {
+  font:
+    italic 24px/1 "Oblik Serif",
+    Georgia,
+    serif;
+  color: var(--dt-accent);
+}
+.dt-film-rail {
+  --dt-elapsed: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.dt-film-rail button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0 0 9px;
+  background: none;
+  border: none;
+  color: #c9cac4;
+  text-align: left;
+}
+.dt-film-thumb {
+  width: clamp(50px, 4.6vw, 80px);
+  height: 36px;
+  overflow: hidden;
+  flex: none;
+}
+.dt-film-thumb img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  opacity: 0.72;
+  transition:
+    opacity 200ms var(--dt-ease),
+    transform 240ms var(--dt-ease);
+}
+.dt-film-shot-copy {
+  display: grid;
+  line-height: 1.3;
+  gap: 2px;
+  font-size: 14px;
+}
+.dt-film-rail button[aria-pressed="true"] {
+  color: #fff7e5;
+}
+.dt-film-rail button[aria-pressed="true"] .dt-film-thumb img {
+  opacity: 1;
+}
+.dt-film-track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: #575752;
+}
+.dt-film-track::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--dt-signal);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+.dt-film-rail button[aria-pressed="true"] .dt-film-track::after {
+  transform: scaleX(max(0.08, var(--dt-elapsed)));
+  transition: transform 200ms linear;
+}
+.dt-film-play,
+.dt-film-static-note {
+  justify-self: end;
+  align-self: center;
+  color: var(--dt-ink);
+  font-size: 13px;
+}
+.dt-film-play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 4px 0 4px 12px;
+  background: none;
+  border: none;
+}
+.dt-film-static-note {
+  color: var(--dt-muted);
+}
+.dt-film-console:has(.dt-film-static-note) [aria-pressed="true"] .dt-film-track::after {
+  transform: scaleX(1);
+}
+
+.dt-study {
+  position: relative;
+  isolation: isolate;
+  background: var(--dt-paper);
+  color: var(--dt-print);
+  color-scheme: light;
+}
+.dt-study-inner {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.76fr) minmax(0, 1.55fr);
+  align-items: center;
+  gap: 6%;
+  padding-block: clamp(64px, 8vw, 132px);
+}
+.dt-study-copy h2 {
+  font-size: clamp(57px, 6.3vw, 106px);
+  line-height: 0.87;
+  margin-bottom: 26px;
+}
+.dt-study h2 em {
+  color: #855944;
+}
+.dt-study-copy > p {
+  max-width: 340px;
+  color: #4e4b44;
+  line-height: 1.55;
+}
+.dt-study-copy a {
+  display: inline-flex;
+  align-items: center;
+  gap: 26px;
+  margin-top: 18px;
+  min-height: 44px;
+  font-weight: 600;
+}
+.dt-study-copy a span {
+  color: #914c32;
+}
+.dt-study :focus-visible {
+  outline-color: #834b31;
+}
+.dt-study-figure {
+  min-width: 0;
+  margin: 0;
+}
+.dt-profile {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.dt-study-figure figcaption {
+  margin: 10px 7% 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  font-size: 13px;
+  color: #575147;
+}
+
+.dt-protection {
+  padding-top: clamp(76px, 9vw, 160px);
+}
+.dt-zone-tabs button {
+  transition:
+    color 0.18s,
+    background-color 0.18s;
+}
+.dt-car-stage {
+  display: block;
+  align-self: center;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+}
+.dt-car-registration {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  background: var(--dt-bg);
+}
+.dt-car-registration > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  mix-blend-mode: lighten;
+  object-fit: contain;
+}
+.dt-zone-ink {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.dt-zone-ink g[data-panel] {
+  opacity: 0;
+  transition: opacity 220ms var(--dt-ease);
+}
+.dt-zone-ink g[data-selected="true"] {
+  opacity: 1;
+}
+.dt-hotspot {
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+}
+.dt-hotspot .dt-hotspot-dot {
+  width: 11px;
+  height: 11px;
+}
+.dt-active .dt-hotspot-dot {
+  background: var(--dt-signal);
+  border-color: #ffdcac;
+}
+.dt-hotspot-label {
+  top: calc(50% - 12px);
+  left: calc(50% + 15px);
+}
+.dt-car-registration .dt-detail-shot {
+  inset: 0;
+  z-index: 1;
+  transition: opacity 240ms var(--dt-ease);
+}
+.dt-detail-shot img {
+  animation: dt-material-in 620ms var(--dt-ease) both;
+}
+.dt-stage-caption {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  align-items: center;
+  margin-top: 5px;
+  color: var(--dt-accent);
+}
+.dt-stage-caption .dt-shot-toggle {
+  position: static;
+  background: none;
+  padding: 7px;
+}
+.dt-zone-detail {
+  animation: dt-zone-in 240ms var(--dt-ease) both;
+}
+.dt-service-exposure {
+  overflow: hidden;
+}
+.dt-editorial-services article > .dt-service-exposure {
+  padding: 0;
+}
+.dt-service-exposure img {
+  transition: transform 550ms var(--dt-ease);
+}
+.dt-approach-image {
+  margin: 0;
+  overflow: hidden;
+}
+.dt-approach-image img {
+  height: clamp(440px, 44vw, 670px);
+  object-position: 70% 50%;
+}
+.dt-approach-image figcaption {
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 13px;
+  color: #d6d0c4;
+}
+.dt-approach-image figcaption span {
+  color: var(--dt-muted);
+}
+
+@keyframes dt-type-lift {
+  from {
+    opacity: 0.15;
+    transform: translateY(0.28em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes dt-material-in {
+  from {
+    opacity: 0.65;
+    transform: scale(1.055);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes dt-shutter {
+  from {
+    clip-path: inset(0 0 0 68%);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .dt-hero h1 > span,
+  .dt-hero h1 em {
+    animation: dt-type-lift 740ms var(--dt-ease) both;
+  }
+  .dt-hero h1 em {
+    animation-delay: 90ms;
+  }
+  .dt-in-view {
+    animation-duration: 580ms;
+    animation-timing-function: var(--dt-ease);
+  }
+  .dt-in-view .dt-service-exposure,
+  .dt-approach-image.dt-in-view img {
+    animation: dt-shutter 780ms var(--dt-ease) both;
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  .dt-header nav a:hover::after {
+    transform: scaleX(1);
+  }
+  .dt-button:hover span,
+  .dt-header-cta:hover span {
+    transform: translate(3px, -3px);
+  }
+  .dt-film-rail button:hover .dt-film-thumb img,
+  .dt-editorial-services article:hover .dt-service-exposure img {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+@media (max-width: 1000px) {
+  .dt-film-console {
+    gap: 16px;
+    grid-template-columns: auto 1fr auto;
+  }
+  .dt-film-signature {
+    display: none;
+  }
+  .dt-film-rail {
+    grid-column: 1/3;
+    max-width: 540px;
+  }
+  .dt-study-inner {
+    gap: 3%;
+    grid-template-columns: 0.92fr 1.35fr;
+  }
+}
+@media (max-width: 700px) {
+  .dt-header {
+    height: 82px;
+  }
+  .dt-wordmark {
+    gap: 8px;
+  }
+  .dt-wordmark .dt-mark {
+    width: 30px;
+    height: 30px;
+  }
+  .dt-wordmark small {
+    line-height: 1;
+    letter-spacing: 0.01em;
+  }
+  .dt-hero {
+    min-height: 725px;
+    height: 100svh;
+    max-height: 960px;
+  }
+  .dt-hero-film {
+    inset: 33% 0 10%;
+  }
+  .dt-hero-film video,
+  .dt-film-still {
+    width: 100%;
+    height: 100%;
+    margin-left: 0;
+    object-position: 62% 60%;
+    transition: object-position 480ms var(--dt-ease);
+  }
+  .dt-hero[data-shot="1"] .dt-hero-film video,
+  .dt-hero[data-shot="1"] .dt-film-still {
+    object-position: 85% 60%;
+  }
+  .dt-hero-film::after {
+    background: linear-gradient(
+      to bottom,
+      #080a0b 0%,
+      transparent 31%,
+      transparent 76%,
+      #080a0b 100%
+    );
+  }
+  .dt-hero-copy {
+    padding-top: clamp(103px, 13svh, 140px);
+    width: 88%;
+  }
+  .dt-hero h1 {
+    font-size: clamp(57px, 17.9vw, 106px);
+    line-height: 0.89;
+  }
+  .dt-hero-description {
+    font-size: 18px;
+    max-width: 325px;
+    margin: 18px 0 !important;
+  }
+  .dt-film-console {
+    left: 6%;
+    right: 6%;
+    bottom: max(18px, env(safe-area-inset-bottom));
+    grid-template-columns: 1fr 44px;
+    align-items: center;
+    gap: 10px;
+  }
+  .dt-film-rail {
+    grid-column: 1;
+    gap: 10px;
+  }
+  .dt-film-rail button {
+    display: grid;
+    gap: 4px;
+    min-height: 54px;
+    align-content: end;
+    padding-bottom: 6px;
+  }
+  .dt-film-thumb {
+    width: 100%;
+    height: 28px;
+    max-width: 78px;
+  }
+  .dt-film-thumb img {
+    object-position: center 65%;
+  }
+  .dt-film-shot-copy {
+    font-size: 13px;
+    white-space: nowrap;
+  }
+  .dt-film-play span {
+    display: none;
+  }
+  .dt-film-play {
+    padding: 0;
+    width: 44px;
+  }
+  .dt-film-console:has(.dt-film-static-note) {
+    grid-template-columns: 1fr;
+  }
+  .dt-film-static-note {
+    display: none;
+  }
+  .dt-study-inner {
+    display: block;
+    padding-block: 50px 40px;
+  }
+  .dt-study-copy h2 {
+    font-size: clamp(57px, 14vw, 82px);
+  }
+  .dt-study-copy > p {
+    max-width: 380px;
+  }
+  .dt-study-figure {
+    margin: 8px -3% 0;
+  }
+  .dt-study-figure figcaption {
+    margin-top: 0;
+  }
+  .dt-car-registration {
+    width: 100%;
+  }
+  .dt-editorial-services article:nth-child(2) .dt-service-exposure {
+    width: 92%;
+    margin-left: 8%;
+    padding: 0;
+  }
+  .dt-editorial-services article:nth-child(2) .dt-service-exposure img {
+    width: 100%;
+    margin: 0;
+  }
+  .dt-editorial-services article:nth-child(2) > div:not(.dt-service-exposure) {
+    padding-left: 8%;
+  }
+  .dt-approach-image img {
+    height: clamp(280px, 85vw, 450px);
+  }
+}
+@media (max-width: 365px) {
+  .dt-film-console {
+    gap: 4px;
+  }
+  .dt-film-rail {
+    gap: 6px;
+  }
+  .dt-film-shot-copy {
+    font-size: 13px;
+  }
+  .dt-header-cta {
+    gap: 4px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dt-film-rail button[aria-pressed="true"] .dt-film-track::after {
+    transition: none;
+  }
+  .dt-editorial-services article:hover .dt-service-exposure img,
+  .dt-button:hover span,
+  .dt-header-cta:hover span {
+    transform: none;
+  }
+}
+
+.dt-approach {
+  grid-template-areas: "craft title" "craft steps";
+  row-gap: 0;
+}
+.dt-approach > h2 {
+  grid-area: title;
+  align-self: end;
+}
+.dt-approach-image {
+  grid-area: craft;
+}
+.dt-approach-copy {
+  grid-area: steps;
+  align-self: start;
+}
+.dt-approach-image figcaption {
+  display: block;
+  font-size: 16px;
+  line-height: 1.5;
+}
+@media (max-width: 700px) {
+  .dt-approach {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "title" "craft" "steps";
+    row-gap: 28px;
+  }
+  .dt-approach-copy ol {
+    margin-top: 0;
+  }
+}

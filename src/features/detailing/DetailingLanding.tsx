@@ -8,6 +8,10 @@ import configData from "../../../examples/sites/detailing.json";
 import { BookingFlow } from "../booking/ui/BookingFlow";
 import { formatPrice } from "../booking/client/formatters";
 
+import { PhotoFilm } from "./PhotoFilm";
+import { LightStudy } from "./LightStudy";
+import { AtelierMark, Closeup, ZonePlate, crop, markerPosition } from "./ZonePlate";
+
 const config = configData as SiteConfig;
 const media = "/demo-assets/detailing/";
 const zones = [
@@ -15,8 +19,8 @@ const zones = [
     id: "front",
     name: "Передняя часть",
     short: "Капот",
-    x: 39,
-    y: 62,
+    x: 37,
+    y: 59,
     title: "Первой встречает дорогу.",
     text: "Капот, бампер и зеркала принимают на себя песок и мелкий гравий. Начните с защиты самых уязвимых элементов.",
     services: ["ppf-front", "ceramic"],
@@ -26,7 +30,7 @@ const zones = [
     name: "Весь кузов",
     short: "Кузов",
     x: 76,
-    y: 64,
+    y: 65,
     title: "Силуэт без компромиссов.",
     text: "Сохраняем глубину цвета и защищаем лак. Подберём плёнку, керамику или восстановительную полировку.",
     services: ["ppf-full", "ceramic", "polish"],
@@ -35,8 +39,8 @@ const zones = [
     id: "wheels",
     name: "Диски",
     short: "Диски",
-    x: 57,
-    y: 67,
+    x: 57.5,
+    y: 75,
     title: "Точность до последней спицы.",
     text: "Удаляем стойкие загрязнения и наносим защиту, которая облегчает дальнейший уход за дисками.",
     services: ["wheel-care"],
@@ -45,7 +49,7 @@ const zones = [
     id: "interior",
     name: "Салон",
     short: "Салон",
-    x: 65,
+    x: 74,
     y: 49,
     title: "Ощущение нового внутри.",
     text: "Деликатная очистка кожи, текстиля и сложных поверхностей. Уход, который чувствуется в каждой поездке.",
@@ -75,52 +79,12 @@ export function DetailingLanding() {
   const [zoneId, setZoneId] = useState("front");
   const [serviceId, setServiceId] = useState("ppf-front");
   const [booking, setBooking] = useState(false);
-  const [paused, setPaused] = useState(false);
   const [closeup, setCloseup] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const [visitedCloseup, setVisitedCloseup] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const startRef = useRef<HTMLButtonElement>(null);
   const zone = zones.find((item) => item.id === zoneId)!;
   const selected = config.services.find((item) => item.id === serviceId)!;
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const connection = navigator as Navigator & { connection?: { saveData?: boolean } };
-    let visible = true;
-    const update = () => {
-      if (
-        reduced.matches ||
-        connection.connection?.saveData ||
-        paused ||
-        !visible ||
-        document.hidden
-      ) {
-        video.pause();
-        return;
-      }
-      if (!video.getAttribute("src"))
-        video.src = media + (window.innerWidth < 720 ? "hero-720.mp4" : "hero-1080.mp4");
-      void video.play().catch(() => {
-        /* Poster remains usable when autoplay is blocked. */
-      });
-    };
-    const observer = new IntersectionObserver(([entry]) => {
-      visible = entry.isIntersecting;
-      update();
-    });
-    observer.observe(video);
-    document.addEventListener("visibilitychange", update);
-    reduced.addEventListener("change", update);
-    update();
-    return () => {
-      observer.disconnect();
-      document.removeEventListener("visibilitychange", update);
-      reduced.removeEventListener("change", update);
-      video.pause();
-    };
-  }, [paused]);
 
   useEffect(() => {
     const elements = rootRef.current?.querySelectorAll<HTMLElement>("[data-reveal]");
@@ -174,7 +138,10 @@ export function DetailingLanding() {
       </a>
       <header className="dt-header">
         <a className="dt-wordmark" href="#top" aria-label="OBLIK — на главную">
-          OBLIK<span>detailing atelier</span>
+          <AtelierMark />
+          <span className="dt-wordmark-type">
+            OBLIK<small>detailing atelier</small>
+          </span>
         </a>
         <nav aria-label="Основная навигация">
           <a href="#protection">Защита</a>
@@ -187,60 +154,8 @@ export function DetailingLanding() {
       </header>
 
       <main>
-        <section className="dt-hero" id="top" aria-labelledby="dt-title">
-          <div className="dt-hero-film" aria-hidden="true">
-            <video
-              ref={videoRef}
-              muted
-              loop
-              playsInline
-              autoPlay
-              preload="none"
-              poster={media + "hero.webp"}
-            />
-          </div>
-          <div className="dt-hero-copy">
-            <h1 id="dt-title">
-              Сохраняем
-              <br />
-              <em>характер.</em>
-            </h1>
-            <p className="dt-hero-description">
-              Детейлинг-ателье в Липецке.
-              <br />
-              Защита кузова. Внимание к деталям.
-            </p>
-            <a className="dt-button" href="#protection">
-              Подобрать защиту <span aria-hidden="true">↗</span>
-            </a>
-          </div>
-          <div className="dt-hero-bottom">
-            <span>Чистая форма. Глубокий цвет.</span>
-            <a href="#protection" aria-label="Перейти к выбору зоны автомобиля">
-              Листайте ниже <span aria-hidden="true">↓</span>
-            </a>
-            <button
-              type="button"
-              onClick={() => setPaused(!paused)}
-              aria-label={paused ? "Включить видео" : "Остановить видео"}
-            >
-              {paused ? "▶" : "Ⅱ"}
-              <span>{paused ? "Продолжить" : "Пауза"}</span>
-            </button>
-          </div>
-        </section>
-
-        <section className="dt-intro dt-shell" aria-labelledby="dt-intro-title">
-          <h2 id="dt-intro-title" data-reveal>
-            Тот же характер.
-            <br />
-            <em>Больше защиты.</em>
-          </h2>
-          <p data-reveal>
-            Не меняем характер машины. Сохраняем то, за что вы её выбрали: линию кузова, глубину
-            цвета, ощущение от прикосновения.
-          </p>
-        </section>
+        <PhotoFilm />
+        <LightStudy />
 
         <section
           className="dt-protection dt-shell"
@@ -273,52 +188,47 @@ export function DetailingLanding() {
           </div>
           <div className="dt-configurator">
             <div className="dt-car-stage">
-              <img
-                src={media + "hero.webp"}
-                alt="Графитовый спортивный автомобиль, вид спереди в три четверти"
-                width="1920"
-                height="1080"
-                loading="lazy"
-              />
-              <div className="dt-detail-shot" data-open={closeup} aria-hidden={!closeup}>
+              <div className="dt-stage-caption">
+                <button
+                  className="dt-shot-toggle"
+                  type="button"
+                  aria-pressed={closeup}
+                  onClick={() => {
+                    setVisitedCloseup(true);
+                    setCloseup(!closeup);
+                  }}
+                >
+                  {closeup ? "← Общий план" : "Крупный план ↗"}
+                </button>
+              </div>
+              <div
+                className="dt-car-registration"
+                style={{ aspectRatio: crop.width + " / " + crop.height }}
+              >
                 <img
-                  key={zoneId}
-                  src={
-                    media +
-                    (zoneId === "wheels"
-                      ? "wheel.webp"
-                      : zoneId === "interior"
-                        ? "interior.webp"
-                        : "paint.webp")
-                  }
-                  alt={"Крупный план: " + zone.name}
-                  width="1440"
-                  height="810"
+                  src={media + "zone-map.webp"}
+                  alt="Графитовый спортивный автомобиль, вид спереди в три четверти"
+                  width={crop.width}
+                  height={crop.height}
                   loading="lazy"
                 />
+                <ZonePlate id={zoneId} />
+                <Closeup zoneId={zoneId} name={zone.name} open={closeup} visited={visitedCloseup} />
+                {!closeup &&
+                  zones.map((item) => (
+                    <button
+                      key={item.id}
+                      className={"dt-hotspot " + (zoneId === item.id ? "dt-active" : "")}
+                      style={markerPosition(item.x, item.y)}
+                      aria-label={"Выбрать зону: " + item.name}
+                      aria-pressed={zoneId === item.id}
+                      onClick={() => selectZone(item.id)}
+                    >
+                      <span className="dt-hotspot-dot" />
+                      <span className="dt-hotspot-label">{item.short}</span>
+                    </button>
+                  ))}
               </div>
-              {!closeup &&
-                zones.map((item) => (
-                  <button
-                    key={item.id}
-                    className={"dt-hotspot " + (zoneId === item.id ? "dt-active" : "")}
-                    style={{ left: item.x + "%", top: item.y + "%" }}
-                    aria-label={"Выбрать зону: " + item.name}
-                    aria-pressed={zoneId === item.id}
-                    onClick={() => selectZone(item.id)}
-                  >
-                    <span className="dt-hotspot-dot" />
-                    <span className="dt-hotspot-label">{item.short}</span>
-                  </button>
-                ))}
-              <button
-                className="dt-shot-toggle"
-                type="button"
-                aria-pressed={closeup}
-                onClick={() => setCloseup(!closeup)}
-              >
-                {closeup ? "← Общий план" : "Крупный план ↗"}
-              </button>
             </div>
             <div className="dt-zone-detail" key={zone.id}>
               <h3>{zone.title}</h3>
@@ -368,13 +278,15 @@ export function DetailingLanding() {
           </div>
           <div className="dt-editorial-services">
             <article data-reveal>
-              <img
-                src={media + "paint.webp"}
-                alt="Капли воды на защищённом графитовом лаке"
-                width="1200"
-                height="800"
-                loading="lazy"
-              />
+              <div className="dt-service-exposure">
+                <img
+                  src={media + "paint.webp"}
+                  alt="Капли воды на защищённом графитовом лаке"
+                  width="1200"
+                  height="800"
+                  loading="lazy"
+                />
+              </div>
               <div>
                 <h3>Глубина цвета.</h3>
                 <p>Бережная полировка и керамическое покрытие. Лак снова ловит свет.</p>
@@ -384,13 +296,15 @@ export function DetailingLanding() {
               </div>
             </article>
             <article data-reveal>
-              <img
-                src={media + "wheel.webp"}
-                alt="Чистый многоспицевый диск и линия переднего крыла"
-                width="1200"
-                height="800"
-                loading="lazy"
-              />
+              <div className="dt-service-exposure">
+                <img
+                  src={media + "wheel.webp"}
+                  alt="Чистый многоспицевый диск и линия переднего крыла"
+                  width="1200"
+                  height="800"
+                  loading="lazy"
+                />
+              </div>
               <div>
                 <h3>Ничего лишнего.</h3>
                 <p>Чистота сложной геометрии и защитное покрытие дисков.</p>
@@ -400,13 +314,15 @@ export function DetailingLanding() {
               </div>
             </article>
             <article data-reveal>
-              <img
-                src={media + "interior.webp"}
-                alt="Фактура чёрной кожи и аккуратная строчка автомобильного кресла"
-                width="1200"
-                height="800"
-                loading="lazy"
-              />
+              <div className="dt-service-exposure">
+                <img
+                  src={media + "interior.webp"}
+                  alt="Фактура чёрной кожи и аккуратная строчка автомобильного кресла"
+                  width="1200"
+                  height="800"
+                  loading="lazy"
+                />
+              </div>
               <div>
                 <h3>Личное пространство.</h3>
                 <p>Деликатная работа с кожей и текстилем. Комфорт начинается внутри.</p>
@@ -419,21 +335,22 @@ export function DetailingLanding() {
         </section>
 
         <section className="dt-approach dt-shell" id="approach" aria-labelledby="dt-approach-title">
-          <div className="dt-approach-image" data-reveal>
+          <h2 id="dt-approach-title" data-reveal>
+            Работаем
+            <br />
+            <em>вручную.</em>
+          </h2>
+          <figure className="dt-approach-image" data-reveal>
             <img
-              src={media + "paint.webp"}
-              alt="Свет подчёркивает чистоту поверхности кузова"
+              src={media + "craft.webp"}
+              alt="Рука мастера укладывает прозрачную защитную плёнку на графитовое крыло"
               width="1200"
               height="800"
               loading="lazy"
             />
-          </div>
+            <figcaption>Мастер расправляет прозрачную плёнку по кромке крыла.</figcaption>
+          </figure>
           <div className="dt-approach-copy">
-            <h2 id="dt-approach-title" data-reveal>
-              Сначала понять.
-              <br />
-              <em>Потом касаться.</em>
-            </h2>
             <ol>
               {[
                 [

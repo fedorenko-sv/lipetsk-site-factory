@@ -7,19 +7,17 @@ import path from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
 import { assertSafeTestDatabaseUrl } from "../src/server/config/guards.ts";
 
+import { base as BASE, port, database as dbName } from "./detailing-preview-address.mjs";
+
 const ROOT = process.cwd();
 mkdirSync("work/detailing", { recursive: true });
 if (!existsSync(".next/BUILD_ID")) throw new Error("Run npm run build before preview");
-const BASE = "http://127.0.0.1:3032";
 const occupied = await fetch(BASE, { signal: AbortSignal.timeout(1000) }).then(
   () => true,
   () => false,
 );
 if (occupied)
-  throw new Error(
-    "Port 3032 is already in use; stop the previous preview before starting another.",
-  );
-const dbName = "lsf_test_detailing_preview";
+  throw new Error("Port " + port + " is already in use; select another DETAILING_PREVIEW_PORT.");
 const url = new URL("postgresql://127.0.0.1:55543/postgres");
 url.username = "lsf_test";
 url.password = "lsf_test_only";
@@ -67,7 +65,7 @@ const migrated = spawnSync(
   },
 );
 if (migrated.status !== 0) throw new Error("Preview migration failed");
-const log = createWriteStream("work/detailing/preview-app.log", { flags: "a" });
+const log = createWriteStream("work/detailing/preview-" + port + "-app.log", { flags: "a" });
 const child = spawn(
   process.execPath,
   [
@@ -76,7 +74,7 @@ const child = spawn(
     "--hostname",
     "127.0.0.1",
     "--port",
-    "3032",
+    String(port),
   ],
   {
     env,
@@ -101,7 +99,7 @@ if (!ready) {
   throw new Error("Preview app did not start");
 }
 writeFileSync(
-  "work/detailing/preview-state.json",
+  "work/detailing/preview-" + port + "-state.json",
   JSON.stringify(
     {
       helperPid: process.pid,
