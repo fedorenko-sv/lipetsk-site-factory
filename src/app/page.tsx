@@ -18,6 +18,14 @@ export default function Home() {
 
         <div className="space-y-4">
           <Link
+            href="/demo/detailing"
+            className="block p-5 rounded-2xl bg-[#181a1f] border border-[#71634e] hover:border-amber-400/60 transition-colors group"
+          >
+            <span className="text-xs uppercase tracking-wider text-amber-200">Новый концепт · cinematic</span>
+            <div className="text-lg font-bold text-white mt-2">OBLIK — детейлинг-ателье ↗</div>
+            <p className="text-sm text-[#b9bdc5] mt-1">Видео автомобиля, выбор зон защиты и запись на услуги.</p>
+          </Link>
+          <Link
             href="/demo/auto"
             className="block p-5 rounded-2xl bg-[#181a1f] border border-[#2a2e37] hover:border-amber-400/60 transition-colors group"
           >

@@ -10,6 +10,8 @@
   "packageManager": "npm@10.9.8",
   "scripts": {
     "dev": "next dev",
+    "preview:detailing": "node --experimental-strip-types scripts/preview-detailing.mjs",
+    "test:detailing:system": "node --experimental-strip-types scripts/test-detailing-preview.mjs",
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint .",

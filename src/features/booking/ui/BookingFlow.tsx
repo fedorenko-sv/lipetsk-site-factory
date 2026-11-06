@@ -17,10 +17,19 @@ import { ContactStep } from "./ContactStep";
 
 interface BookingFlowProps {
   config: SiteConfig;
+  initialServiceId?: string;
+  startAtPreference?: boolean;
+  onReturnToLanding?: () => void;
 }
 
-export function BookingFlow({ config }: BookingFlowProps) {
-  const [state, dispatch] = useReducer(bookingReducer, config, createInitialState);
+export function BookingFlow({ config, initialServiceId, startAtPreference = false, onReturnToLanding }: BookingFlowProps) {
+  const [state, dispatch] = useReducer(bookingReducer, config, (site) => {
+    let initial = createInitialState(site);
+    if (initialServiceId && site.services.some((service) => service.id === initialServiceId)) {
+      initial = bookingReducer(initial, { type: "SELECT_SERVICE", serviceId: initialServiceId, config: site });
+    }
+    return startAtPreference ? { ...initial, step: "preference" as const } : initial;
+  });
 
   const offerHeadingRef = useRef<HTMLHeadingElement | null>(null);
   const preferenceHeadingRef = useRef<HTMLHeadingElement | null>(null);
@@ -59,8 +68,9 @@ export function BookingFlow({ config }: BookingFlowProps) {
   }, [config]);
 
   const handleBackToOffer = useCallback(() => {
+    if (onReturnToLanding) { onReturnToLanding(); return; }
     dispatch({ type: "GO_TO_STEP", targetStep: "offer", config });
-  }, [config]);
+  }, [config, onReturnToLanding]);
 
   const handleBackToPreference = useCallback(() => {
     dispatch({ type: "GO_TO_STEP", targetStep: "preference", config });
@@ -163,7 +173,8 @@ export function BookingFlow({ config }: BookingFlowProps) {
   const handleReset = useCallback(() => {
     currentSubmitKeyRef.current = null;
     dispatch({ type: "RESET_NEW_LEAD", config });
-  }, [config]);
+    onReturnToLanding?.();
+  }, [config, onReturnToLanding]);
 
   const themeClass = config.theme === "editorial" ? "theme-editorial" : "theme-technical";
 

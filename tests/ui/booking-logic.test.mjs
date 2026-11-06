@@ -752,9 +752,12 @@ test("FU22: FR2 — isReceiptValid отклоняет не-UUID, лишние с
   );
 });
 
-test("FU23: FR3 — 422 preferred.time ошибки маршрутизируются и сохраняются при переходе", () => {
+test("FU23: FR3 — 422 preferred.time ошибки маршрутизируются и сохраняются при переходе", (t) => {
+  // Exercise server-error routing independently of the machine's calendar.
+  t.mock.timers.enable({ apis: ["Date"], now: new Date("2026-11-04T07:00:00Z") });
   let state = createInitialState(autoConfig);
   state.step = "contact";
+  state.serviceOptions = { "wheel-size": "R16" };
   state.preferred = { date: "2026-11-06", time: "10:00", timezone: "Europe/Moscow" };
   state.customer.phone = "+70000000000";
   state.consentAccepted = true;

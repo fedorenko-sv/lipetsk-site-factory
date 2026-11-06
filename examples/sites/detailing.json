@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "detailing",
+  "contentVersion": "demo-2026-11-04",
+  "mode": "demo",
+  "core": "booking",
+  "theme": "technical",
+  "locale": "ru-RU",
+  "timezone": "Europe/Moscow",
+  "brandName": "OBLIK · демо",
+  "hero": {
+    "eyebrow": "Детейлинг-ателье",
+    "title": "Сохраняем характер.",
+    "subtitle": "Защита кузова и уход за салоном. Демонстрационные программы.",
+    "ctaText": "Подобрать программу"
+  },
+  "contacts": {},
+  "address": "Липецк · демонстрационный адрес",
+  "priceDisclaimer": "Демонстрационные цены. Точную стоимость и время подтверждает администратор.",
+  "services": [
+    {
+      "id": "ppf-front",
+      "name": "Защита передней части",
+      "category": "Плёнка",
+      "durationMinutes": 240,
+      "price": {
+        "kind": "from",
+        "amountMinor": 6500000,
+        "currency": "RUB"
+      },
+      "resourceIds": [],
+      "options": []
+    },
+    {
+      "id": "ppf-full",
+      "name": "Оклейка кузова целиком",
+      "category": "Плёнка",
+      "durationMinutes": 480,
+      "price": {
+        "kind": "from",
+        "amountMinor": 19000000,
+        "currency": "RUB"
+      },
+      "resourceIds": [],
+      "options": []
+    },
+    {
+      "id": "ceramic",
+      "name": "Керамическое покрытие",
+      "category": "Защита",
+      "durationMinutes": 240,
+      "price": {
+        "kind": "from",
+        "amountMinor": 1800000,
+        "currency": "RUB"
+      },
+      "resourceIds": [],
+      "options": []
+    },
+    {
+      "id": "polish",
+      "name": "Восстановительная полировка",
+      "category": "Кузов",
+      "durationMinutes": 240,
+      "price": {
+        "kind": "from",
+        "amountMinor": 2200000,
+        "currency": "RUB"
+      },
+      "resourceIds": [],
+      "options": []
+    },
+    {
+      "id": "wheel-care",
+      "name": "Очистка и защита дисков",
+      "category": "Детали",
+      "durationMinutes": 120,
+      "price": {
+        "kind": "from",
+        "amountMinor": 600000,
+        "currency": "RUB"
+      },
+      "resourceIds": [],
+      "options": []
+    },
+    {
+      "id": "interior-care",
+      "name": "Деликатный уход за салоном",
+      "category": "Интерьер",
+      "durationMinutes": 180,
+      "price": {
+        "kind": "from",
+        "amountMinor": 1500000,
+        "currency": "RUB"
+      },
+      "resourceIds": [],
+      "options": []
+    }
+  ],
+  "resources": [],
+  "booking": {
+    "resourceSelection": "hidden",
+    "preferenceRequired": true,
+    "horizonDays": 30,
+    "timeStepMinutes": 30,
+    "workingHours": {
+      "opens": "10:00",
+      "closes": "20:00",
+      "days": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    }
+  },
+  "legal": {
+    "consentVersion": "demo-2026-11-04",
+    "policyPath": "/demo/detailing/privacy",
+    "operatorName": null,
+    "approved": false
+  }
+}

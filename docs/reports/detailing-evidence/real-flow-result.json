@@ -1,0 +1,10 @@
+{
+  "http": 201,
+  "id": "ddd33904-4be1-451f-87e1-b3baf7037d30",
+  "site_key": "detailing",
+  "service_id": "wheel-care",
+  "outbox_status": "sent",
+  "receipt_count": 1,
+  "uiIdMatches": true,
+  "transportMocked": false
+}

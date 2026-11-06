@@ -1,0 +1,162 @@
+
+> lipetsk-site-factory@0.1.0 test:e2e
+> playwright test --config playwright.config.ts --reporter=list
+
+[WebServer] (node:7212) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 72 tests using 1 worker
+
+(node:24268) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 [chromium] › tests\e2e\accessibility-responsive.spec.ts:12:1 › FE19: Клавиатура всех шагов и radio — полный цикл без мыши (2.7s)
+  ok  2 [chromium] › tests\e2e\accessibility-responsive.spec.ts:78:1 › FE20: Модальное окно / отсутствие dialog (723ms)
+  ok  3 [chromium] › tests\e2e\accessibility-responsive.spec.ts:84:1 › FE21: 360/390/430/1280 и zoom 200% — нет горизонтального overflow (2.4s)
+  ok  4 [chromium] › tests\e2e\accessibility-responsive.spec.ts:121:1 › FE22: Длинная услуга/ошибка — layout работоспособен (2.5s)
+  ok  5 [chromium] › tests\e2e\accessibility-responsive.spec.ts:173:1 › FE23: Иной timezone браузера — Europe/Moscow сохраняется в POST (1.8s)
+  ok  6 [chromium] › tests\e2e\booking.spec.ts:12:1 › FE01: Auto первый экран, 3 цены и CTA (1.1s)
+  ok  7 [chromium] › tests\e2e\booking.spec.ts:30:1 › FE02: Полный Auto happy path (2.0s)
+  ok  8 [chromium] › tests\e2e\booking.spec.ts:80:1 › FE03: Полный Beauty happy path (1.7s)
+  ok  9 [chromium] › tests\e2e\booking.spec.ts:121:1 › FE04: Beauty без мастера — resourceId отсутствует (1.4s)
+  ok 10 [chromium] › tests\e2e\booking.spec.ts:158:1 › FE05: Required wheel-size не выбран — ошибка и нет перехода (1.9s)
+  ok 11 [chromium] › tests\e2e\booking.spec.ts:175:1 › FE06: Нет даты/времени, нерабочий/прошлый день — нет перехода (1.8s)
+  ok 12 [chromium] › tests\e2e\booking.spec.ts:187:1 › FE07: Некорректный телефон — нет POST, читаемая ошибка, focus и aria-describedby (1.8s)
+  ok 13 [chromium] › tests\e2e\booking.spec.ts:225:1 › FE08: Неотмеченное согласие — нет POST, focus и aria-describedby (1.5s)
+  ok 14 [chromium] › tests\e2e\booking.spec.ts:253:1 › FE09: Назад и редактирование — данные сохранены, сводка актуальна (1.8s)
+  ok 15 [chromium] › tests\e2e\booking.spec.ts:279:1 › FE10: Двойной click/Enter — один запрос (2.6s)
+  ok 16 [chromium] › tests\e2e\detailing.spec.ts:17:1 › DT01: silent inline video plays, pauses, resumes and stops offscreen (4.5s)
+  ok 17 [chromium] › tests\e2e\detailing.spec.ts:30:1 › DT02: reduced motion uses poster without downloading video (2.4s)
+  ok 18 [chromium] › tests\e2e\detailing.spec.ts:42:1 › DT03: hotpots, price, chosen service, return and new selection agree (3.8s)
+  ok 19 [chromium] › tests\e2e\detailing.spec.ts:65:1 › DT04: selected programme reaches transport and receipt; another request returns to landing (3.8s)
+  ok 20 [chromium] › tests\e2e\detailing.spec.ts:87:1 › DT05: 503 does not show success, retry preserves idempotency (3.5s)
+  ok 21 [chromium] › tests\e2e\detailing.spec.ts:107:1 › DT06: mobile framing has no overflow; images and privacy resolve (3.0s)
+  ok 22 [chromium] › tests\e2e\retry.spec.ts:11:1 › FE11: Network abort → ручной retry — ввод и key прежние (2.3s)
+  ok 23 [chromium] › tests\e2e\retry.spec.ts:58:1 › FE12: Timeout → retry — ввод и key прежние, нет ложного успеха (2.1s)
+  ok 24 [chromium] › tests\e2e\retry.spec.ts:100:1 › FE13: 422 fieldErrors — у соответствующих полей (2.0s)
+  ok 25 [chromium] › tests\e2e\retry.spec.ts:133:1 › FE14: 409 config/consent — нет автоповтора/автосогласия, явные действия (2.9s)
+  ok 26 [chromium] › tests\e2e\retry.spec.ts:189:1 › FE15: 429 Retry-After — кнопка/статус согласно cooldown (4.5s)
+  ok 27 [chromium] › tests\e2e\retry.spec.ts:225:1 › FE16: 500/503 — поля сохранены, повтор возможен (1.6s)
+  ok 28 [chromium] › tests\e2e\retry.spec.ts:258:1 › FE17: 200 с HTML/битым JSON/неверным receipt — не показывает успех (2.0s)
+  ok 29 [chromium] › tests\e2e\retry.spec.ts:284:1 › FE18: Повтор receipt 200 replayed — тот же результат (1.7s)
+  ok 30 [chromium] › tests\e2e\security-routes.spec.ts:11:1 › FE24: Unknown site и prototype keys — 404 в browser (3.0s)
+  ok 31 [chromium] › tests\e2e\security-routes.spec.ts:28:1 › FE25: Privacy / метаданные / noindex (1.7s)
+  ok 32 [chromium] › tests\e2e\security-routes.spec.ts:51:1 › FE26: Console/Storage/URL — подписка до ввода, нет утечки телефона (1.4s)
+  ok 33 [chromium] › tests\e2e\security-routes.spec.ts:104:1 › FE27: Новая заявка после успеха — разные UUID idempotency-key и очистка ввода (2.3s)
+  ok 34 [chromium] › tests\e2e\security-routes.spec.ts:170:1 › FE28: Без backend и без route mock — честная ошибка, не успех (2.5s)
+  ok 35 [chromium] › tests\e2e\security-routes.spec.ts:190:1 › FE29: FR2 — Невалидная квитанция (not-a-uuid) отклоняется и показывает ошибку (1.9s)
+  ok 36 [chromium] › tests\e2e\security-routes.spec.ts:224:1 › FE30: FR3 — 422 preferred.time показывает понятную сводку и позволяет исправить (2.1s)
+(node:26424) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 37 [webkit] › tests\e2e\accessibility-responsive.spec.ts:12:1 › FE19: Клавиатура всех шагов и radio — полный цикл без мыши (7.0s)
+  ok 38 [webkit] › tests\e2e\accessibility-responsive.spec.ts:78:1 › FE20: Модальное окно / отсутствие dialog (2.1s)
+  ok 39 [webkit] › tests\e2e\accessibility-responsive.spec.ts:84:1 › FE21: 360/390/430/1280 и zoom 200% — нет горизонтального overflow (6.1s)
+  ok 40 [webkit] › tests\e2e\accessibility-responsive.spec.ts:121:1 › FE22: Длинная услуга/ошибка — layout работоспособен (3.7s)
+  ok 41 [webkit] › tests\e2e\accessibility-responsive.spec.ts:173:1 › FE23: Иной timezone браузера — Europe/Moscow сохраняется в POST (5.4s)
+  ok 42 [webkit] › tests\e2e\booking.spec.ts:12:1 › FE01: Auto первый экран, 3 цены и CTA (1.8s)
+  ok 43 [webkit] › tests\e2e\booking.spec.ts:30:1 › FE02: Полный Auto happy path (5.8s)
+  ok 44 [webkit] › tests\e2e\booking.spec.ts:80:1 › FE03: Полный Beauty happy path (8.0s)
+  ok 45 [webkit] › tests\e2e\booking.spec.ts:121:1 › FE04: Beauty без мастера — resourceId отсутствует (7.1s)
+  ok 46 [webkit] › tests\e2e\booking.spec.ts:158:1 › FE05: Required wheel-size не выбран — ошибка и нет перехода (5.0s)
+  ok 47 [webkit] › tests\e2e\booking.spec.ts:175:1 › FE06: Нет даты/времени, нерабочий/прошлый день — нет перехода (3.6s)
+  ok 48 [webkit] › tests\e2e\booking.spec.ts:187:1 › FE07: Некорректный телефон — нет POST, читаемая ошибка, focus и aria-describedby (7.9s)
+  ok 49 [webkit] › tests\e2e\booking.spec.ts:225:1 › FE08: Неотмеченное согласие — нет POST, focus и aria-describedby (6.0s)
+  ok 50 [webkit] › tests\e2e\booking.spec.ts:253:1 › FE09: Назад и редактирование — данные сохранены, сводка актуальна (6.0s)
+  ok 51 [webkit] › tests\e2e\booking.spec.ts:279:1 › FE10: Двойной click/Enter — один запрос (6.0s)
+  x  52 [webkit] › tests\e2e\detailing.spec.ts:17:1 › DT01: silent inline video plays, pauses, resumes and stops offscreen (15.6s)
+(node:25128) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 53 [webkit] › tests\e2e\detailing.spec.ts:30:1 › DT02: reduced motion uses poster without downloading video (12.8s)
+  ok 54 [webkit] › tests\e2e\detailing.spec.ts:42:1 › DT03: hotpots, price, chosen service, return and new selection agree (34.4s)
+  ok 55 [webkit] › tests\e2e\detailing.spec.ts:65:1 › DT04: selected programme reaches transport and receipt; another request returns to landing (10.6s)
+  ok 56 [webkit] › tests\e2e\detailing.spec.ts:87:1 › DT05: 503 does not show success, retry preserves idempotency (15.8s)
+  ok 57 [webkit] › tests\e2e\detailing.spec.ts:107:1 › DT06: mobile framing has no overflow; images and privacy resolve (11.3s)
+  x  58 [webkit] › tests\e2e\retry.spec.ts:11:1 › FE11: Network abort → ручной retry — ввод и key прежние (48.7s)
+(node:9292) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 59 [webkit] › tests\e2e\retry.spec.ts:58:1 › FE12: Timeout → retry — ввод и key прежние, нет ложного успеха (5.7s)
+  ok 60 [webkit] › tests\e2e\retry.spec.ts:100:1 › FE13: 422 fieldErrors — у соответствующих полей (5.0s)
+  ok 61 [webkit] › tests\e2e\retry.spec.ts:133:1 › FE14: 409 config/consent — нет автоповтора/автосогласия, явные действия (5.1s)
+  ok 62 [webkit] › tests\e2e\retry.spec.ts:189:1 › FE15: 429 Retry-After — кнопка/статус согласно cooldown (6.6s)
+  ok 63 [webkit] › tests\e2e\retry.spec.ts:225:1 › FE16: 500/503 — поля сохранены, повтор возможен (4.3s)
+  ok 64 [webkit] › tests\e2e\retry.spec.ts:258:1 › FE17: 200 с HTML/битым JSON/неверным receipt — не показывает успех (6.0s)
+  ok 65 [webkit] › tests\e2e\retry.spec.ts:284:1 › FE18: Повтор receipt 200 replayed — тот же результат (6.1s)
+  ok 66 [webkit] › tests\e2e\security-routes.spec.ts:11:1 › FE24: Unknown site и prototype keys — 404 в browser (4.3s)
+  ok 67 [webkit] › tests\e2e\security-routes.spec.ts:28:1 › FE25: Privacy / метаданные / noindex (3.8s)
+  ok 68 [webkit] › tests\e2e\security-routes.spec.ts:51:1 › FE26: Console/Storage/URL — подписка до ввода, нет утечки телефона (4.8s)
+  ok 69 [webkit] › tests\e2e\security-routes.spec.ts:104:1 › FE27: Новая заявка после успеха — разные UUID idempotency-key и очистка ввода (8.6s)
+  ok 70 [webkit] › tests\e2e\security-routes.spec.ts:170:1 › FE28: Без backend и без route mock — честная ошибка, не успех (5.7s)
+  ok 71 [webkit] › tests\e2e\security-routes.spec.ts:190:1 › FE29: FR2 — Невалидная квитанция (not-a-uuid) отклоняется и показывает ошибку (15.0s)
+  ok 72 [webkit] › tests\e2e\security-routes.spec.ts:224:1 › FE30: FR3 — 422 preferred.time показывает понятную сводку и позволяет исправить (13.7s)
+
+
+  1) [webkit] › tests\e2e\detailing.spec.ts:17:1 › DT01: silent inline video plays, pauses, resumes and stops offscreen
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      18 |   await page.goto(path);
+      19 |   const video = page.locator(".dt-hero video");
+    > 20 |   await expect.poll(() => video.evaluate((el: HTMLVideoElement) => !el.paused && el.currentTime > 0)).toBe(true);
+         |                                                                                                       ^
+      21 |   expect(await video.evaluate((el: HTMLVideoElement) => el.muted && el.loop && el.playsInline)).toBe(true);
+      22 |   await page.getByRole("button", { name: "Остановить видео" }).click();
+      23 |   await expect.poll(() => video.evaluate((el: HTMLVideoElement) => el.paused)).toBe(true);
+        at <repo>\tests\e2e\detailing.spec.ts:20:103
+
+    Error Context: test-results\detailing-DT01-silent-inli-b925d-resumes-and-stops-offscreen-webkit\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\detailing-DT01-silent-inli-b925d-resumes-and-stops-offscreen-webkit\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\detailing-DT01-silent-inli-b925d-resumes-and-stops-offscreen-webkit\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [webkit] › tests\e2e\retry.spec.ts:11:1 › FE11: Network abort → ручной retry — ввод и key прежние
+
+    Test timeout of 45000ms exceeded.
+
+    Error: locator.check: Test timeout of 45000ms exceeded.
+    Call log:
+      - waiting for getByTestId('consent')
+        - locator resolved to <input id="consent" type="checkbox" aria-invalid="false" data-testid="consent" class="w-5 h-5 mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer shrink-0"/>
+      - attempting click action
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+
+
+      41 |   await page.getByTestId("next-to-contact").click();
+      42 |   await page.getByTestId("customer-phone").fill("+70000000000");
+    > 43 |   await page.getByTestId("consent").check();
+         |                                     ^
+      44 |   await page.getByTestId("lead-submit").click();
+      45 |
+      46 |   await expect(page.getByTestId("lead-error")).toBeVisible();
+        at <repo>\tests\e2e\retry.spec.ts:43:37
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\retry-FE11-Network-abort-→-ручной-retry-—-ввод-и-key-прежние-webkit\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\retry-FE11-Network-abort-→-ручной-retry-—-ввод-и-key-прежние-webkit\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\retry-FE11-Network-abort-→-ручной-retry-—-ввод-и-key-прежние-webkit\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\retry-FE11-Network-abort-→-ручной-retry-—-ввод-и-key-прежние-webkit\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [webkit] › tests\e2e\detailing.spec.ts:17:1 › DT01: silent inline video plays, pauses, resumes and stops offscreen
+    [webkit] › tests\e2e\retry.spec.ts:11:1 › FE11: Network abort → ручной retry — ввод и key прежние
+  70 passed (7.3m)

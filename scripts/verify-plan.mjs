@@ -63,7 +63,8 @@ function invalid(validator, input, label) {
 
 const auto = readJson("examples/sites/auto.json");
 const beauty = readJson("examples/sites/beauty.json");
-for (const config of [auto, beauty]) {
+const detailing = readJson("examples/sites/detailing.json");
+for (const config of [auto, beauty, detailing]) {
   valid(validateSite, config, config.id);
   assert.equal(new Set(config.services.map((s) => s.id)).size, config.services.length);
   assert.equal(new Set(config.resources.map((r) => r.id)).size, config.resources.length);
@@ -138,6 +139,6 @@ for (const file of markdown) {
 for (const name of ["agent-1-frontend", "agent-2-backend", "architect"]) {
   assert.ok(existsSync(path.join(root, "agents", name + ".md")));
 }
-console.log("Contract fixtures: 5 valid, 8 rejected.");
+console.log("Contract fixtures: 6 valid, 8 rejected.");
 console.log("OpenAPI internal refs: " + refs + "; Markdown files: " + markdown.length + "; local links: " + links + ".");
 console.log("Architecture consistency checks passed. Business acceptance is not implemented yet.");

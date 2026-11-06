@@ -1,0 +1,2593 @@
+{
+ "url": "http://127.0.0.1:3032/demo/detailing",
+ "at": "2026-11-06T15:31:52.628Z",
+ "allow": [],
+ "viewports": [
+  {
+   "width": 1440,
+   "height": 900,
+   "load": "load",
+   "screens": 7,
+   "filled": [
+    1,
+    0.99,
+    1,
+    0.94,
+    1,
+    1,
+    1
+   ],
+   "motion": {
+    "elements": 20,
+    "css": 20,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 1,
+    "playingVideos": 1
+   },
+   "metrics": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "page": {
+     "height": 5568,
+     "screens": 6.2,
+     "words": 311,
+     "img": 6,
+     "video": 1,
+     "canvas": 0,
+     "svg": 0,
+     "sections": 7,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 7,
+     "videoCount": 1,
+     "uiPictures": 0,
+     "pictureSamples": [
+      "hero.webp",
+      "paint.webp",
+      "paint.webp",
+      "wheel.webp",
+      "interior.webp",
+      "paint.webp"
+     ],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Сохраняем характер.",
+     "words": 2,
+     "chars": 19,
+     "lines": 2,
+     "size": 145.4,
+     "vw": 10.1,
+     "font": "Oblik Serif",
+     "weight": 400,
+     "tracking": -0.045,
+     "leading": 0.98,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "center",
+     "widthRatio": 0.8,
+     "top": 170,
+     "mixedFonts": [
+      "Oblik Serif",
+      "Oblik Serif italic"
+     ],
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Сохраняем характер.",
+     "words": 2,
+     "lines": 2,
+     "size": 145.4,
+     "font": "Oblik Serif"
+    },
+    "headings": [
+     {
+      "text": "OBLIK detailing atelier",
+      "words": 3,
+      "chars": 23,
+      "lines": 2,
+      "size": 28,
+      "vw": 1.9,
+      "font": "Oblik Sans",
+      "weight": 500,
+      "tracking": 0.16,
+      "leading": 1,
+      "upper": true,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.09,
+      "top": 28,
+      "tag": "a",
+      "kind": "heading"
+     },
+     {
+      "text": "Сохраняем характер.",
+      "words": 2,
+      "chars": 19,
+      "lines": 2,
+      "size": 145.4,
+      "vw": 10.1,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.045,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.8,
+      "top": 170,
+      "mixedFonts": [
+       "Oblik Serif",
+       "Oblik Serif italic"
+      ],
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Тот же характер. Больше защиты.",
+      "words": 5,
+      "chars": 31,
+      "lines": 2,
+      "size": 66.2,
+      "vw": 4.6,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.045,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.47,
+      "top": 1000,
+      "mixedFonts": [
+       "Oblik Serif",
+       "Oblik Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Начните с главного.",
+      "words": 3,
+      "chars": 19,
+      "lines": 1,
+      "size": 72,
+      "vw": 5,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.045,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.34,
+      "top": 1280,
+      "mixedFonts": [
+       "Oblik Serif",
+       "Oblik Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Первой встречает дорогу.",
+      "words": 3,
+      "chars": 24,
+      "lines": 1,
+      "size": 40,
+      "vw": 2.8,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.025,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.32,
+      "top": 1517,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Уход, который виден.",
+      "words": 3,
+      "chars": 20,
+      "lines": 1,
+      "size": 72,
+      "vw": 5,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.045,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.37,
+      "top": 2151,
+      "mixedFonts": [
+       "Oblik Serif",
+       "Oblik Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Глубина цвета.",
+      "words": 2,
+      "chars": 14,
+      "lines": 1,
+      "size": 38,
+      "vw": 2.6,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.025,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.28,
+      "top": 2697,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Личное пространство.",
+      "words": 2,
+      "chars": 20,
+      "lines": 1,
+      "size": 38,
+      "vw": 2.6,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.025,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.28,
+      "top": 2732,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Ничего лишнего.",
+      "words": 2,
+      "chars": 15,
+      "lines": 1,
+      "size": 38,
+      "vw": 2.6,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.025,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.28,
+      "top": 2782,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Сначала понять. Потом касаться.",
+      "words": 4,
+      "chars": 31,
+      "lines": 2,
+      "size": 64.8,
+      "vw": 4.5,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.045,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.4,
+      "top": 3174,
+      "mixedFonts": [
+       "Oblik Serif",
+       "Oblik Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Хорошие вопросы.",
+      "words": 2,
+      "chars": 16,
+      "lines": 1,
+      "size": 64.8,
+      "vw": 4.5,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.045,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.4,
+      "top": 3990,
+      "mixedFonts": [
+       "Oblik Serif",
+       "Oblik Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Внимание каждой детали.",
+      "words": 3,
+      "chars": 23,
+      "lines": 2,
+      "size": 72,
+      "vw": 5,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.045,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.27,
+      "top": 4564,
+      "mixedFonts": [
+       "Oblik Serif",
+       "Oblik Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "OBLIK",
+      "words": 1,
+      "chars": 5,
+      "lines": 1,
+      "size": 338.4,
+      "vw": 23.5,
+      "font": "Oblik Sans",
+      "weight": 400,
+      "tracking": 0.005,
+      "leading": 1.1,
+      "upper": true,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.88,
+      "top": 5098,
+      "tag": "p",
+      "kind": "statement"
+     }
+    ],
+    "headingSummary": {
+     "count": 13,
+     "maxLines": 2,
+     "over2Lines": 0,
+     "statements": 1,
+     "centered": 0,
+     "medianWords": 3,
+     "mixedFontHeadings": 7
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Oblik Sans",
+       "share": 0.92,
+       "mono": false
+      },
+      {
+       "family": "Oblik Serif",
+       "share": 0.08,
+       "mono": false
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      13,
+      16,
+      17,
+      18,
+      22,
+      28,
+      38,
+      40,
+      65,
+      66,
+      72,
+      145,
+      338
+     ],
+     "sizeCount": 13,
+     "notLoaded": [],
+     "body": {
+      "font": "Oblik Sans",
+      "size": 16,
+      "leading": 1.65,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 7.9
+     },
+     "measureChars": 63,
+     "max": {
+      "size": 338.4,
+      "vw": 23.5,
+      "font": "Oblik Sans",
+      "text": "OBLIK"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.06,
+     "smallText": 0
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#ffffff",
+     "bodyBgHsl": {
+      "h": 0,
+      "s": 0,
+      "l": 1
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#080a0b",
+       "top": 0,
+       "hsl": {
+        "h": 200,
+        "s": 0.16,
+        "l": 0.04
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#a0a5a4",
+       "share": 0.74
+      },
+      {
+       "color": "#eee9df",
+       "share": 0.17
+      },
+      {
+       "color": "#d7c5a6",
+       "share": 0.03
+      },
+      {
+       "color": "#b9bdb9",
+       "share": 0.02
+      },
+      {
+       "color": "#161a19",
+       "share": 0.02
+      }
+     ],
+     "button": {
+      "bg": "#eee9df",
+      "hsl": {
+       "h": 40,
+       "s": 0.31,
+       "l": 0.9
+      },
+      "fg": "#161a19"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 8,
+     "inHero": 3,
+     "radius": 0,
+     "height": 58,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "К выбору защиты",
+      "Подобрать защиту ↗",
+      "Ⅱ Пауза"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 0,
+     "hairlineSamples": [],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 0,
+     "boxRadius": 0,
+     "squareMedia": 7,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [
+     {
+      "type": "video",
+      "ratio": 1
+     }
+    ],
+    "nav": {
+     "links": 5,
+     "fixed": false,
+     "height": 106,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "oblik serif",
+     "oblik sans"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "pageH": 5568,
+    "margins": {
+     "left": 86,
+     "right": 86
+    },
+    "sections": [
+     {
+      "sel": "section#top.dt-hero",
+      "tag": "section",
+      "top": 0,
+      "height": 900,
+      "words": 19,
+      "media": 1,
+      "middle": 470,
+      "heading": {
+       "text": "Сохраняем",
+       "size": 145,
+       "tag": "h1"
+      },
+      "left": 86,
+      "right": 86,
+      "textLeft": 86,
+      "textRight": 100,
+      "fullBleed": true,
+      "footer": false,
+      "hero": true,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.dt-intro.dt-shell",
+      "tag": "section",
+      "top": 900,
+      "height": 380,
+      "words": 25,
+      "media": 0,
+      "middle": 382,
+      "heading": {
+       "text": "Тот же характер.",
+       "size": 66,
+       "tag": "h2"
+      },
+      "left": 86,
+      "right": 113,
+      "textLeft": 86,
+      "textRight": 113,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#protection.dt-protection.dt-shell",
+      "tag": "section",
+      "top": 1280,
+      "height": 871,
+      "words": 66,
+      "media": 1,
+      "middle": 58,
+      "heading": {
+       "text": "Первой встречает дорогу.",
+       "size": 40,
+       "tag": "h3"
+      },
+      "left": 86,
+      "right": 86,
+      "textLeft": 106,
+      "textRight": 86,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#services.dt-services.dt-shell",
+      "tag": "section",
+      "top": 2151,
+      "height": 959,
+      "words": 50,
+      "media": 3,
+      "middle": 36,
+      "heading": null,
+      "left": 86,
+      "right": 86,
+      "textLeft": 86,
+      "textRight": 86,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#approach.dt-approach.dt-shell",
+      "tag": "section",
+      "top": 3110,
+      "height": 880,
+      "words": 53,
+      "media": 1,
+      "middle": 115,
+      "heading": {
+       "text": "Сначала понять.",
+       "size": 65,
+       "tag": "h2"
+      },
+      "left": 86,
+      "right": 91,
+      "textLeft": 778,
+      "textRight": 91,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.dt-faq.dt-shell",
+      "tag": "section",
+      "top": 3990,
+      "height": 489,
+      "words": 126,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": 778,
+      "right": 162,
+      "textLeft": 778,
+      "textRight": 162,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#request.dt-request.dt-shell",
+      "tag": "section",
+      "top": 4479,
+      "height": 527,
+      "words": 44,
+      "media": 0,
+      "middle": 240,
+      "heading": {
+       "text": "Внимание",
+       "size": 72,
+       "tag": "h2"
+      },
+      "left": 86,
+      "right": 86,
+      "textLeft": 86,
+      "textRight": 156,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "footer.dt-footer.dt-shell",
+      "tag": "footer",
+      "top": 5006,
+      "height": 562,
+      "words": 25,
+      "media": 0,
+      "middle": 267,
+      "heading": {
+       "text": "OBLIK",
+       "size": 338,
+       "tag": "p"
+      },
+      "left": 80,
+      "right": 86,
+      "textLeft": 80,
+      "textRight": 86,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Сохраняем характер.",
+      "size": 145,
+      "top": 170,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 86,
+      "n": 11
+     },
+     {
+      "x": 778,
+      "n": 6
+     },
+     {
+      "x": 323,
+      "n": 2
+     },
+     {
+      "x": 897,
+      "n": 2
+     },
+     {
+      "x": 955,
+      "n": 2
+     },
+     {
+      "x": 478,
+      "n": 1
+     },
+     {
+      "x": 521,
+      "n": 1
+     },
+     {
+      "x": 868,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 26,
+    "bodySize": 16,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": null,
+   "consoleErrors": []
+  },
+  {
+   "width": 768,
+   "height": 1024,
+   "load": "load",
+   "screens": 6,
+   "filled": [
+    1,
+    1,
+    0.97,
+    0.94,
+    1,
+    1
+   ],
+   "motion": {
+    "elements": 20,
+    "css": 20,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 1,
+    "playingVideos": 1
+   },
+   "metrics": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "page": {
+     "height": 5429,
+     "screens": 5.3,
+     "words": 307,
+     "img": 6,
+     "video": 1,
+     "canvas": 0,
+     "svg": 0,
+     "sections": 7,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 7,
+     "videoCount": 1,
+     "uiPictures": 0,
+     "pictureSamples": [
+      "hero.webp",
+      "paint.webp",
+      "paint.webp",
+      "wheel.webp",
+      "interior.webp",
+      "paint.webp"
+     ],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Сохраняем характер.",
+     "words": 2,
+     "chars": 19,
+     "lines": 2,
+     "size": 94,
+     "vw": 12.2,
+     "font": "Oblik Serif",
+     "weight": 400,
+     "tracking": -0.045,
+     "leading": 0.98,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "center",
+     "widthRatio": 0.8,
+     "top": 170,
+     "mixedFonts": [
+      "Oblik Serif",
+      "Oblik Serif italic"
+     ],
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Сохраняем характер.",
+     "words": 2,
+     "lines": 2,
+     "size": 94,
+     "font": "Oblik Serif"
+    },
+    "headings": [
+     {
+      "text": "OBLIK detailing atelier",
+      "words": 3,
+      "chars": 23,
+      "lines": 2,
+      "size": 28,
+      "vw": 3.6,
+      "font": "Oblik Sans",
+      "weight": 500,
+      "tracking": 0.16,
+      "leading": 1,
+      "upper": true,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.17,
+      "top": 28,
+      "tag": "a",
+      "kind": "heading"
+     },
+     {
+      "text": "Сохраняем характер.",
+      "words": 2,
+      "chars": 19,
+      "lines": 2,
+      "size": 94,
+      "vw": 12.2,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.045,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.8,
+      "top": 170,
+      "mixedFonts": [
+       "Oblik Serif",
+       "Oblik Serif italic"
+      ],
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Тот же характер. Больше защиты.",
+      "words": 5,
+      "chars": 31,
+      "lines": 2,
+      "size": 38,
+      "vw": 4.9,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.045,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.47,
+      "top": 1157,
+      "mixedFonts": [
+       "Oblik Serif",
+       "Oblik Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Начните с главного.",
+      "words": 3,
+      "chars": 19,
+      "lines": 1,
+      "size": 44,
+      "vw": 5.7,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.045,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.39,
+      "top": 1424,
+      "mixedFonts": [
+       "Oblik Serif",
+       "Oblik Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Первой встречает дорогу.",
+      "words": 3,
+      "chars": 24,
+      "lines": 2,
+      "size": 40,
+      "vw": 5.2,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.025,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.36,
+      "top": 1633,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Уход, который виден.",
+      "words": 3,
+      "chars": 20,
+      "lines": 1,
+      "size": 44,
+      "vw": 5.7,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.045,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.43,
+      "top": 2351,
+      "mixedFonts": [
+       "Oblik Serif",
+       "Oblik Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Глубина цвета.",
+      "words": 2,
+      "chars": 14,
+      "lines": 1,
+      "size": 30,
+      "vw": 3.9,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.025,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.28,
+      "top": 2770,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Личное пространство.",
+      "words": 2,
+      "chars": 20,
+      "lines": 2,
+      "size": 30,
+      "vw": 3.9,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.025,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.28,
+      "top": 2805,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Ничего лишнего.",
+      "words": 2,
+      "chars": 15,
+      "lines": 1,
+      "size": 30,
+      "vw": 3.9,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.025,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.28,
+      "top": 2855,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Сначала понять. Потом касаться.",
+      "words": 4,
+      "chars": 31,
+      "lines": 2,
+      "size": 44,
+      "vw": 5.7,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.045,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "right",
+      "widthRatio": 0.41,
+      "top": 3215,
+      "mixedFonts": [
+       "Oblik Serif",
+       "Oblik Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Хорошие вопросы.",
+      "words": 2,
+      "chars": 16,
+      "lines": 1,
+      "size": 44,
+      "vw": 5.7,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.045,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.4,
+      "top": 4020,
+      "mixedFonts": [
+       "Oblik Serif",
+       "Oblik Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Внимание каждой детали.",
+      "words": 3,
+      "chars": 23,
+      "lines": 2,
+      "size": 44,
+      "vw": 5.7,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.045,
+      "leading": 0.98,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.31,
+      "top": 4627,
+      "mixedFonts": [
+       "Oblik Serif",
+       "Oblik Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "OBLIK",
+      "words": 1,
+      "chars": 5,
+      "lines": 1,
+      "size": 180.5,
+      "vw": 23.5,
+      "font": "Oblik Sans",
+      "weight": 400,
+      "tracking": 0.005,
+      "leading": 1.1,
+      "upper": true,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.88,
+      "top": 5132,
+      "tag": "p",
+      "kind": "statement"
+     }
+    ],
+    "headingSummary": {
+     "count": 13,
+     "maxLines": 2,
+     "over2Lines": 0,
+     "statements": 1,
+     "centered": 0,
+     "medianWords": 3,
+     "mixedFontHeadings": 7
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Oblik Sans",
+       "share": 0.92,
+       "mono": false
+      },
+      {
+       "family": "Oblik Serif",
+       "share": 0.08,
+       "mono": false
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      13,
+      16,
+      17,
+      18,
+      22,
+      28,
+      30,
+      38,
+      40,
+      44,
+      94,
+      181
+     ],
+     "sizeCount": 12,
+     "notLoaded": [],
+     "body": {
+      "font": "Oblik Sans",
+      "size": 16,
+      "leading": 1.65,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 7.9
+     },
+     "measureChars": 38,
+     "max": {
+      "size": 180.5,
+      "vw": 23.5,
+      "font": "Oblik Sans",
+      "text": "OBLIK"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.06,
+     "smallText": 0
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#ffffff",
+     "bodyBgHsl": {
+      "h": 0,
+      "s": 0,
+      "l": 1
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#080a0b",
+       "top": 0,
+       "hsl": {
+        "h": 200,
+        "s": 0.16,
+        "l": 0.04
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#a0a5a4",
+       "share": 0.75
+      },
+      {
+       "color": "#eee9df",
+       "share": 0.17
+      },
+      {
+       "color": "#d7c5a6",
+       "share": 0.03
+      },
+      {
+       "color": "#b9bdb9",
+       "share": 0.02
+      },
+      {
+       "color": "#161a19",
+       "share": 0.02
+      }
+     ],
+     "button": {
+      "bg": "#eee9df",
+      "hsl": {
+       "h": 40,
+       "s": 0.31,
+       "l": 0.9
+      },
+      "fg": "#080a0b"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 7,
+     "inHero": 3,
+     "radius": 0,
+     "height": 58,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "К выбору защиты",
+      "Подобрать защиту ↗",
+      "Ⅱ Пауза"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 0,
+     "hairlineSamples": [],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 0,
+     "boxRadius": 0,
+     "squareMedia": 7,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [
+     {
+      "type": "video",
+      "ratio": 1
+     }
+    ],
+    "nav": {
+     "links": 5,
+     "fixed": false,
+     "height": 106,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "oblik serif",
+     "oblik sans"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "pageH": 5429,
+    "margins": {
+     "left": 46,
+     "right": 46
+    },
+    "sections": [
+     {
+      "sel": "section#top.dt-hero",
+      "tag": "section",
+      "top": 0,
+      "height": 1024,
+      "words": 19,
+      "media": 1,
+      "middle": 174,
+      "heading": {
+       "text": "Сохраняем",
+       "size": 94,
+       "tag": "h1"
+      },
+      "left": 46,
+      "right": 46,
+      "textLeft": 46,
+      "textRight": 60,
+      "fullBleed": true,
+      "footer": false,
+      "hero": true,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.dt-intro.dt-shell",
+      "tag": "section",
+      "top": 1024,
+      "height": 390,
+      "words": 25,
+      "media": 0,
+      "middle": 188,
+      "heading": {
+       "text": "Тот же характер.",
+       "size": 38,
+       "tag": "h2"
+      },
+      "left": 46,
+      "right": 67,
+      "textLeft": 46,
+      "textRight": 67,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#protection.dt-protection.dt-shell",
+      "tag": "section",
+      "top": 1414,
+      "height": 927,
+      "words": 68,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Начните",
+       "size": 44,
+       "tag": "h2"
+      },
+      "left": 46,
+      "right": 46,
+      "textLeft": 46,
+      "textRight": 46,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#services.dt-services.dt-shell",
+      "tag": "section",
+      "top": 2342,
+      "height": 858,
+      "words": 53,
+      "media": 3,
+      "middle": 0,
+      "heading": {
+       "text": "Уход, который",
+       "size": 44,
+       "tag": "h2"
+      },
+      "left": 46,
+      "right": 46,
+      "textLeft": 46,
+      "textRight": 46,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#approach.dt-approach.dt-shell",
+      "tag": "section",
+      "top": 3200,
+      "height": 820,
+      "words": 53,
+      "media": 1,
+      "middle": 46,
+      "heading": {
+       "text": "Сначала понять.",
+       "size": 44,
+       "tag": "h2"
+      },
+      "left": 46,
+      "right": 57,
+      "textLeft": 407,
+      "textRight": 57,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.dt-faq.dt-shell",
+      "tag": "section",
+      "top": 4020,
+      "height": 522,
+      "words": 126,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": 415,
+      "right": 46,
+      "textLeft": 415,
+      "textRight": 46,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#request.dt-request.dt-shell",
+      "tag": "section",
+      "top": 4542,
+      "height": 499,
+      "words": 44,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Внимание",
+       "size": 44,
+       "tag": "h2"
+      },
+      "left": 46,
+      "right": 46,
+      "textLeft": 46,
+      "textRight": 80,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "footer.dt-footer.dt-shell",
+      "tag": "footer",
+      "top": 5041,
+      "height": 388,
+      "words": 25,
+      "media": 0,
+      "middle": 32,
+      "heading": {
+       "text": "OBLIK",
+       "size": 180,
+       "tag": "p"
+      },
+      "left": 42,
+      "right": 46,
+      "textLeft": 42,
+      "textRight": 46,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Сохраняем характер.",
+      "size": 94,
+      "top": 170,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 46,
+      "n": 11
+     },
+     {
+      "x": 407,
+      "n": 6
+     },
+     {
+      "x": 278,
+      "n": 2
+     },
+     {
+      "x": 445,
+      "n": 2
+     },
+     {
+      "x": 510,
+      "n": 2
+     },
+     {
+      "x": 193,
+      "n": 1
+     },
+     {
+      "x": 207,
+      "n": 1
+     },
+     {
+      "x": 463,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 26,
+    "bodySize": 16,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": null,
+   "consoleErrors": []
+  },
+  {
+   "width": 390,
+   "height": 844,
+   "load": "load",
+   "screens": 8,
+   "filled": [
+    1,
+    1,
+    0.94,
+    0.96,
+    0.92,
+    0.88,
+    1,
+    1
+   ],
+   "motion": {
+    "elements": 20,
+    "css": 20,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 1,
+    "playingVideos": 1
+   },
+   "metrics": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "page": {
+     "height": 6575,
+     "screens": 7.8,
+     "words": 299,
+     "img": 6,
+     "video": 1,
+     "canvas": 0,
+     "svg": 0,
+     "sections": 7,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 0,
+     "uiAbuse": false,
+     "realPictures": 7,
+     "videoCount": 1,
+     "uiPictures": 0,
+     "pictureSamples": [
+      "hero.webp",
+      "paint.webp",
+      "paint.webp",
+      "wheel.webp",
+      "interior.webp",
+      "paint.webp"
+     ],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "Сохраняем характер.",
+     "words": 2,
+     "chars": 19,
+     "lines": 2,
+     "size": 69,
+     "vw": 17.7,
+     "font": "Oblik Serif",
+     "weight": 400,
+     "tracking": -0.045,
+     "leading": 0.97,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "center",
+     "widthRatio": 0.88,
+     "top": 132,
+     "mixedFonts": [
+      "Oblik Serif",
+      "Oblik Serif italic"
+     ],
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "Сохраняем характер.",
+     "words": 2,
+     "lines": 2,
+     "size": 69,
+     "font": "Oblik Serif"
+    },
+    "headings": [
+     {
+      "text": "OBLIK detailing atelier",
+      "words": 3,
+      "chars": 23,
+      "lines": 2,
+      "size": 25,
+      "vw": 6.4,
+      "font": "Oblik Sans",
+      "weight": 500,
+      "tracking": 0.16,
+      "leading": 1,
+      "upper": true,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "left",
+      "widthRatio": 0.26,
+      "top": 18,
+      "tag": "a",
+      "kind": "heading"
+     },
+     {
+      "text": "Сохраняем характер.",
+      "words": 2,
+      "chars": 19,
+      "lines": 2,
+      "size": 69,
+      "vw": 17.7,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.045,
+      "leading": 0.97,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.88,
+      "top": 132,
+      "mixedFonts": [
+       "Oblik Serif",
+       "Oblik Serif italic"
+      ],
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "Тот же характер. Больше защиты.",
+      "words": 5,
+      "chars": 31,
+      "lines": 2,
+      "size": 43,
+      "vw": 11,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.045,
+      "leading": 1.05,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.88,
+      "top": 884,
+      "mixedFonts": [
+       "Oblik Serif",
+       "Oblik Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Начните с главного.",
+      "words": 3,
+      "chars": 19,
+      "lines": 1,
+      "size": 43,
+      "vw": 11,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.045,
+      "leading": 1.05,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.88,
+      "top": 1162,
+      "mixedFonts": [
+       "Oblik Serif",
+       "Oblik Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Первой встречает дорогу.",
+      "words": 3,
+      "chars": 24,
+      "lines": 2,
+      "size": 34,
+      "vw": 8.7,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.025,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.77,
+      "top": 1681,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Уход, который виден.",
+      "words": 3,
+      "chars": 20,
+      "lines": 1,
+      "size": 43,
+      "vw": 11,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.045,
+      "leading": 1.05,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.88,
+      "top": 2258,
+      "mixedFonts": [
+       "Oblik Serif",
+       "Oblik Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Глубина цвета.",
+      "words": 2,
+      "chars": 14,
+      "lines": 1,
+      "size": 35,
+      "vw": 9,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.025,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.88,
+      "top": 2756,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Ничего лишнего.",
+      "words": 2,
+      "chars": 15,
+      "lines": 1,
+      "size": 35,
+      "vw": 9,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.025,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.75,
+      "top": 3300,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Личное пространство.",
+      "words": 2,
+      "chars": 20,
+      "lines": 1,
+      "size": 35,
+      "vw": 9,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.025,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.88,
+      "top": 3864,
+      "tag": "h3",
+      "kind": "heading"
+     },
+     {
+      "text": "Сначала понять. Потом касаться.",
+      "words": 4,
+      "chars": 31,
+      "lines": 2,
+      "size": 43,
+      "vw": 11,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.045,
+      "leading": 1.05,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.88,
+      "top": 4508,
+      "mixedFonts": [
+       "Oblik Serif",
+       "Oblik Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Хорошие вопросы.",
+      "words": 2,
+      "chars": 16,
+      "lines": 1,
+      "size": 43,
+      "vw": 11,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.045,
+      "leading": 1.05,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.88,
+      "top": 5196,
+      "mixedFonts": [
+       "Oblik Serif",
+       "Oblik Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Плёнка или керамика? +",
+      "words": 4,
+      "chars": 22,
+      "lines": 1,
+      "size": 22,
+      "vw": 5.6,
+      "font": "Oblik Sans",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.65,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.88,
+      "top": 5299,
+      "tag": "summary",
+      "kind": "heading"
+     },
+     {
+      "text": "Зачем нужна полировка перед защитой? +",
+      "words": 6,
+      "chars": 38,
+      "lines": 1,
+      "size": 22,
+      "vw": 5.6,
+      "font": "Oblik Sans",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.65,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.88,
+      "top": 5382,
+      "tag": "summary",
+      "kind": "heading"
+     },
+     {
+      "text": "Можно защитить только часть кузова? +",
+      "words": 6,
+      "chars": 37,
+      "lines": 1,
+      "size": 22,
+      "vw": 5.6,
+      "font": "Oblik Sans",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.65,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.88,
+      "top": 5464,
+      "tag": "summary",
+      "kind": "heading"
+     },
+     {
+      "text": "Запись подтверждается сразу? +",
+      "words": 4,
+      "chars": 30,
+      "lines": 1,
+      "size": 22,
+      "vw": 5.6,
+      "font": "Oblik Sans",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.65,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.88,
+      "top": 5546,
+      "tag": "summary",
+      "kind": "heading"
+     },
+     {
+      "text": "Внимание каждой детали.",
+      "words": 3,
+      "chars": 23,
+      "lines": 2,
+      "size": 43,
+      "vw": 11,
+      "font": "Oblik Serif",
+      "weight": 400,
+      "tracking": -0.045,
+      "leading": 1.05,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.88,
+      "top": 5746,
+      "mixedFonts": [
+       "Oblik Serif",
+       "Oblik Serif italic"
+      ],
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "OBLIK",
+      "words": 1,
+      "chars": 5,
+      "lines": 1,
+      "size": 89.7,
+      "vw": 23,
+      "font": "Oblik Sans",
+      "weight": 400,
+      "tracking": 0,
+      "leading": 1.1,
+      "upper": true,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.88,
+      "top": 6342,
+      "tag": "p",
+      "kind": "statement"
+     }
+    ],
+    "headingSummary": {
+     "count": 17,
+     "maxLines": 2,
+     "over2Lines": 0,
+     "statements": 1,
+     "centered": 0,
+     "medianWords": 3,
+     "mixedFontHeadings": 7
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Oblik Sans",
+       "share": 0.92,
+       "mono": false
+      },
+      {
+       "family": "Oblik Serif",
+       "share": 0.08,
+       "mono": false
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      13,
+      16,
+      18,
+      19,
+      22,
+      25,
+      34,
+      35,
+      43,
+      69,
+      90
+     ],
+     "sizeCount": 11,
+     "notLoaded": [],
+     "body": {
+      "font": "Oblik Sans",
+      "size": 16,
+      "leading": 1.65,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 7.9
+     },
+     "measureChars": 43,
+     "max": {
+      "size": 89.7,
+      "vw": 23,
+      "font": "Oblik Sans",
+      "text": "OBLIK"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.03,
+     "smallText": 0
+    },
+    "eyebrows": [],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#ffffff",
+     "bodyBgHsl": {
+      "h": 0,
+      "s": 0,
+      "l": 1
+     },
+     "dark": false,
+     "sectionBgs": [
+      {
+       "color": "#080a0b",
+       "top": 0,
+       "hsl": {
+        "h": 200,
+        "s": 0.16,
+        "l": 0.04
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#a0a5a4",
+       "share": 0.75
+      },
+      {
+       "color": "#eee9df",
+       "share": 0.16
+      },
+      {
+       "color": "#d7c5a6",
+       "share": 0.03
+      },
+      {
+       "color": "#b9bdb9",
+       "share": 0.02
+      },
+      {
+       "color": "#161a19",
+       "share": 0.02
+      }
+     ],
+     "button": {
+      "bg": "#eee9df",
+      "hsl": {
+       "h": 40,
+       "s": 0.31,
+       "l": 0.9
+      },
+      "fg": "#161a19"
+     },
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 7,
+     "inHero": 2,
+     "radius": 2,
+     "height": 54,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": [
+      "К выбору защиты",
+      "Подобрать защиту ↗"
+     ]
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 0,
+     "hairlineSamples": [],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 0,
+     "boxRadius": 0,
+     "squareMedia": 7,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [
+     {
+      "type": "video",
+      "ratio": 0.77
+     }
+    ],
+    "nav": {
+     "links": 2,
+     "fixed": false,
+     "height": 82,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": [
+     "oblik serif",
+     "oblik sans"
+    ]
+   },
+   "layout": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "pageH": 6575,
+    "margins": {
+     "left": 23,
+     "right": 23
+    },
+    "sections": [
+     {
+      "sel": "section#top.dt-hero",
+      "tag": "section",
+      "top": 0,
+      "height": 834,
+      "words": 14,
+      "media": 1,
+      "middle": 38,
+      "heading": {
+       "text": "Сохраняем",
+       "size": 69,
+       "tag": "h1"
+      },
+      "left": 23,
+      "right": 23,
+      "textLeft": 23,
+      "textRight": 90,
+      "fullBleed": true,
+      "footer": false,
+      "hero": true,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.dt-intro.dt-shell",
+      "tag": "section",
+      "top": 834,
+      "height": 328,
+      "words": 25,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Тот же характер.",
+       "size": 43,
+       "tag": "h2"
+      },
+      "left": 23,
+      "right": 27,
+      "textLeft": 23,
+      "textRight": 27,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#protection.dt-protection.dt-shell",
+      "tag": "section",
+      "top": 1162,
+      "height": 1095,
+      "words": 65,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Первой встречает дорогу.",
+       "size": 34,
+       "tag": "h3"
+      },
+      "left": 23,
+      "right": 23,
+      "textLeft": 23,
+      "textRight": 23,
+      "fullBleed": true,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#services.dt-services.dt-shell",
+      "tag": "section",
+      "top": 2258,
+      "height": 1856,
+      "words": 50,
+      "media": 3,
+      "middle": 0,
+      "heading": {
+       "text": "Глубина цвета.",
+       "size": 35,
+       "tag": "h3"
+      },
+      "left": 23,
+      "right": 23,
+      "textLeft": 23,
+      "textRight": 57,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#approach.dt-approach.dt-shell",
+      "tag": "section",
+      "top": 4113,
+      "height": 1083,
+      "words": 53,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Сначала понять.",
+       "size": 43,
+       "tag": "h2"
+      },
+      "left": 23,
+      "right": 23,
+      "textLeft": 23,
+      "textRight": 25,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.dt-faq.dt-shell",
+      "tag": "section",
+      "top": 5196,
+      "height": 494,
+      "words": 97,
+      "media": 0,
+      "middle": 0,
+      "heading": null,
+      "left": 23,
+      "right": 29,
+      "textLeft": 23,
+      "textRight": 29,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#request.dt-request.dt-shell",
+      "tag": "section",
+      "top": 5691,
+      "height": 545,
+      "words": 44,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Внимание",
+       "size": 43,
+       "tag": "h2"
+      },
+      "left": 23,
+      "right": 35,
+      "textLeft": 23,
+      "textRight": 35,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "footer.dt-footer.dt-shell",
+      "tag": "footer",
+      "top": 6235,
+      "height": 340,
+      "words": 25,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "OBLIK",
+       "size": 90,
+       "tag": "p"
+      },
+      "left": 22,
+      "right": 23,
+      "textLeft": 22,
+      "textRight": 23,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "Сохраняем характер.",
+      "size": 69,
+      "top": 132,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [],
+    "edges": [
+     {
+      "x": 23,
+      "n": 22
+     },
+     {
+      "x": 75,
+      "n": 1
+     },
+     {
+      "x": 167,
+      "n": 1
+     },
+     {
+      "x": 180,
+      "n": 1
+     },
+     {
+      "x": 257,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 26,
+    "bodySize": 16,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": null,
+   "consoleErrors": []
+  }
+ ],
+ "findings": [
+  {
+   "level": "WARN",
+   "id": "mixed-font-headline",
+   "width": 1440,
+   "message": "7 headline(s) switch typeface or to italic mid-line (the \"one italic serif word\" move).",
+   "fix": "Set the whole headline in one face. Emphasis comes from the words.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "palette-cream",
+   "width": 1440,
+   "message": "Yellow-cream background (button #eee9df, text #eee9df).",
+   "fix": "Use the drawn palette. If you want warmth, take a low-chroma stone or bone, not a yellow cream.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "size-count",
+   "width": 1440,
+   "message": "13 different font sizes (13, 16, 17, 18, 22, 28, 38, 40, 65, 66, 72, 145, 338).",
+   "fix": "A page needs about five: display, heading, lead, body, small.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "name-only-title",
+   "width": 1440,
+   "message": "The h1 is a bare name (\"Сохраняем характер.\") and nothing else on the first screen says what this is.",
+   "fix": "Keep the name if it leads, and give the line under it (18px or more) the plain words: what it is, for whom, where or when. In the study of 97 Sites of the Day, first screens that named nothing lost usability and content points.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "lopsided",
+   "width": 768,
+   "message": "A section keeps its content on one side and leaves 415px of the width empty: section.dt-faq.dt-shell.",
+   "fix": "Fill the other side with what the section has (its picture, a second column, the figure), or defend the void in one sentence."
+  }
+ ],
+ "images": [
+  {
+   "viewport": "desktop",
+   "width": 1440,
+   "fold": "C:\\Users\\s_fedorenko\\Documents\\Codex\\2026-11-04\\https-drive-google-com-drive-folders\\work\\lipetsk-site-factory\\detailing\\work\\detailing\\taste-approved\\desktop-fold.jpg",
+   "pages": [
+    "C:\\Users\\s_fedorenko\\Documents\\Codex\\2026-11-04\\https-drive-google-com-drive-folders\\work\\lipetsk-site-factory\\detailing\\work\\detailing\\taste-approved\\desktop-page-01.jpg",
+    "C:\\Users\\s_fedorenko\\Documents\\Codex\\2026-11-04\\https-drive-google-com-drive-folders\\work\\lipetsk-site-factory\\detailing\\work\\detailing\\taste-approved\\desktop-page-02.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "tablet",
+   "width": 768,
+   "fold": "C:\\Users\\s_fedorenko\\Documents\\Codex\\2026-11-04\\https-drive-google-com-drive-folders\\work\\lipetsk-site-factory\\detailing\\work\\detailing\\taste-approved\\tablet-fold.jpg",
+   "pages": [
+    "C:\\Users\\s_fedorenko\\Documents\\Codex\\2026-11-04\\https-drive-google-com-drive-folders\\work\\lipetsk-site-factory\\detailing\\work\\detailing\\taste-approved\\tablet-page-01.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "mobile",
+   "width": 390,
+   "fold": "C:\\Users\\s_fedorenko\\Documents\\Codex\\2026-11-04\\https-drive-google-com-drive-folders\\work\\lipetsk-site-factory\\detailing\\work\\detailing\\taste-approved\\mobile-fold.jpg",
+   "pages": [
+    "C:\\Users\\s_fedorenko\\Documents\\Codex\\2026-11-04\\https-drive-google-com-drive-folders\\work\\lipetsk-site-factory\\detailing\\work\\detailing\\taste-approved\\mobile-page-01.jpg"
+   ],
+   "film": []
+  }
+ ]
+}

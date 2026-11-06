@@ -1,0 +1,7 @@
+
+> lipetsk-site-factory@0.1.0 check:plan
+> node scripts/verify-plan.mjs
+
+Contract fixtures: 6 valid, 8 rejected.
+OpenAPI internal refs: 13; Markdown files: 39; local links: 65.
+Architecture consistency checks passed. Business acceptance is not implemented yet.

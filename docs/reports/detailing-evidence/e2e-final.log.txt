@@ -1,0 +1,25 @@
+[WebServer] (node:6768) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 14 tests using 1 worker
+
+(node:6608) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 [chromium] › tests\e2e\detailing.spec.ts:22:1 › DT01: silent inline video plays, pauses, resumes and stops offscreen (3.0s)
+  ok  2 [chromium] › tests\e2e\detailing.spec.ts:42:1 › DT02: reduced motion uses poster without downloading video (1.9s)
+  ok  3 [chromium] › tests\e2e\detailing.spec.ts:56:1 › DT03: hotpots, price, chosen service, return and new selection agree (2.8s)
+  ok  4 [chromium] › tests\e2e\detailing.spec.ts:82:1 › DT04: selected programme reaches transport and receipt; another request returns to landing (2.3s)
+  ok  5 [chromium] › tests\e2e\detailing.spec.ts:106:1 › DT05: 503 does not show success, retry preserves idempotency (2.0s)
+  ok  6 [chromium] › tests\e2e\detailing.spec.ts:130:1 › DT06: mobile framing has no overflow; images and privacy resolve (2.8s)
+  ok  7 [chromium] › tests\e2e\retry.spec.ts:11:1 › FE11: Network abort → ручной retry — ввод и key прежние (2.5s)
+(node:13296) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  8 [webkit] › tests\e2e\detailing.spec.ts:22:1 › DT01: silent inline video plays, pauses, resumes and stops offscreen (20.2s)
+  ok  9 [webkit] › tests\e2e\detailing.spec.ts:42:1 › DT02: reduced motion uses poster without downloading video (6.1s)
+  ok 10 [webkit] › tests\e2e\detailing.spec.ts:56:1 › DT03: hotpots, price, chosen service, return and new selection agree (11.4s)
+  ok 11 [webkit] › tests\e2e\detailing.spec.ts:82:1 › DT04: selected programme reaches transport and receipt; another request returns to landing (8.9s)
+  ok 12 [webkit] › tests\e2e\detailing.spec.ts:106:1 › DT05: 503 does not show success, retry preserves idempotency (8.0s)
+  ok 13 [webkit] › tests\e2e\detailing.spec.ts:130:1 › DT06: mobile framing has no overflow; images and privacy resolve (17.4s)
+  ok 14 [webkit] › tests\e2e\retry.spec.ts:11:1 › FE11: Network abort → ручной retry — ввод и key прежние (33.2s)
+
+  14 passed (2.4m)
