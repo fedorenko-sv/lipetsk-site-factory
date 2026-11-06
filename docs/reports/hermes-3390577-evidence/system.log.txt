@@ -1,0 +1,20 @@
+
+> lipetsk-site-factory@0.1.0 test:system
+> node --experimental-strip-types scripts/backend/test-system.mjs
+
+[WebServer] (node:27412) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 7 tests using 1 worker
+
+(node:19956) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 [system-chromium] › tests\system\pr3-real.spec.ts:141:3 › PR-3 system smoke › S1 UI Auto через мастер /demo/auto: leadId UI = lead/outbox/receipt (3.2s)
+  ok 2 [system-chromium] › tests\system\pr3-real.spec.ts:175:3 › PR-3 system smoke › S2 API+SQL: точные site/service/предпочтение/consent/snapshot (132ms)
+  ok 3 [system-chromium] › tests\system\pr3-real.spec.ts:202:3 › PR-3 system smoke › S3 worker: internal run даёт recording receipt и sent (103ms)
+  ok 4 [system-chromium] › tests\system\pr3-real.spec.ts:221:3 › PR-3 system smoke › S4 повтор payload/key — 200 replayed, без второго lead (205ms)
+  ok 5 [system-chromium] › tests\system\pr3-real.spec.ts:246:3 › PR-3 system smoke › S5 UI Beauty с мастером и без — resource_id и назначения в PostgreSQL (2.8s)
+  ok 6 [system-chromium] › tests\system\pr3-real.spec.ts:283:3 › PR-3 system smoke › S6 отказ recording на уровне тестовой БД: lead жив, outbox в повторе (303ms)
+  ok 7 [system-chromium] › tests\system\pr3-real.spec.ts:323:3 › PR-3 system smoke › S7 очистка: pool закрыт, тестовые строки удалены (158ms)
+
+  7 passed (14.4s)

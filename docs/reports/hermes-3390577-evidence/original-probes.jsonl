@@ -1,0 +1,6 @@
+{"case":"unregistered adapter at createLead","outcome":"error","expected":"DEMO_NOT_READY; no lead/outbox"}
+{"case":"worker crashes on attempt 8; lease expires","counts":{"processed":1,"sent":0,"retried":0,"dead":1},"row":{"status":"dead","attempts":8,"expired":null},"expected":"recover or move to explicit dead; never permanently processing"}
+{"case":"live with recording only, no ingress or retention","outcome":{"ok":false,"code":"LIVE_NOT_READY"},"expected":{"ok":false,"code":"LIVE_NOT_READY"}}
+{"case":"test DSN query overrides effective PostgreSQL target","guardPassed":false,"effectiveHost":"example.invalid","effectiveDatabase":"lsf_test_review_1793908515117","expected":"reject before any SQL; parser only, no connection attempted"}
+{"case":"migrator validates TEST_DATABASE_URL but connects DATABASE_URL","exit":1,"tablesCreatedInNonTestNamedOwnedFixture":0,"expected":"reject; zero SQL writes"}
+{"case":"export path outside/../checkout resolves inside Git","exit":1,"fileWrittenInsideCheckout":false,"expected":"reject before creating file"}

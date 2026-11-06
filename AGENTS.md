@@ -4,6 +4,8 @@
 
 ## Источники истины
 
+- Для backend после 3390577 дополнительное актуальное замечание: agents/tasks/PR3_BACKEND_EXPORT_PATH_FIX.md (BR7). Основные результаты и оставшийся дефект описаны в docs/reports/hermes-3390577-review.md.
+
 - Текущая обратная связь финальной приёмки: docs/reports/pr3-final-review.md, agents/tasks/PR3_BACKEND_FINAL_FIXES.md и agents/tasks/PR3_FRONTEND_FINAL_FIXES.md. Каждый разработчик выполняет весь свой пакет исправлений, сохраняя ранее готовые части.
 - Актуальный пакет: docs/09-batch-contract.md, agents/PR3_BACKEND_HERMES.md и agents/PR3_FRONTEND_ANTIGRAVITY.md. Их указания заменяют старые ограничения маленьких заданий на один шаг.
 - Продукт: docs/01-product-scope.md.
