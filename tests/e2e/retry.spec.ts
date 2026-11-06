@@ -130,18 +130,32 @@ test("FE13: 422 fieldErrors — у соответствующих полей", a
   await expect(page.getByText("Телефон заблокирован оператором")).toBeVisible();
 });
 
-test("FE14: 409 config/consent — нет автоповтора/автосогласия", async ({ page }) => {
+test("FE14: 409 config/consent — нет автоповтора/автосогласия, явные действия", async ({ page }) => {
   let callCount = 0;
   await page.route("**/api/leads", async (route) => {
     callCount++;
+    if (callCount === 1) {
+      await route.fulfill({
+        status: 409,
+        contentType: "application/json",
+        body: JSON.stringify({
+          error: {
+            code: "CONFIG_CHANGED",
+            message: "Конфигурация изменилась. Пожалуйста, обновите страницу.",
+            requestId: "00000000-0000-4000-8000-000000000409",
+          },
+        }),
+      });
+      return;
+    }
     await route.fulfill({
       status: 409,
       contentType: "application/json",
       body: JSON.stringify({
         error: {
-          code: "CONFIG_CHANGED",
-          message: "Конфигурация изменилась. Пожалуйста, обновите страницу.",
-          requestId: "00000000-0000-4000-8000-000000000409",
+          code: "CONSENT_CHANGED",
+          message: "Условия политики обновились.",
+          requestId: "00000000-0000-4000-8000-000000000410",
         },
       }),
     });
@@ -162,6 +176,10 @@ test("FE14: 409 config/consent — нет автоповтора/автосог�
 
   await expect(page.getByTestId("lead-error")).toBeVisible();
   await expect(page.getByText("Конфигурация изменилась")).toBeVisible();
+
+  // For CONFIG_CHANGED: reload button is shown, blind retry button is NOT shown
+  await expect(page.getByTestId("lead-reload-config")).toBeVisible();
+  await expect(page.getByTestId("lead-retry")).not.toBeVisible();
 
   // Verify no automatic retry occurred
   await page.waitForTimeout(500);

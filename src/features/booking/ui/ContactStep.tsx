@@ -1,9 +1,10 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import type { SiteConfig } from "@/shared/contracts";
 import { formatPrice } from "../client/formatters";
-import type { BookingState } from "../client/state";
+import { isStep2ErrorKey, type BookingState } from "../client/state";
 
 interface ContactStepProps {
   config: SiteConfig;
@@ -16,6 +17,20 @@ interface ContactStepProps {
   onReset: () => void;
   onBack: () => void;
   headingRef?: React.RefObject<HTMLHeadingElement | null>;
+}
+
+function getFieldLabel(key: string): string {
+  if (key === "preferred.time") return "Время записи";
+  if (key === "preferred.date") return "Дата записи";
+  if (key === "preferred") return "Желаемое время";
+  if (key === "serviceId") return "Услуга";
+  if (key === "resourceId") return "Специалист";
+  if (key.startsWith("serviceOptions.")) return "Параметры услуги";
+  if (key === "serviceOptions") return "Параметры услуги";
+  if (key === "customer.phone") return "Телефон";
+  if (key === "customer.name") return "Имя";
+  if (key === "consent.accepted") return "Согласие";
+  return key;
 }
 
 export function ContactStep({
@@ -34,10 +49,45 @@ export function ContactStep({
     config.services.find((s) => s.id === state.serviceId) ?? config.services[0];
   const resource = config.resources.find((r) => r.id === state.resourceId);
 
+  const phoneInputRef = useRef<HTMLInputElement | null>(null);
+  const nameInputRef = useRef<HTMLInputElement | null>(null);
+  const consentInputRef = useRef<HTMLInputElement | null>(null);
+  const step2SummaryRef = useRef<HTMLDivElement | null>(null);
+  const globalErrorRef = useRef<HTMLDivElement | null>(null);
+
   const isSubmitting = state.submitState === "submitting";
   const isSuccess = state.submitState === "received";
   const isError = state.submitState === "error";
   const cooldown = state.cooldownSeconds ?? 0;
+
+  // Filter Step 2 errors returned by server or validation
+  const step2Errors = Object.entries(state.fieldErrors).filter(
+    ([k, v]) => isStep2ErrorKey(k) && Boolean(v)
+  );
+
+  // Focus management on errors
+  useEffect(() => {
+    if (step2Errors.length > 0) {
+      step2SummaryRef.current?.focus();
+      return;
+    }
+    if (state.fieldErrors["customer.phone"]) {
+      phoneInputRef.current?.focus();
+      return;
+    }
+    if (state.fieldErrors["customer.name"]) {
+      nameInputRef.current?.focus();
+      return;
+    }
+    if (state.fieldErrors["consent.accepted"]) {
+      consentInputRef.current?.focus();
+      return;
+    }
+    if (isError && state.submitError) {
+      globalErrorRef.current?.focus();
+      return;
+    }
+  }, [state.fieldErrors, state.submitState, isError, step2Errors.length, state.submitError]);
 
   if (isSuccess && state.submitReceipt) {
     return (
@@ -92,6 +142,9 @@ export function ContactStep({
     );
   }
 
+  const isConfigChanged = state.submitError?.code === "CONFIG_CHANGED";
+  const isConsentChanged = state.submitError?.code === "CONSENT_CHANGED";
+
   return (
     <div data-testid="contact-step" className="w-full max-w-2xl mx-auto px-4 py-6 sm:px-6 sm:py-10 pb-32 sm:pb-12">
       {/* Back button */}
@@ -122,6 +175,44 @@ export function ContactStep({
           Контакты и подтверждение
         </h1>
       </header>
+
+      {/* Step 2 Error Summary Banner if server or validation flagged parameters/time */}
+      {step2Errors.length > 0 && (
+        <div
+          ref={step2SummaryRef}
+          tabIndex={-1}
+          role="alert"
+          aria-labelledby="step2-errors-heading"
+          data-testid="step2-error-summary"
+          className="mb-6 p-4 sm:p-5 rounded-xl bg-[var(--error-bg)] border border-[var(--error-border)] focus:outline-none"
+        >
+          <div className="flex items-start gap-3">
+            <svg className="w-5 h-5 text-[var(--error-text)] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <div className="flex-1 text-xs sm:text-sm">
+              <h3 id="step2-errors-heading" className="font-semibold text-[var(--error-text)] mb-2">
+                Требуется исправить параметры заказа:
+              </h3>
+              <ul className="text-xs text-[var(--error-text)] space-y-1 mb-3 list-disc list-inside">
+                {step2Errors.map(([key, err]) => (
+                  <li key={key}>
+                    <strong>{getFieldLabel(key)}:</strong> {err}
+                  </li>
+                ))}
+              </ul>
+              <button
+                type="button"
+                onClick={onBack}
+                data-testid="fix-step2-errors"
+                className="py-2 px-3.5 rounded-lg text-xs font-semibold bg-[var(--color-accent)] text-[var(--color-accent-contrast)] hover:opacity-90 transition-opacity cursor-pointer inline-flex items-center gap-1.5"
+              >
+                <span>← Перейти к исправлению параметров</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Summary Box */}
       <section className="mb-8 p-4 sm:p-5 rounded-xl bg-[var(--bg-surface)] border border-[var(--border-default)]" aria-label="Сводка заявки">
@@ -189,16 +280,18 @@ export function ContactStep({
               inputMode="tel"
               autoComplete="tel"
               id="customer-phone"
+              ref={phoneInputRef}
               data-testid="customer-phone"
               placeholder="+7 000 000-00-00"
               value={state.customer.phone}
               onChange={(e) => onSetPhone(e.target.value)}
               disabled={isSubmitting}
               aria-invalid={Boolean(state.fieldErrors["customer.phone"])}
+              aria-describedby={state.fieldErrors["customer.phone"] ? "err-customer-phone" : undefined}
               className="w-full min-h-[44px] p-3 rounded-lg bg-[var(--bg-surface-elevated)] border border-[var(--border-default)] text-[var(--text-main)] placeholder-[var(--text-faint)] focus:border-[var(--color-accent)] focus:outline-none"
             />
             {state.fieldErrors["customer.phone"] && (
-              <p role="alert" className="mt-1.5 text-xs text-[var(--error-text)]">
+              <p id="err-customer-phone" role="alert" className="mt-1.5 text-xs text-[var(--error-text)]">
                 {state.fieldErrors["customer.phone"]}
               </p>
             )}
@@ -213,6 +306,7 @@ export function ContactStep({
               type="text"
               autoComplete="name"
               id="customer-name"
+              ref={nameInputRef}
               data-testid="customer-name"
               placeholder="Как к вам обращаться"
               value={state.customer.name ?? ""}
@@ -220,10 +314,11 @@ export function ContactStep({
               disabled={isSubmitting}
               maxLength={80}
               aria-invalid={Boolean(state.fieldErrors["customer.name"])}
+              aria-describedby={state.fieldErrors["customer.name"] ? "err-customer-name" : undefined}
               className="w-full min-h-[44px] p-3 rounded-lg bg-[var(--bg-surface-elevated)] border border-[var(--border-default)] text-[var(--text-main)] placeholder-[var(--text-faint)] focus:border-[var(--color-accent)] focus:outline-none"
             />
             {state.fieldErrors["customer.name"] && (
-              <p role="alert" className="mt-1.5 text-xs text-[var(--error-text)]">
+              <p id="err-customer-name" role="alert" className="mt-1.5 text-xs text-[var(--error-text)]">
                 {state.fieldErrors["customer.name"]}
               </p>
             )}
@@ -235,11 +330,13 @@ export function ContactStep({
               <input
                 type="checkbox"
                 id="consent"
+                ref={consentInputRef}
                 data-testid="consent"
                 checked={state.consentAccepted}
                 onChange={(e) => onSetConsent(e.target.checked)}
                 disabled={isSubmitting}
                 aria-invalid={Boolean(state.fieldErrors["consent.accepted"])}
+                aria-describedby={state.fieldErrors["consent.accepted"] ? "err-consent" : undefined}
                 className="w-5 h-5 mt-0.5 rounded accent-[var(--color-accent)] cursor-pointer shrink-0"
               />
               <span className="text-xs text-[var(--text-muted)] leading-relaxed">
@@ -255,7 +352,7 @@ export function ContactStep({
               </span>
             </label>
             {state.fieldErrors["consent.accepted"] && (
-              <p role="alert" className="mt-1.5 text-xs text-[var(--error-text)]">
+              <p id="err-consent" role="alert" className="mt-1.5 text-xs text-[var(--error-text)]">
                 {state.fieldErrors["consent.accepted"]}
               </p>
             )}
@@ -266,10 +363,12 @@ export function ContactStep({
       {/* Global Error Banner */}
       {isError && state.submitError && (
         <div
+          ref={globalErrorRef}
+          tabIndex={-1}
           data-testid="lead-error"
           aria-live="assertive"
           role="alert"
-          className="mb-6 p-4 rounded-xl bg-[var(--error-bg)] border border-[var(--error-border)] text-left"
+          className="mb-6 p-4 rounded-xl bg-[var(--error-bg)] border border-[var(--error-border)] text-left focus:outline-none"
         >
           <div className="flex items-start gap-3">
             <svg className="w-5 h-5 text-[var(--error-text)] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -284,6 +383,16 @@ export function ContactStep({
                   ID запроса: {state.submitError.requestId}
                 </p>
               )}
+              {isConfigChanged && (
+                <p className="text-xs text-[var(--text-muted)] mt-2">
+                  Параметры сайта или цены изменились на сервере. Пожалуйста, обновите страницу.
+                </p>
+              )}
+              {isConsentChanged && (
+                <p className="text-xs text-[var(--text-muted)] mt-2">
+                  Версия согласия обновилась. Пожалуйста, повторно подтвердите согласие выше перед отправкой.
+                </p>
+              )}
               {cooldown > 0 && (
                 <p className="text-xs text-[var(--error-text)] mt-2">
                   Повторная попытка будет доступна через {cooldown} с.
@@ -292,22 +401,36 @@ export function ContactStep({
             </div>
           </div>
 
-          <div className="mt-4 pt-3 border-t border-[var(--error-border)]/50">
-            <button
-              type="button"
-              onClick={onRetry}
-              data-testid="lead-retry"
-              disabled={isSubmitting || cooldown > 0}
-              className="py-2.5 px-4 rounded-lg font-semibold text-xs bg-[var(--color-accent)] hover:opacity-90 text-[var(--color-accent-contrast)] transition-opacity disabled:opacity-50 cursor-pointer"
-            >
-              {cooldown > 0 ? `Подождите ${cooldown} с` : "Повторить отправку"}
-            </button>
-          </div>
+          {/* Action buttons based on error type */}
+          {isConfigChanged ? (
+            <div className="mt-4 pt-3 border-t border-[var(--error-border)]/50">
+              <button
+                type="button"
+                onClick={() => window.location.reload()}
+                data-testid="lead-reload-config"
+                className="py-2.5 px-4 rounded-lg font-semibold text-xs bg-[var(--color-accent)] hover:opacity-90 text-[var(--color-accent-contrast)] transition-opacity cursor-pointer"
+              >
+                Обновить страницу
+              </button>
+            </div>
+          ) : isConsentChanged ? null : (
+            <div className="mt-4 pt-3 border-t border-[var(--error-border)]/50">
+              <button
+                type="button"
+                onClick={onRetry}
+                data-testid="lead-retry"
+                disabled={isSubmitting || cooldown > 0}
+                className="py-2.5 px-4 rounded-lg font-semibold text-xs bg-[var(--color-accent)] hover:opacity-90 text-[var(--color-accent-contrast)] transition-opacity disabled:opacity-50 cursor-pointer"
+              >
+                {cooldown > 0 ? `Подождите ${cooldown} с` : "Повторить отправку"}
+              </button>
+            </div>
+          )}
         </div>
       )}
 
       {/* Primary Submit Button */}
-      {!isError && (
+      {(!isError || isConsentChanged) && (
         <div>
           <button
             type="button"
@@ -335,4 +458,3 @@ export function ContactStep({
     </div>
   );
 }
-

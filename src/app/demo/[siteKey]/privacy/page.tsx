@@ -15,7 +15,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { siteKey } = await params;
   const config = getSiteConfig(siteKey);
 
-  if (!config) return {};
+  if (!config) {
+    return {
+      title: "Сайт не найден",
+      robots: { index: false, follow: false },
+    };
+  }
 
   return {
     title: `Демо-политика конфиденциальности — ${config.brandName}`,

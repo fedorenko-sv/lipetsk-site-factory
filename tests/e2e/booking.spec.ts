@@ -184,7 +184,7 @@ test("FE06: Нет даты/времени, нерабочий/прошлый д
   await expect(page.getByText("Укажите удобную дату")).toBeVisible();
 });
 
-test("FE07: Некорректный телефон — нет POST, читаемая ошибка", async ({ page }) => {
+test("FE07: Некорректный телефон — нет POST, читаемая ошибка, focus и aria-describedby", async ({ page }) => {
   let postCalled = false;
   await page.route("**/api/leads", async (route) => {
     postCalled = true;
@@ -200,16 +200,29 @@ test("FE07: Некорректный телефон — нет POST, читае�
   await page.getByTestId("preferred-time").selectOption("10:30");
 
   await page.getByTestId("next-to-contact").click();
-  await page.getByTestId("customer-phone").fill("+7123");
-  await page.getByTestId("consent").check();
 
+  // Test empty phone first
+  await page.getByTestId("consent").check();
+  await page.getByTestId("lead-submit").click();
+
+  expect(postCalled).toBe(false);
+  await expect(page.getByText("Укажите телефон")).toBeVisible();
+  await expect(page.getByTestId("customer-phone")).toHaveAttribute("aria-invalid", "true");
+  await expect(page.getByTestId("customer-phone")).toHaveAttribute("aria-describedby", "err-customer-phone");
+  await expect(page.getByTestId("customer-phone")).toBeFocused();
+
+  // Test invalid format phone
+  await page.getByTestId("customer-phone").fill("+7123");
   await page.getByTestId("lead-submit").click();
 
   expect(postCalled).toBe(false);
   await expect(page.getByText(/Введите корректный номер телефона/)).toBeVisible();
+  await expect(page.getByTestId("customer-phone")).toHaveAttribute("aria-invalid", "true");
+  await expect(page.getByTestId("customer-phone")).toHaveAttribute("aria-describedby", "err-customer-phone");
+  await expect(page.getByTestId("customer-phone")).toBeFocused();
 });
 
-test("FE08: Неотмеченное согласие — нет POST", async ({ page }) => {
+test("FE08: Неотмеченное согласие — нет POST, focus и aria-describedby", async ({ page }) => {
   let postCalled = false;
   await page.route("**/api/leads", async (route) => {
     postCalled = true;
@@ -232,6 +245,9 @@ test("FE08: Неотмеченное согласие — нет POST", async ({
 
   expect(postCalled).toBe(false);
   await expect(page.getByText(/Необходимо согласие/)).toBeVisible();
+  await expect(page.getByTestId("consent")).toHaveAttribute("aria-invalid", "true");
+  await expect(page.getByTestId("consent")).toHaveAttribute("aria-describedby", "err-consent");
+  await expect(page.getByTestId("consent")).toBeFocused();
 });
 
 test("FE09: Назад и редактирование — данные сохранены, сводка актуальна", async ({ page }) => {
