@@ -1,0 +1,33 @@
+/* Editorial Theme — Warm Cream & Burgundy Accent (Beauty) */
+.theme-editorial {
+  --bg-base: #f9f8f5;
+  --bg-surface: #ffffff;
+  --bg-surface-elevated: #f2efe9;
+  --bg-surface-hover: #eae6dd;
+  --bg-surface-active: #dfd9cd;
+  --border-default: #e2ded5;
+  --border-strong: #c9c3b6;
+  --border-focus: #9b2c3b;
+  --border-accent: rgba(155, 44, 59, 0.4);
+  --text-main: #1f1d1a;
+  --text-muted: #5e5953;
+  --text-faint: #8a837a;
+  --color-accent: #9b2c3b;
+  --color-accent-hover: #7f222e;
+  --color-accent-contrast: #ffffff;
+  --badge-demo-bg: #fffbeb;
+  --badge-demo-border: #fcd34d;
+  --badge-demo-text: #92400e;
+  --error-bg: #fff1f2;
+  --error-border: #fca5a5;
+  --error-text: #9f1239;
+  --success-bg: #f0fdf4;
+  --success-border: #86efac;
+  --success-text: #166534;
+
+  background-color: var(--bg-base);
+  color: var(--text-main);
+  min-height: 100vh;
+  color-scheme: light;
+}
+
