@@ -1,0 +1,241 @@
+@import url("/demo-assets/detailing/fonts/fonts.css");
+.factory {
+  min-height: 100vh;
+  padding: 0 6vw;
+  background: #e8e4dc;
+  color: #252722;
+  font:
+    16px/1.65 "Oblik Sans",
+    Arial,
+    sans-serif;
+}
+.factory * {
+  box-sizing: border-box;
+}
+.factory a {
+  color: inherit;
+  text-decoration: none;
+}
+.factory :focus-visible {
+  outline: 2px solid #885740;
+  outline-offset: 7px;
+}
+.factory h1,
+.factory h2,
+.factory h3,
+.factory p {
+  margin: 0;
+}
+.factory-top {
+  max-width: 1440px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  padding: 30px 0 65px;
+}
+.factory-top > a {
+  font:
+    28px/1 "Oblik Serif",
+    Georgia,
+    serif;
+}
+.factory-top > a span {
+  color: #8b6049;
+  font-style: italic;
+}
+.factory-top > span {
+  font-size: 14px;
+  color: #5c6057;
+}
+.factory-intro {
+  max-width: 1440px;
+  margin: 0 auto 60px;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 8%;
+  align-items: end;
+}
+.factory h1 {
+  font:
+    400 clamp(54px, 6.8vw, 104px) / 0.96 "Oblik Serif",
+    Georgia,
+    serif;
+  letter-spacing: -0.045em;
+}
+.factory h1 em {
+  color: #855944;
+  font-weight: 400;
+}
+.factory-intro p {
+  max-width: 380px;
+  color: #55594f;
+  font-size: 18px;
+  padding-bottom: 8px;
+}
+.factory-feature {
+  max-width: 1440px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1.65fr 1fr;
+  background: #080a0b;
+  color: #eee9df;
+}
+.factory-feature-image {
+  display: block;
+  min-width: 0;
+}
+.factory-feature img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 430px;
+  object-fit: cover;
+  object-position: 66% 75%;
+}
+.factory-feature > div {
+  padding: 55px 12% 55px 5%;
+  align-self: center;
+}
+.factory-label {
+  color: #b7bcb4;
+  font-size: 14px;
+}
+.factory-feature h2 {
+  font:
+    400 75px/1 "Oblik Serif",
+    Georgia,
+    serif;
+  letter-spacing: -0.04em;
+  margin: 18px 0 22px;
+}
+.factory-feature p {
+  color: #b5b9b1;
+}
+.factory-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 28px;
+  min-height: 48px;
+  margin-top: 26px;
+  font-size: 16px;
+}
+.factory-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 7px;
+}
+.factory-feature .factory-link {
+  color: #e3c8a7;
+}
+.factory-more {
+  max-width: 1440px;
+  margin: auto;
+  padding-block: 95px;
+}
+.factory-more > h2 {
+  font:
+    400 clamp(37px, 3.5vw, 56px) / 1.1 "Oblik Serif",
+    Georgia,
+    serif;
+  margin-bottom: 40px;
+  letter-spacing: -0.035em;
+}
+.factory-more > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7%;
+}
+.factory-more article {
+  padding: 40px;
+  background: #dad8ce;
+}
+.factory-more article:last-child {
+  background: #e0d4ca;
+}
+.factory-more article > p:first-child {
+  font-size: 14px;
+  margin-bottom: 20px;
+  color: #5f5d51;
+}
+.factory-more h3 {
+  font:
+    400 clamp(34px, 3vw, 48px) / 1.08 "Oblik Serif",
+    Georgia,
+    serif;
+  letter-spacing: -0.025em;
+  margin-bottom: 20px;
+}
+.factory-more article > p:not(:first-child) {
+  max-width: 400px;
+  color: #55594f;
+}
+.factory-bottom {
+  max-width: 1440px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 50px;
+  padding-bottom: 30px;
+  color: #66695f;
+  font-size: 13px;
+}
+.factory-bottom p {
+  max-width: 450px;
+}
+@media (max-width: 700px) {
+  .factory-top {
+    padding-block: 25px 45px;
+  }
+  .factory-top > a {
+    font-size: 24px;
+  }
+  .factory-top > span {
+    max-width: 130px;
+    text-align: right;
+    font-size: 13px;
+  }
+  .factory-intro {
+    display: block;
+    margin-bottom: 35px;
+  }
+  .factory h1 {
+    font-size: clamp(49px, 12.8vw, 83px);
+  }
+  .factory-intro p {
+    font-size: 16px;
+    margin-top: 28px;
+  }
+  .factory-feature {
+    display: block;
+  }
+  .factory-feature img {
+    height: 270px;
+    min-height: 0;
+    object-position: 67% center;
+  }
+  .factory-feature > div {
+    padding: 25px 8% 35px;
+  }
+  .factory-feature h2 {
+    font-size: 64px;
+  }
+  .factory-more {
+    padding-block: 55px;
+  }
+  .factory-more > div {
+    display: block;
+  }
+  .factory-more article {
+    padding: 30px 8%;
+  }
+  .factory-more article + article {
+    margin-top: 20px;
+  }
+  .factory-bottom {
+    display: block;
+  }
+  .factory-bottom p + p {
+    margin-top: 16px;
+  }
+}

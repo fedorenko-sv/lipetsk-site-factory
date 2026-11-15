@@ -1,5 +1,5 @@
-// The V1 preview can keep serving 3032 while the new worktree serves 3033.
-const raw = process.env.DETAILING_PREVIEW_PORT || "3033";
+// Keep previous cinematic previews available while this complete site uses its own port.
+const raw = process.env.DETAILING_PREVIEW_PORT || "3034";
 if (!/^\d{4,5}$/.test(raw) || Number(raw) < 1024 || Number(raw) > 65535) {
   throw new Error("DETAILING_PREVIEW_PORT must be a local TCP port (1024–65535)");
 }

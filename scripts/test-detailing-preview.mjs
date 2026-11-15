@@ -17,9 +17,9 @@ const page = await browser.newPage({
 const client = new Client({ connectionString: dsn });
 await client.connect();
 try {
-  await page.goto(base + "/demo/detailing");
-  await page.getByRole("button", { name: "Выбрать зону: Диски", exact: true }).click();
-  await page.getByRole("button", { name: "Выбрать время" }).click();
+  await page.goto(base + "/demo/detailing/services?category=details");
+  await page.getByRole("link", { name: "Об услуге: Очистка и защита дисков" }).click();
+  await page.locator(".site-service-hero").getByRole("link", { name: "Выбрать время" }).click();
   assert.equal(await page.getByLabel("Выбранная услуга").inputValue(), "wheel-care");
   const date = new Date(Date.now() + 2 * 86400000);
   while (date.getUTCDay() === 0) date.setUTCDate(date.getUTCDate() + 1);

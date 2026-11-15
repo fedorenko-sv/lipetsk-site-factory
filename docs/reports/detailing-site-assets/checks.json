@@ -1,0 +1,247 @@
+{
+  "viewportChecks": [
+    {
+      "width": 1440,
+      "page": "home",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 1440,
+      "page": "catalogue",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 1440,
+      "page": "service",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 1440,
+      "page": "prices",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 1440,
+      "page": "atelier",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 1440,
+      "page": "care",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 1440,
+      "page": "visit",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 1440,
+      "page": "booking",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 1440,
+      "errors": []
+    },
+    {
+      "width": 768,
+      "page": "home",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 768,
+      "page": "catalogue",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 768,
+      "page": "service",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 768,
+      "page": "prices",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 768,
+      "page": "atelier",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 768,
+      "page": "care",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 768,
+      "page": "visit",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 768,
+      "page": "booking",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 768,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "page": "home",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 390,
+      "page": "catalogue",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 390,
+      "page": "service",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 390,
+      "page": "prices",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 390,
+      "page": "atelier",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 390,
+      "page": "care",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 390,
+      "page": "visit",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 390,
+      "page": "booking",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 390,
+      "errors": []
+    },
+    {
+      "width": 360,
+      "page": "home",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 360,
+      "page": "catalogue",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 360,
+      "page": "service",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 360,
+      "page": "prices",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 360,
+      "page": "atelier",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 360,
+      "page": "care",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 360,
+      "page": "visit",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 360,
+      "page": "booking",
+      "status": 200,
+      "overflow": 0
+    },
+    {
+      "width": 360,
+      "errors": []
+    }
+  ],
+  "links": {
+    "checked": 24,
+    "failed": []
+  },
+  "tests": {
+    "ui": 27,
+    "coreBrowser": 34,
+    "finalBrowser": 16,
+    "otherDemos": 4
+  },
+  "realFlow": {
+    "http": 201,
+    "siteKey": "detailing",
+    "serviceId": "wheel-care",
+    "outboxStatus": "sent",
+    "recordingReceipts": 1,
+    "uiIdMatches": true,
+    "mocked": false
+  },
+  "styleInspector": {
+    "failures": [
+      {
+        "id": "still-page",
+        "message": "Only 0 element(s) moved while the page loaded and scrolled."
+      }
+    ],
+    "warnings": [
+      "mixed-font-headline",
+      "palette-cream",
+      "size-count",
+      "no-footage",
+      "name-only-title"
+    ],
+    "note": "The gallery motion recorder requires eight distinct moving elements and samples completed WAAPI entrances late. The catalogue uses one short entrance per photo card; SITE07 verifies motion and immediate cancellation in both browser engines. Raw result retained, not reported as a zero-FAIL audit."
+  }
+}

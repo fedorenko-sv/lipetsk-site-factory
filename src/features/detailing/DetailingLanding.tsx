@@ -1,8 +1,8 @@
 "use client";
 
 /* eslint-disable @next/next/no-img-element -- Native images allow art-directed local media and predictable hero framing. */
-import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import type { SiteConfig } from "@/shared/contracts";
 import configData from "../../../examples/sites/detailing.json";
 import { BookingFlow } from "../booking/ui/BookingFlow";
@@ -10,7 +10,7 @@ import { formatPrice } from "../booking/client/formatters";
 
 import { PhotoFilm } from "./PhotoFilm";
 import { LightStudy } from "./LightStudy";
-import { AtelierMark, Closeup, ZonePlate, crop, markerPosition } from "./ZonePlate";
+import { Closeup, ZonePlate, crop, markerPosition } from "./ZonePlate";
 
 const config = configData as SiteConfig;
 const media = "/demo-assets/detailing/";
@@ -132,27 +132,7 @@ export function DetailingLanding() {
   };
 
   return (
-    <div className="detailing" ref={rootRef}>
-      <a href="#protection" className="dt-skip">
-        К выбору защиты
-      </a>
-      <header className="dt-header">
-        <a className="dt-wordmark" href="#top" aria-label="OBLIK — на главную">
-          <AtelierMark />
-          <span className="dt-wordmark-type">
-            OBLIK<small>detailing atelier</small>
-          </span>
-        </a>
-        <nav aria-label="Основная навигация">
-          <a href="#protection">Защита</a>
-          <a href="#services">Услуги</a>
-          <a href="#approach">Подход</a>
-        </nav>
-        <a className="dt-header-cta" href="#protection">
-          Подобрать программу <span aria-hidden="true">↗</span>
-        </a>
-      </header>
-
+    <div className="dt-home" ref={rootRef}>
       <main>
         <PhotoFilm />
         <LightStudy />
@@ -276,6 +256,14 @@ export function DetailingLanding() {
               до последнего прикосновения.
             </p>
           </div>
+          <div className="site-home-links">
+            <Link className="site-text-link" href="/demo/detailing/services">
+              Все шесть программ ↗
+            </Link>
+            <Link className="site-text-link" href="/demo/detailing/prices">
+              Сравнить цены и способы защиты ↗
+            </Link>
+          </div>
           <div className="dt-editorial-services">
             <article data-reveal>
               <div className="dt-service-exposure">
@@ -290,9 +278,9 @@ export function DetailingLanding() {
               <div>
                 <h3>Глубина цвета.</h3>
                 <p>Бережная полировка и керамическое покрытие. Лак снова ловит свет.</p>
-                <a href="#protection" onClick={() => selectZone("body")}>
+                <Link href="/demo/detailing/services/ceramic">
                   Программы для кузова <span aria-hidden="true">↗</span>
-                </a>
+                </Link>
               </div>
             </article>
             <article data-reveal>
@@ -308,9 +296,9 @@ export function DetailingLanding() {
               <div>
                 <h3>Ничего лишнего.</h3>
                 <p>Чистота сложной геометрии и защитное покрытие дисков.</p>
-                <a href="#protection" onClick={() => selectZone("wheels")}>
+                <Link href="/demo/detailing/services/wheel-care">
                   Уход за дисками <span aria-hidden="true">↗</span>
-                </a>
+                </Link>
               </div>
             </article>
             <article data-reveal>
@@ -326,9 +314,9 @@ export function DetailingLanding() {
               <div>
                 <h3>Личное пространство.</h3>
                 <p>Деликатная работа с кожей и текстилем. Комфорт начинается внутри.</p>
-                <a href="#protection" onClick={() => selectZone("interior")}>
+                <Link href="/demo/detailing/services/interior-care">
                   Уход за салоном <span aria-hidden="true">↗</span>
-                </a>
+                </Link>
               </div>
             </article>
           </div>
@@ -374,6 +362,9 @@ export function DetailingLanding() {
                 </li>
               ))}
             </ol>
+            <Link className="site-text-link" href="/demo/detailing/atelier">
+              О подходе ателье ↗
+            </Link>
           </div>
         </section>
 
@@ -433,21 +424,6 @@ export function DetailingLanding() {
           </p>
         </section>
       </main>
-      <footer className="dt-footer dt-shell">
-        <div className="dt-footer-top">
-          <a href="#top">Вернуться к началу ↑</a>
-          <span>Липецк · демонстрационный концепт</span>
-          <Link href="/demo/detailing/privacy">Политика демо</Link>
-        </div>
-        <p className="dt-footer-brand" aria-label="OBLIK">
-          OBLIK
-        </p>
-        <div className="dt-footer-bottom">
-          <span>Детали формируют характер.</span>
-          <span>Визуалы созданы специально для концепта. Цены демонстрационные.</span>
-          <Link href="/">Все демо</Link>
-        </div>
-      </footer>
     </div>
   );
 }
