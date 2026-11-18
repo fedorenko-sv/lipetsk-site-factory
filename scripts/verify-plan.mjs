@@ -137,7 +137,7 @@ invalid(validateEstimate,{...estimateRequest,preferred:request.preferred},"estim
 const markdown = [];
 function collect(directory) {
   for (const item of readdirSync(directory, { withFileTypes: true })) {
-    if (["node_modules", ".git", ".next", "work", ".worktrees"].includes(item.name)) continue;
+    if (["node_modules", ".git", ".next", "work", ".worktrees", "test-results", "playwright-report", "coverage", "out"].includes(item.name)) continue;
     const full = path.join(directory, item.name);
     if (item.isDirectory()) collect(full);
     else if (item.name.endsWith(".md")) markdown.push(full);

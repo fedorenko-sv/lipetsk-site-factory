@@ -9,7 +9,7 @@
   },
   "packageManager": "npm@10.9.8",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --webpack",
     "preview:detailing": "node --experimental-strip-types scripts/preview-detailing.mjs",
     "test:detailing:system": "node --experimental-strip-types scripts/test-detailing-preview.mjs",
     "build": "next build --webpack",
@@ -31,7 +31,8 @@
     "verify:frontend": "npm run check:plan && npm run lint && npm run typecheck && npm run test:ui && npm run build && npm run test:e2e",
     "verify:release": "npm run verify:architecture && npm run test:backend && npm run test:ui && npm run test:integration && npm run test:e2e && npm run test:system",
     "preview:portfolio": "node --experimental-strip-types scripts/preview-detailing.mjs",
-    "test:portfolio:system": "node --experimental-strip-types scripts/test-portfolio-preview.mjs"
+    "test:portfolio:system": "node --experimental-strip-types scripts/test-portfolio-preview.mjs",
+    "verify:demo-routes": "node --experimental-strip-types scripts/verify-demo-routes.mjs"
   },
   "dependencies": {
     "ajv": "8.20.0",

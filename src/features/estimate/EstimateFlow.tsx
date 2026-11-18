@@ -12,9 +12,9 @@ import { WindowDrawing } from "./WindowDrawing";
 import "./estimate.css";
 
 type Stage = "parameters" | "quote" | "contact" | "receipt";
-export function EstimateFlow({ config }: { config: EstimateSiteConfig }) {
+export function EstimateFlow({ config, initialProduct = "window" }: { config: EstimateSiteConfig; initialProduct?: WindowParameters["product"] }) {
   const [stage, setStage] = useState<Stage>("parameters");
-  const [parameters, setParameters] = useState<WindowParameters>(defaultWindowParameters);
+  const [parameters, setParameters] = useState<WindowParameters>({...defaultWindowParameters, product:initialProduct});
   const [width, setWidth] = useState("1200");
   const [height, setHeight] = useState("1400");
   const [quantity, setQuantity] = useState("1");
@@ -163,7 +163,7 @@ export function EstimateFlow({ config }: { config: EstimateSiteConfig }) {
         </div>
         <p className="estimate-hint" aria-live="polite">{pending?"Дождитесь квитанции.":cooldown>0?"Повтор станет доступен через "+cooldown+" с.":""}</p>
       </div>
-      <aside className="estimate-contact-summary"><p className="prototype-kicker">Ваш предварительный расчёт</p><strong>{formatAmount(quote.totalMinor)} ₽</strong><p>{parameters.widthMm} × {parameters.heightMm} мм · {parameters.quantity} шт.</p><p>Сервер проверит параметры и самостоятельно пересчитает стоимость. Изображение и ставки демонстрационные.</p></aside>
+      <aside className="estimate-contact-summary"><p className="prototype-kicker">Ваш предварительный расчёт</p><strong>{formatAmount(quote.totalMinor)} ₽</strong><p>{parameters.widthMm} × {parameters.heightMm} мм · {parameters.quantity} шт.</p><p>В заявке сохранятся выбранные параметры и предварительный расчёт. Изображение и ставки демонстрационные.</p></aside>
     </form>}
     {stage==="receipt" && receipt && <div className="estimate-receipt" role="status">
       <span className="estimate-receipt-mark" aria-hidden="true">✓</span>

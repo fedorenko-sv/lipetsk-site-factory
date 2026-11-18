@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import type { SiteConfig } from "@/shared/contracts";
+import type { BookingTimeCopy, BookingResourceCopy } from "./presentation";
 import { formatPrice } from "../client/formatters";
 import {
   getDateBounds,
@@ -22,8 +23,8 @@ interface PreferenceStepProps {
   onNext: () => void;
   headingRef?: React.RefObject<HTMLHeadingElement | null>;
   headingLevel?: 1 | 2;
-  timeCopy?: { title: string; description: string; dateLabel?: string; timeLabel?: string };
-  resourceCopy?: { label: string; any: string; description: string };
+  timeCopy?: BookingTimeCopy;
+  resourceCopy?: BookingResourceCopy;
 }
 
 export function PreferenceStep({
@@ -152,7 +153,7 @@ export function PreferenceStep({
 
         <div className="mt-3 flex items-center justify-between text-xs text-[var(--text-muted)]">
           <span>Категория: {currentService.category}</span>
-          <span>Длительность: ~{currentService.durationMinutes} мин</span>
+          <span>{timeCopy?.durationLabel ?? "Длительность"}: ~{currentService.durationMinutes} мин</span>
         </div>
       </section>
 

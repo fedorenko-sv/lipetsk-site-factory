@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { SiteConfig } from "@/shared/contracts";
 import { formatPrice } from "@/features/booking/client/formatters";
 import { getPrototype, type PrototypeId } from "./catalog";
+import { catalogPage, demoPageHref } from "./pages";
 import { profiles } from "./profiles";
 import { BookingEntry } from "./BookingEntry";
 import { PrototypeMotion } from "./PrototypeMotion";
@@ -17,7 +18,7 @@ export function PrototypeLanding({ config }: { config: SiteConfig }) {
   return <div className={"prototype prototype-" + id}>
     <PrototypeMotion>
       <a className="prototype-skip" href="#services">К предложению</a>
-      <PrototypeHeader brand={prototype.brand} cta={id === "stay" ? "Обсудить поездку" : "Оставить заявку"} />
+      <PrototypeHeader id={id} brand={prototype.brand} cta={id === "stay" ? "Обсудить поездку" : "Оставить заявку"} />
       <main>
         <section className="prototype-hero">
           <div className="prototype-hero-copy">
@@ -43,7 +44,7 @@ export function PrototypeLanding({ config }: { config: SiteConfig }) {
               <div className={"prototype-service-art art-" + index} aria-hidden="true"><span>{id === "stay" ? "⌂" : id === "medical" ? "+" : id === "sports" ? "↗" : id === "beauty" ? "✳" : "↗"}</span></div>
               <h3>{service.name}</h3>
               <div className="prototype-price"><strong>{formatPrice(service.price)}</strong><span>{id === "stay" ? "за ночь · ориентир" : service.durationMinutes + " мин · демо"}</span></div>
-              <a href="#booking">Перейти к выбору <span aria-hidden="true">↗</span></a>
+              <Link aria-label={"Подробнее: "+service.name} href={demoPageHref(id,catalogPage(id).slug)+"/"+service.id}>Подробнее <span aria-hidden="true">↗</span></Link>
             </article>)}
           </div>
           {id === "auto" && <aside className="prototype-related" data-reveal><div><p className="prototype-kicker">Ещё больше деталей</p><h3>Детейлинг как отдельная история.</h3><p>Многостраничный пример OBLIK: программы, портфолио и интерактивная карта автомобиля.</p></div><Link className="prototype-button" href="/demo/detailing">Открыть OBLIK ↗</Link></aside>}

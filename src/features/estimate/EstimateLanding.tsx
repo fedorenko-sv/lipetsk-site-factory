@@ -8,7 +8,7 @@ import "@/features/prototypes/styles.css";
 export function EstimateLanding() {
   return <div className="prototype prototype-estimate"><PrototypeMotion>
     <a className="prototype-skip" href="#calculator">К расчёту</a>
-    <PrototypeHeader brand="ПРОСВЕТ" cta="Рассчитать окно" target="#calculator"/>
+    <PrototypeHeader id="estimate" brand="ПРОСВЕТ" cta="Рассчитать окно"/>
     <main>
       <section className="prototype-hero">
         <div className="prototype-hero-copy"><p className="prototype-kicker">Окна, с которых начинается дом<span>Демо</span></p><h1>Больше света.<br/>Меньше неизвестных.</h1><p className="prototype-lead">Размеры, цвет, стеклопакет и монтаж. Посмотрите, как каждый выбор влияет на стоимость — ещё до первого разговора.</p><a className="prototype-button" href="#calculator">Рассчитать свой вариант ↗</a><span className="prototype-scroll-note">Архитектура света — в простых деталях ↓</span></div>

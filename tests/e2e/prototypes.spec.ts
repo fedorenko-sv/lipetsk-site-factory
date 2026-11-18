@@ -21,7 +21,8 @@ test("PX02: мобильные первые экраны, изображения
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1),key+" overflow").toBe(true);
     expect(await page.evaluate(()=>scrollY),key+" must start at the hero").toBe(0);
     if(key!=="estimate")await expect(page.getByTestId("next-to-preference")).not.toBeInViewport();
-    await page.getByRole("link",{name:key==="estimate"?"Рассчитать окно":key==="stay"?"Обсудить поездку":"Оставить заявку",exact:true}).first().click();
+    await page.getByRole("button",{name:"Открыть меню демо"}).click();
+    await page.getByRole("dialog").locator("a[href=\"/demo/"+key+"/"+(key==="estimate"?"calculator":"booking")+"\"]").click();
     await expect(key==="estimate"?page.getByTestId("estimate-flow"):page.getByTestId("offer-step")).toBeVisible();
   }
   expect((await page.goto("/demo/not-a-prototype"))?.status()).toBe(404);

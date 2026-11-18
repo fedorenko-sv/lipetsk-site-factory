@@ -2,6 +2,7 @@
 
 import { useReducer, useRef, useEffect, useCallback } from "react";
 import type { SiteConfig } from "@/shared/contracts";
+import type { BookingTimeCopy, BookingResourceCopy } from "./presentation";
 import {
   bookingReducer,
   createInitialState,
@@ -19,18 +20,22 @@ interface BookingFlowProps {
   config: SiteConfig;
   headingLevel?: 1 | 2;
   focusOnMount?: boolean;
-  timeCopy?: { title: string; description: string; dateLabel?: string; timeLabel?: string; summaryLabel?: string };
-  resourceCopy?: { label: string; any: string; description: string };
+  timeCopy?: BookingTimeCopy;
+  resourceCopy?: BookingResourceCopy;
   initialServiceId?: string;
+  initialResourceId?: string;
   startAtPreference?: boolean;
   onReturnToLanding?: () => void;
 }
 
-export function BookingFlow({ config, initialServiceId, startAtPreference = false, onReturnToLanding, headingLevel = 1, focusOnMount = true, timeCopy, resourceCopy }: BookingFlowProps) {
+export function BookingFlow({ config, initialServiceId, initialResourceId, startAtPreference = false, onReturnToLanding, headingLevel = 1, focusOnMount = true, timeCopy, resourceCopy }: BookingFlowProps) {
   const [state, dispatch] = useReducer(bookingReducer, config, (site) => {
     let initial = createInitialState(site);
     if (initialServiceId && site.services.some((service) => service.id === initialServiceId)) {
       initial = bookingReducer(initial, { type: "SELECT_SERVICE", serviceId: initialServiceId, config: site });
+    }
+    if (initialResourceId && site.services.find(service => service.id === initial.serviceId)?.resourceIds.includes(initialResourceId)) {
+      initial = bookingReducer(initial, { type: "SET_RESOURCE", resourceId: initialResourceId });
     }
     return startAtPreference ? { ...initial, step: "preference" as const } : initial;
   });

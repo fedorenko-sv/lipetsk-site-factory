@@ -37,7 +37,7 @@ export function SiteFooter() {
       <div className="dt-footer-bottom">
         <span>Визуалы созданы для концепта. Цены демонстрационные.</span>
         <Link href={basePath + "/privacy"}>Политика демо</Link>
-        <Link href="/">Все демо</Link>
+        <Link href="/demo/detailing">OBLIK · главная</Link>
         <a href="#site-top">Наверх ↑</a>
       </div>
     </footer>

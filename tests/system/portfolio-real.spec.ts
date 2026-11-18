@@ -6,29 +6,39 @@ import { assertSafeTestDatabaseUrl } from "../../src/server/config/guards";
 const base=process.env.TEST_SYSTEM_BASE_URL??"http://127.0.0.1:3023";
 if(!process.env.TEST_DATABASE_URL||!process.env.TEST_OUTBOX_SECRET)throw new Error("Use npm run test:system");
 const dsn=assertSafeTestDatabaseUrl(process.env.TEST_DATABASE_URL);
-for(const key of ["auto","beauty","medical","sports","stay","estimate"])test("PS: "+key+" → real lead, replay, server snapshot and recording",async({page})=>{
+const cases=[
+ {key:"auto",offer:"services/storage",service:"storage"},
+ {key:"beauty",offer:"services/manicure",service:"manicure",resource:"master-b"},
+ {key:"medical",offer:"directions/checkup-info",service:"checkup-info",resource:"doctor-demo"},
+ {key:"sports",offer:"programs/teens-trial",service:"teens-trial",resource:"coach-teens"},
+ {key:"stay",offer:"houses/forest-house",service:"forest-house"},
+ {key:"estimate",offer:"windows/balcony-door",service:"balcony-door"},
+];
+for(const scenario of cases){ const key=scenario.key;test("PS: "+key+" → real lead, replay, server snapshot and recording",async({page})=>{
   const db=new Client({connectionString:dsn});await db.connect();
   let leadId:string|undefined;
+  const highWater=Number((await db.query("SELECT coalesce(max(id),0) AS n FROM rate_limits")).rows[0].n);
   try {
     await page.setExtraHTTPHeaders({"X-Test-Client":"portfolio-"+randomUUID()});
-    await page.goto(base+"/demo/"+key);
+    await page.goto(base+"/demo/"+key+"/"+scenario.offer);
     let endpoint="/api/leads";
     if(key==="estimate") {
       endpoint="/api/estimates";
+      await page.getByTestId("offer-to-calculator").click();
+      await expect(page.getByLabel("Тип конструкции")).toHaveValue("balcony-door");
       await page.getByLabel("Количество конструкций").fill("2");
       await page.getByLabel("Стеклопакет").selectOption("triple");
       await page.getByLabel("Цвет профиля").selectOption("graphite");
       await page.getByTestId("estimate-calculate").click();
-      await expect(page.getByTestId("estimate-quote-total")).toHaveText(/67.?060,80/);
+      await expect(page.getByTestId("estimate-quote-total")).toHaveText(/79.?156,80/);
       await page.getByTestId("estimate-to-contact").click();
       await page.getByTestId("estimate-phone").fill("+70000000000");
       await page.getByTestId("estimate-consent").check();
     }else{
-      await page.getByTestId("next-to-preference").click();
-      if(key==="auto")await page.getByTestId("service-option-wheel-size").selectOption("R16");
-      if(key==="beauty")await page.getByTestId("resource-select").selectOption("master-b");
-      if(key==="medical")await page.getByTestId("resource-select").selectOption("doctor-demo");
-      if(key==="sports")await page.getByTestId("resource-select").selectOption("coach-kids");
+      if(scenario.resource)await page.locator('a[href*="resource='+scenario.resource+'"]').click();
+      else await page.getByTestId("offer-to-booking").click();
+      await expect(page.getByLabel("Выбранная услуга")).toHaveValue(scenario.service);
+      if(scenario.resource)await expect(page.getByTestId("resource-select")).toHaveValue(scenario.resource);
       const date=new Date(Date.now()+2*86400000);while(date.getUTCDay()===0)date.setUTCDate(date.getUTCDate()+1);
       await page.getByTestId("preferred-date").fill(date.toISOString().slice(0,10));
       await page.getByTestId("preferred-time").selectOption("11:00");
@@ -43,10 +53,11 @@ for(const key of ["auto","beauty","medical","sports","stay","estimate"])test("PS
     const request=response.request();
     const replay=await fetch(base+endpoint,{method:"POST",headers:{"Content-Type":"application/json",Origin:base,"Idempotency-Key":request.headers()["idempotency-key"],"X-Test-Client":request.headers()["x-test-client"]},body:request.postData()});
     expect(replay.status).toBe(200);expect((await replay.json()).leadId).toBe(leadId);
-    const saved=(await db.query("SELECT site_key,kind,preferred_at,price_snapshot,(SELECT count(*)::int FROM notification_outbox o WHERE o.lead_id=l.id) AS outbox_count FROM leads l WHERE id=$1",[leadId])).rows[0];
-    expect(saved.site_key).toBe(key);expect(saved.outbox_count).toBe(1);
+    const saved=(await db.query("SELECT site_key,service_id,resource_id,kind,preferred_at,price_snapshot,(SELECT count(*)::int FROM notification_outbox o WHERE o.lead_id=l.id) AS outbox_count FROM leads l WHERE id=$1",[leadId])).rows[0];
+    expect(saved.site_key).toBe(key);expect(saved.service_id).toBe(scenario.service);
+    expect(saved.resource_id).toBe(scenario.resource??null);expect(saved.outbox_count).toBe(1);
     expect(saved.kind).toBe(key==="estimate"?"estimate":"booking");
-    if(key==="estimate"){expect(saved.preferred_at).toBe(null);expect(saved.price_snapshot.amountMinor).toBe(6706080);expect(saved.price_snapshot.estimate.parameters.quantity).toBe(2);}
+    if(key==="estimate"){expect(saved.preferred_at).toBe(null);expect(saved.price_snapshot.amountMinor).toBe(7915680);expect(saved.price_snapshot.estimate.parameters.quantity).toBe(2);}
     await expect.poll(async()=>{
       const work=await fetch(base+"/api/internal/outbox",{method:"POST",headers:{Authorization:"Bearer "+process.env.TEST_OUTBOX_SECRET}});
       expect(work.status).toBe(200);
@@ -55,9 +66,10 @@ for(const key of ["auto","beauty","medical","sports","stay","estimate"])test("PS
     },{timeout:15000}).toBe(1);
     const recorded=(await db.query("SELECT r.payload,o.status FROM notification_receipts r JOIN notification_outbox o ON o.id=r.outbox_id WHERE r.lead_id=$1",[leadId])).rows;
     expect(recorded).toHaveLength(1);expect(recorded[0].status).toBe("sent");
-    if(key==="estimate")expect(recorded[0].payload.estimate.totalMinor).toBe(6706080);
+    if(key==="estimate")expect(recorded[0].payload.estimate.totalMinor).toBe(7915680);
   }finally{
     if(leadId)await db.query("DELETE FROM leads WHERE id=$1",[leadId]);
+    await db.query("DELETE FROM rate_limits WHERE id>$1",[highWater]);
     await db.end();
   }
-});
+});}
