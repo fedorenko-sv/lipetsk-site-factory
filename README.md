@@ -36,6 +36,8 @@ npm run preview:portfolio
 
 Показ и отдельные входы: [инструкция](docs/16-demo-delivery.md).
 
+[Фактический финальный контроль 18.11.2026](docs/reports/six-demos-2026-11-18.md): 144 browser, 13 system, 53 integration, 62 backend unit, 38 UI unit; 69 маршрутов.
+
 ## План и архитектура
 
 - [Подробная карта проекта](docs/13-six-prototypes-project-map.md): ядра, модули, маршруты и границы.
