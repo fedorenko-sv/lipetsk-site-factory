@@ -40,7 +40,6 @@ export function normalizePhone(input: unknown, mode: "demo" | "live"): string | 
   if (s.length === 0) return null;
 
   // Управляющие символы (переносы строк, табуляция и т.п.) где угодно — отказ.
-  // eslint-disable-next-line no-control-regex
   if (/[\u0000-\u001F\u007F]/.test(s)) return null;
 
   if (!RU_PHONE_RE.test(s)) return null;

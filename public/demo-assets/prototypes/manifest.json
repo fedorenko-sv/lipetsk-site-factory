@@ -1,0 +1,42 @@
+{
+  "created": "2026-11-18",
+  "source": "Generated with the image generation tool for this demo; not photographs of actual businesses.",
+  "usage": "Concept backgrounds; no real premises, staff, clients or works are asserted.",
+  "assets": [
+    {
+      "file": "beauty.webp",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 146048,
+      "sha256": "0675729575ee5a5a9eb68a0df82b1f017415836aea18bd1fe13a391d66476933"
+    },
+    {
+      "file": "medical.webp",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 107956,
+      "sha256": "3ec08531b84e790b3493b0386474623eeb81ad9d90513261642d72301c2a1424"
+    },
+    {
+      "file": "sports.webp",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 233942,
+      "sha256": "6e07bda1dbceebf9a7f5a711612abd6eca5b0c5f6ed068ef2fc984d696921cae"
+    },
+    {
+      "file": "stay.webp",
+      "width": 1600,
+      "height": 900,
+      "bytes": 328322,
+      "sha256": "766534a985faa5fd02b73f1b2f307a876fc2773890437398b55ae2aa18c43dd8"
+    },
+    {
+      "file": "estimate.webp",
+      "width": 1600,
+      "height": 900,
+      "bytes": 256476,
+      "sha256": "343c83b5b8bf5a4be2581b32c4fef7446334740d6351d048b6d3d215b6db41e4"
+    }
+  ]
+}

@@ -39,10 +39,12 @@ const destinations = {
   SITE_DESTINATIONS_JSON: JSON.stringify({
     auto: { destinationKey: "demo-auto-v1", version: 1 },
     beauty: { destinationKey: "demo-beauty-v1", version: 1 },
+    estimate: { destinationKey: "demo-estimate-v1", version: 1 },
   }),
   NOTIFICATION_DESTINATIONS_JSON: JSON.stringify({
     "demo-auto-v1": { adapterId: "recording" },
     "demo-beauty-v1": { adapterId: "recording" },
+    "demo-estimate-v1": { adapterId: "recording" },
   }),
 };
 
@@ -52,7 +54,7 @@ function appEnv(port, databaseUrl, overrides = {}) {
     NODE_ENV: "production",
     DATABASE_URL: databaseUrl,
     ALLOWED_ORIGINS: `http://127.0.0.1:${port}`,
-    ALLOWED_SITE_KEYS: "auto,beauty",
+    ALLOWED_SITE_KEYS: "auto,beauty,estimate",
     ENABLE_LIVE_LEADS: "false",
     TRUSTED_IP_HEADER: "X-Test-Client",
     ...envSecrets,
@@ -140,6 +142,7 @@ async function main() {
     NOTIFICATION_DESTINATIONS_JSON: JSON.stringify({
       "demo-auto-v1": { adapterId: "ghost-channel" },
       "demo-beauty-v1": { adapterId: "ghost-channel" },
+      "demo-estimate-v1": { adapterId: "ghost-channel" },
     }),
   });
   try {
@@ -160,7 +163,7 @@ async function main() {
         "--test",
         // Один PostgreSQL на все сценарии: файлы обязаны идти последовательно.
         "--test-concurrency=1",
-        ...["idempotency", "leads-http", "limits", "outbox", "outbox-br", "readiness", "maintenance"].map(
+        ...["idempotency", "leads-http", "limits", "outbox", "outbox-br", "readiness", "maintenance", "estimates"].map(
           (name) => path.join(...testList, `${name}.test.mjs`),
         ),
       ],

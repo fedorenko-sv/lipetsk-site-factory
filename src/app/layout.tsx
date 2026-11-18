@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Авто · Демо — подготовка",
-  description: "Демонстрационный проект заявки без звонка. Приём заявок ещё не подключён.",
+  title: "Форма и дело — шесть демонстрационных сайтов",
+  description: "Демонстрационные сайты для локального бизнеса: выбор услуг, расчёт и синтетическая заявка.",
   robots: { index: false, follow: false },
 };
 

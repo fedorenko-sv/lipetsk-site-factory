@@ -40,7 +40,7 @@ const env = {
   DATABASE_URL: dsn,
   TEST_DATABASE_URL: dsn,
   ALLOWED_ORIGINS: BASE,
-  ALLOWED_SITE_KEYS: "auto,beauty,detailing",
+  ALLOWED_SITE_KEYS: "auto,beauty,detailing,medical,sports,stay,estimate",
   ENABLE_LIVE_LEADS: "false",
   IDEMPOTENCY_HMAC_KEY: secret(),
   RATE_LIMIT_HMAC_KEY: secret(),
@@ -49,11 +49,13 @@ const env = {
     detailing: { destinationKey: "demo-detailing-v1", version: 1 },
     auto: { destinationKey: "demo-auto-v1", version: 1 },
     beauty: { destinationKey: "demo-beauty-v1", version: 1 },
+    ...Object.fromEntries(["medical","sports","stay","estimate"].map(key=>[key,{destinationKey:"demo-"+key+"-v1",version:1}])),
   }),
   NOTIFICATION_DESTINATIONS_JSON: JSON.stringify({
     "demo-detailing-v1": { adapterId: "recording" },
     "demo-auto-v1": { adapterId: "recording" },
     "demo-beauty-v1": { adapterId: "recording" },
+    ...Object.fromEntries(["medical","sports","stay","estimate"].map(key=>["demo-"+key+"-v1",{adapterId:"recording"}])),
   }),
 };
 const migrated = spawnSync(

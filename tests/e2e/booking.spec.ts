@@ -13,7 +13,7 @@ test("FE01: Auto первый экран, 3 цены и CTA", async ({ page }) =
   await page.goto("/demo/auto");
 
   await expect(page.getByTestId("offer-step")).toBeVisible();
-  await expect(page.getByText("Авто · Демо")).toBeVisible();
+  await expect(page.getByTestId("offer-step").getByText("Авто · Демо")).toBeVisible();
   await expect(page.getByTestId("service-tire-change")).toBeVisible();
   await expect(page.getByTestId("service-balancing")).toBeVisible();
   await expect(page.getByTestId("service-storage")).toBeVisible();
@@ -313,4 +313,3 @@ test("FE10: Двойной click/Enter — один запрос", async ({ page
   await expect(page.getByTestId("lead-success")).toBeVisible();
   expect(requestCount).toBe(1);
 });
-

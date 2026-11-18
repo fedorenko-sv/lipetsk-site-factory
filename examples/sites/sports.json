@@ -1,0 +1,105 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "sports",
+  "contentVersion": "demo-2026-11-18",
+  "mode": "demo",
+  "core": "booking",
+  "theme": "technical",
+  "locale": "ru-RU",
+  "timezone": "Europe/Moscow",
+  "brandName": "ДВИЖ · демо",
+  "hero": {
+    "eyebrow": "Демонстрационный концепт",
+    "title": "Больше движения. Больше интереса.",
+    "subtitle": "Пробное занятие, знакомство с тренером и программа по возрасту. Заявка не гарантирует свободного места.",
+    "ctaText": "Выбрать занятие"
+  },
+  "contacts": {},
+  "address": "Липецк · демонстрационный адрес",
+  "priceDisclaimer": "Демонстрационные цены. Точную стоимость и время подтверждает администратор.",
+  "services": [
+    {
+      "id": "kids-trial",
+      "name": "Пробное занятие · 6–9 лет",
+      "category": "Дети",
+      "durationMinutes": 45,
+      "price": {
+        "kind": "from",
+        "amountMinor": 70000,
+        "currency": "RUB"
+      },
+      "resourceIds": [
+        "coach-kids"
+      ],
+      "options": []
+    },
+    {
+      "id": "teens-trial",
+      "name": "Пробное занятие · 10–14 лет",
+      "category": "Подростки",
+      "durationMinutes": 60,
+      "price": {
+        "kind": "from",
+        "amountMinor": 80000,
+        "currency": "RUB"
+      },
+      "resourceIds": [
+        "coach-teens"
+      ],
+      "options": []
+    },
+    {
+      "id": "adult-trial",
+      "name": "Движение для взрослых",
+      "category": "Взрослые",
+      "durationMinutes": 60,
+      "price": {
+        "kind": "from",
+        "amountMinor": 100000,
+        "currency": "RUB"
+      },
+      "resourceIds": [
+        "coach-adult"
+      ],
+      "options": []
+    }
+  ],
+  "resources": [
+    {
+      "id": "coach-kids",
+      "name": "Тренер детской группы · демо"
+    },
+    {
+      "id": "coach-teens",
+      "name": "Тренер подростковой группы · демо"
+    },
+    {
+      "id": "coach-adult",
+      "name": "Тренер взрослых · демо"
+    }
+  ],
+  "booking": {
+    "resourceSelection": "optional",
+    "preferenceRequired": true,
+    "horizonDays": 30,
+    "timeStepMinutes": 30,
+    "workingHours": {
+      "opens": "10:00",
+      "closes": "20:00",
+      "days": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    }
+  },
+  "legal": {
+    "consentVersion": "demo-2026-11-18",
+    "policyPath": "/demo/sports/privacy",
+    "operatorName": null,
+    "approved": false
+  }
+}

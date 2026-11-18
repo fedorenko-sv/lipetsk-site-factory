@@ -32,7 +32,7 @@ export type CreateLeadResult =
 
 /** Готовность режима: demo требует настроенный recording-адаптер и назначение. */
 export function checkModeReady(
-  config: SiteConfig,
+  config: Pick<SiteConfig, "mode">,
   destination: SiteDestination | undefined,
   runtime: RuntimeConfig,
 ): { ok: true } | { ok: false; code: "DEMO_NOT_READY" | "LIVE_NOT_READY" } {

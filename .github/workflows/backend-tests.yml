@@ -42,3 +42,7 @@ jobs:
           DATABASE_URL: "postgresql://lsf_test:lsf_test_only@127.0.0.1:5432/lsf_test_backend"
       - name: Полная проверка серверного блока
         run: npm run verify:backend
+      - name: Установка Chromium для настоящих UI/API/DB сценариев
+        run: npx playwright install --with-deps chromium
+      - name: Общий system smoke двух ядер и шести направлений
+        run: npm run test:system

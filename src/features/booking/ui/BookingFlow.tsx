@@ -17,12 +17,16 @@ import { ContactStep } from "./ContactStep";
 
 interface BookingFlowProps {
   config: SiteConfig;
+  headingLevel?: 1 | 2;
+  focusOnMount?: boolean;
+  timeCopy?: { title: string; description: string; dateLabel?: string; timeLabel?: string; summaryLabel?: string };
+  resourceCopy?: { label: string; any: string; description: string };
   initialServiceId?: string;
   startAtPreference?: boolean;
   onReturnToLanding?: () => void;
 }
 
-export function BookingFlow({ config, initialServiceId, startAtPreference = false, onReturnToLanding }: BookingFlowProps) {
+export function BookingFlow({ config, initialServiceId, startAtPreference = false, onReturnToLanding, headingLevel = 1, focusOnMount = true, timeCopy, resourceCopy }: BookingFlowProps) {
   const [state, dispatch] = useReducer(bookingReducer, config, (site) => {
     let initial = createInitialState(site);
     if (initialServiceId && site.services.some((service) => service.id === initialServiceId)) {
@@ -31,6 +35,7 @@ export function BookingFlow({ config, initialServiceId, startAtPreference = fals
     return startAtPreference ? { ...initial, step: "preference" as const } : initial;
   });
 
+  const focusedStep = useRef<string | null>(focusOnMount ? null : state.step);
   const offerHeadingRef = useRef<HTMLHeadingElement | null>(null);
   const preferenceHeadingRef = useRef<HTMLHeadingElement | null>(null);
   const contactHeadingRef = useRef<HTMLHeadingElement | null>(null);
@@ -39,6 +44,8 @@ export function BookingFlow({ config, initialServiceId, startAtPreference = fals
 
   // Focus management on step change
   useEffect(() => {
+    if (focusedStep.current === state.step) return;
+    focusedStep.current = state.step;
     if (state.step === "offer") {
       offerHeadingRef.current?.focus();
     } else if (state.step === "preference") {
@@ -46,7 +53,7 @@ export function BookingFlow({ config, initialServiceId, startAtPreference = fals
     } else if (state.step === "contact") {
       contactHeadingRef.current?.focus();
     }
-  }, [state.step]);
+  }, [state.step, focusOnMount]);
 
   // Rate-limiting cooldown countdown
   useEffect(() => {
@@ -183,6 +190,7 @@ export function BookingFlow({ config, initialServiceId, startAtPreference = fals
       {state.step === "offer" && (
         <OfferStep
           config={config}
+          headingLevel={headingLevel}
           selectedServiceId={state.serviceId}
           onSelectService={handleSelectService}
           onNext={handleNextToPreference}
@@ -192,7 +200,10 @@ export function BookingFlow({ config, initialServiceId, startAtPreference = fals
 
       {state.step === "preference" && (
         <PreferenceStep
+          timeCopy={timeCopy}
+          resourceCopy={resourceCopy}
           config={config}
+          headingLevel={headingLevel}
           state={state}
           onSelectService={handleSelectService}
           onSetOption={(optionId, value) =>
@@ -211,7 +222,9 @@ export function BookingFlow({ config, initialServiceId, startAtPreference = fals
 
       {state.step === "contact" && (
         <ContactStep
+          timeLabel={timeCopy?.summaryLabel}
           config={config}
+          headingLevel={headingLevel}
           state={state}
           onSetPhone={(phone) => dispatch({ type: "SET_PHONE", phone })}
           onSetName={(name) => dispatch({ type: "SET_NAME", name })}

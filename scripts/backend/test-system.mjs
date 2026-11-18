@@ -20,7 +20,7 @@ const childEnv = {
   NODE_ENV: "production",
   DATABASE_URL: TEST_DSN,
   ALLOWED_ORIGINS: "http://127.0.0.1:3023",
-  ALLOWED_SITE_KEYS: "auto,beauty",
+  ALLOWED_SITE_KEYS: "auto,beauty,medical,sports,stay,estimate",
   ENABLE_LIVE_LEADS: "false",
   TRUSTED_IP_HEADER: "X-Test-Client",
   IDEMPOTENCY_HMAC_KEY: secret(),
@@ -29,10 +29,12 @@ const childEnv = {
   SITE_DESTINATIONS_JSON: JSON.stringify({
     auto: { destinationKey: "demo-auto-v1", version: 1 },
     beauty: { destinationKey: "demo-beauty-v1", version: 1 },
+    ...Object.fromEntries(["medical","sports","stay","estimate"].map(key=>[key,{destinationKey:"demo-"+key+"-v1",version:1}])),
   }),
   NOTIFICATION_DESTINATIONS_JSON: JSON.stringify({
     "demo-auto-v1": { adapterId: "recording" },
     "demo-beauty-v1": { adapterId: "recording" },
+    ...Object.fromEntries(["medical","sports","stay","estimate"].map(key=>["demo-"+key+"-v1",{adapterId:"recording"}])),
   }),
   TEST_DATABASE_URL: TEST_DSN,
   TEST_SYSTEM_BASE_URL: "http://127.0.0.1:3023",

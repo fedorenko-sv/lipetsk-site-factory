@@ -2,18 +2,20 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getSiteConfig, getAllSiteKeys } from "@/config/sites";
+import { estimateConfig } from "@/features/estimate/config";
+const resolveConfig = (key: string) => key === "estimate" ? { ...estimateConfig, theme: "editorial" } : getSiteConfig(key);
 
 interface Props {
   params: Promise<{ siteKey: string }>;
 }
 
 export function generateStaticParams() {
-  return getAllSiteKeys().map((siteKey) => ({ siteKey }));
+  return [...getAllSiteKeys(), "estimate"].map((siteKey) => ({ siteKey }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { siteKey } = await params;
-  const config = getSiteConfig(siteKey);
+  const config = resolveConfig(siteKey);
 
   if (!config) {
     return {
@@ -30,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function DemoPrivacyPage({ params }: Props) {
   const { siteKey } = await params;
-  const config = getSiteConfig(siteKey);
+  const config = resolveConfig(siteKey);
 
   if (!config) notFound();
 
@@ -61,10 +63,10 @@ export default async function DemoPrivacyPage({ params }: Props) {
             Версия согласия: <code className="text-[var(--color-accent)] font-mono">{config.legal.consentVersion}</code>
           </p>
           <p>
-            Данный демонстрационный стенд Lipetsk Site Factory демонстрирует работу формы записи для направления «{config.brandName}».
+            Данный демонстрационный стенд Lipetsk Site Factory демонстрирует работу тестовой заявки для направления «{config.brandName}».
           </p>
           <p>
-            В демонстрационном режиме для тестирования используется номер <code className="text-[var(--color-accent)]">+70000000000</code>. Настоящие персональные данные посетителей не сохраняются в долгосрочные базы и не передаются третьим лицам.
+            В демонстрационном режиме для тестирования используется номер <code className="text-[var(--color-accent)]">+70000000000</code>. Форма сохраняет тестовую заявку в демонстрационную базу и создаёт запись для проверочного адаптера. Внешние уведомления не подключены. Не вводите настоящие контакты и медицинские сведения.
           </p>
         </div>
       </main>

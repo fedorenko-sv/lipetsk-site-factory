@@ -9,6 +9,7 @@ interface OfferStepProps {
   onSelectService: (serviceId: string) => void;
   onNext: () => void;
   headingRef?: React.RefObject<HTMLHeadingElement | null>;
+  headingLevel?: 1 | 2;
 }
 
 export function OfferStep({
@@ -17,7 +18,9 @@ export function OfferStep({
   onSelectService,
   onNext,
   headingRef,
+  headingLevel = 1,
 }: OfferStepProps) {
+  const Heading = headingLevel === 2 ? "h2" : "h1";
   const selectedService = config.services.find((s) => s.id === selectedServiceId);
 
   return (
@@ -54,13 +57,13 @@ export function OfferStep({
         <p className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-[var(--color-accent)] mb-2">
           {config.hero.eyebrow}
         </p>
-        <h1
+        <Heading
           ref={headingRef}
           tabIndex={-1}
           className="text-2xl sm:text-4xl font-extrabold tracking-tight text-[var(--text-main)] leading-tight mb-4 focus:outline-none"
         >
           {config.hero.title}
-        </h1>
+        </Heading>
         <p className="text-sm sm:text-base text-[var(--text-muted)] leading-relaxed max-w-xl">
           {config.hero.subtitle}
         </p>

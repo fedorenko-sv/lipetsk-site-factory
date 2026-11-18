@@ -96,7 +96,8 @@ test("BI01 повтор миграций не меняет схему", async ()
   ));
   assert.deepEqual(after.rows.filter((r) => r.table_name !== "pg_%"), before.rows);
   const versions = await db((c) => c.query("SELECT count(*)::int AS n FROM schema_migrations"));
-  assert.equal(versions.rows[0].n, 2);
+  assert.equal(versions.rows[0].n, 3);
+  assert.ok(run.stdout.includes("skip 003_estimate_leads"), run.stdout);
 });
 
 test("BI08 ошибка вставки outbox: rollback lead, 503, ни одной неполной пары", async () => {

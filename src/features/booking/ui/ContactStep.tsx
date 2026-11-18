@@ -17,6 +17,8 @@ interface ContactStepProps {
   onReset: () => void;
   onBack: () => void;
   headingRef?: React.RefObject<HTMLHeadingElement | null>;
+  headingLevel?: 1 | 2;
+  timeLabel?: string;
 }
 
 function getFieldLabel(key: string): string {
@@ -44,7 +46,10 @@ export function ContactStep({
   onReset,
   onBack,
   headingRef,
+  headingLevel = 1,
+  timeLabel = "Желаемое время",
 }: ContactStepProps) {
+  const Heading = headingLevel === 2 ? "h2" : "h1";
   const service =
     config.services.find((s) => s.id === state.serviceId) ?? config.services[0];
   const resource = config.resources.find((r) => r.id === state.resourceId);
@@ -103,13 +108,13 @@ export function ContactStep({
             </svg>
           </div>
 
-          <h1
+          <Heading
             ref={headingRef}
             tabIndex={-1}
             className="text-2xl sm:text-3xl font-extrabold text-[var(--text-main)] mb-2 focus:outline-none"
           >
             Заявка получена
-          </h1>
+          </Heading>
 
           <p className="text-sm sm:text-base text-[var(--text-muted)] mb-4 leading-relaxed">
             {state.submitReceipt.message}
@@ -126,7 +131,7 @@ export function ContactStep({
             <div><strong>Услуга:</strong> {service.name} ({formatPrice(service.price)})</div>
             {resource && <div><strong>Специалист:</strong> {resource.name}</div>}
             {state.preferred && (
-              <div><strong>Желаемое время:</strong> {state.preferred.date} в {state.preferred.time} (МСК)</div>
+              <div><strong>{timeLabel}:</strong> {state.preferred.date} в {state.preferred.time} (МСК)</div>
             )}
           </div>
 
@@ -167,13 +172,13 @@ export function ContactStep({
         <p className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-[var(--color-accent)] mb-1">
           Шаг 3 из 3
         </p>
-        <h1
+        <Heading
           ref={headingRef}
           tabIndex={-1}
           className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[var(--text-main)] focus:outline-none"
         >
           Контакты и подтверждение
-        </h1>
+        </Heading>
       </header>
 
       {/* Step 2 Error Summary Banner if server or validation flagged parameters/time */}
@@ -245,7 +250,7 @@ export function ContactStep({
 
           {state.preferred && (
             <div className="text-xs pt-1">
-              <span className="text-[var(--text-faint)]">Желаемое время:</span>{" "}
+              <span className="text-[var(--text-faint)]">{timeLabel}:</span>{" "}
               <strong className="text-[var(--text-main)]">{state.preferred.date} в {state.preferred.time} (МСК)</strong>
             </div>
           )}

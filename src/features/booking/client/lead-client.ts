@@ -1,3 +1,4 @@
+import type {EstimateLeadRequest} from "../../../shared/estimate-contracts.ts";
 import type {
   ApiErrorCode,
   ApiErrorEnvelope,
@@ -6,6 +7,7 @@ import type {
 } from "../../../shared/contracts.ts";
 
 export interface SubmitOptions {
+  endpoint?: "/api/leads" | "/api/estimates";
   idempotencyKey: string;
   signal?: AbortSignal;
   timeoutMs?: number;
@@ -94,9 +96,12 @@ export function parseRetryAfter(headerValue: string | null | undefined): number 
 }
 
 export async function submitLead(
-  body: LeadCreateRequest,
+  body: LeadCreateRequest | EstimateLeadRequest,
   options: SubmitOptions
 ): Promise<SubmitResult> {
+  if (options.endpoint && options.endpoint !== "/api/leads" && options.endpoint !== "/api/estimates") {
+    throw new SubmitError({ kind: "invalid-response", message: "Недопустимый адрес формы" });
+  }
   const timeoutMs = options.timeoutMs ?? 15000;
   const controller = new AbortController();
 
@@ -125,7 +130,7 @@ export async function submitLead(
   }
 
   try {
-    const response = await fetch("/api/leads", {
+    const response = await fetch(options.endpoint ?? "/api/leads", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

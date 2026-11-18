@@ -1,0 +1,6 @@
+{
+  "schemaVersion":"1.0.0","id":"estimate","mode":"demo","core":"calculator",
+  "contentVersion":"demo-2026-11-18","formulaVersion":"windows-v1","brandName":"ПРОСВЕТ · демо",
+  "rates":{"frameRateMinor":1200000,"doorRateMinor":1500000,"tripleExtraMinor":240000,"graphitePercent":20,"installationMinorEach":450000},
+  "legal":{"consentVersion":"demo-2026-11-18","policyPath":"/demo/estimate/privacy","approved":false,"operatorName":null}
+}

@@ -11,7 +11,7 @@ import type { Clock } from "./ports.ts";
 export interface PreparedLeadRow {
   siteKey: string;
   configVersion: string;
-  kind: "booking";
+  kind: "booking" | "estimate";
   serviceId: string;
   resourceId: string | null;
   serviceOptions: Record<string, string>;

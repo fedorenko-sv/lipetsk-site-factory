@@ -116,14 +116,14 @@ export class PgLeadStore implements LeadStore {
              service_options, preferred_at, timezone, customer_phone, customer_name,
              consent_version, consent_at, status, price_snapshot, attribution,
              idempotency_key, payload_hmac, created_at
-           ) VALUES ($1,$2,$3,'booking',$4,$5,$6,$7,'Europe/Moscow',$8,$9,$10,$11,'new',$12,$13,$14,$15,$16)`,
+           ) VALUES ($1,$2,$3,$17,$4,$5,$6,$7,'Europe/Moscow',$8,$9,$10,$11,'new',$12,$13,$14,$15,$16)`,
           [
             leadId, row.siteKey, row.configVersion, row.serviceId, row.resourceId,
             JSON.stringify(row.serviceOptions), row.preferredAt, row.customerPhone,
             row.customerName, row.consentVersion, row.consentAt,
             JSON.stringify(row.priceSnapshot),
             row.attribution === null ? null : JSON.stringify(row.attribution),
-            idempotencyKey, payloadHmac, row.createdAt,
+            idempotencyKey, payloadHmac, row.createdAt, row.kind,
           ],
         );
         // Ошибка вставки outbox откатывает и lead (BI08): один COMMIT на пару.

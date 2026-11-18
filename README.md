@@ -1,5 +1,14 @@
 # Lipetsk Site Factory
 
+## Шесть направлений · 18.11.2026
+
+Текущий выпуск: A1 Auto, A2 Beauty, A3 Medical, A4 Sports/Kids, A5 Stay и B1 Calculator окон. Auto также ведёт к многостраничному OBLIK. Рабочие сценарии — Booking A и Calculator B; RFQ C отложен.
+
+Карта: [docs/13-six-prototypes-project-map.md](docs/13-six-prototypes-project-map.md). План: [шесть прототипов](docs/superpowers/plans/2026-11-18-six-prototypes.md). Calculator: [контракт](docs/14-estimate-contract.md).
+
+Локальный просмотр с синтетической БД: npm run db:test:up, npm run build, npm run preview:portfolio. Витрина: http://127.0.0.1:3035 — сервер работает, пока открыт процесс preview. Все направления доступны из витрины. Для другого порта задайте PORTFOLIO_PREVIEW_PORT.
+
+
 **В этой ветке: OBLIK — многостраничное демо детейлинг-ателье.** [Открыть сайт](http://127.0.0.1:3034/demo/detailing) · [каталог](http://127.0.0.1:3034/demo/detailing/services) · [цены](http://127.0.0.1:3034/demo/detailing/prices). Четырнадцать страниц, общий выбор услуг и реальная тестовая запись. [Карта сайта и наполнение](docs/12-detailing-site-map.md), [план выполнения](docs/superpowers/plans/2026-11-15-detailing-complete-demo.md). Ниже — история предыдущих пакетов.
 
 [План до полноценного сайта: четыре итерации](docs/11-complete-demo-plan.md) — состав страниц, hero/дизайн, роли и критерии готового демо. Текущие технические исправления заканчиваются по своим заданиям; этот план определяет следующий презентационный этап.

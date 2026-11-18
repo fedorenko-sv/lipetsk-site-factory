@@ -21,6 +21,9 @@ interface PreferenceStepProps {
   onBack: () => void;
   onNext: () => void;
   headingRef?: React.RefObject<HTMLHeadingElement | null>;
+  headingLevel?: 1 | 2;
+  timeCopy?: { title: string; description: string; dateLabel?: string; timeLabel?: string };
+  resourceCopy?: { label: string; any: string; description: string };
 }
 
 export function PreferenceStep({
@@ -34,7 +37,11 @@ export function PreferenceStep({
   onBack,
   onNext,
   headingRef,
+  headingLevel = 1,
+  timeCopy,
+  resourceCopy,
 }: PreferenceStepProps) {
+  const Heading = headingLevel === 2 ? "h2" : "h1";
   const currentService =
     config.services.find((s) => s.id === state.serviceId) ?? config.services[0];
 
@@ -108,13 +115,13 @@ export function PreferenceStep({
         <p className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-[var(--color-accent)] mb-1">
           Шаг 2 из 3
         </p>
-        <h1
+        <Heading
           ref={headingRef}
           tabIndex={-1}
           className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[var(--text-main)] focus:outline-none"
         >
-          Параметры и удобное время
-        </h1>
+          {timeCopy?.title ?? "Параметры и удобное время"}
+        </Heading>
       </header>
 
       {/* Service selection dropdown */}
@@ -201,7 +208,7 @@ export function PreferenceStep({
             Специалист / Мастер
           </label>
           <p className="text-xs text-[var(--text-faint)] mb-2.5">
-            При выборе «Любой мастер» заявка будет распределена свободно.
+            {resourceCopy?.description ?? "При выборе «Любой мастер» заявка будет распределена свободно."}
           </p>
           <select
             id="resource-select"
@@ -213,7 +220,7 @@ export function PreferenceStep({
             aria-describedby={state.fieldErrors["resourceId"] ? "err-resource" : undefined}
             className="w-full min-h-[44px] p-3 rounded-lg bg-[var(--bg-surface-elevated)] border border-[var(--border-default)] text-[var(--text-main)] focus:border-[var(--color-accent)] focus:outline-none"
           >
-            <option value="">Любой мастер</option>
+            <option value="">{resourceCopy?.any ?? "Любой мастер"}</option>
             {availableResources.map((res) => (
               <option key={res.id} value={res.id}>
                 {res.name}
@@ -234,14 +241,14 @@ export function PreferenceStep({
           Предпочтительное время
         </h2>
         <p className="text-xs text-[var(--text-muted)] mb-4">
-          Выберите удобное время — мастер подтвердит при звонке.
+          {timeCopy?.description ?? "Выберите удобное время — мастер подтвердит при звонке."}
         </p>
 
         <div className="grid gap-4 sm:grid-cols-2">
           {/* Date Picker */}
           <div>
             <label htmlFor="preferred-date" className="block text-xs font-medium text-[var(--text-muted)] mb-1.5">
-              Дата <span className="text-[var(--color-accent)]">*</span>
+              {timeCopy?.dateLabel ?? "Дата"} <span className="text-[var(--color-accent)]">*</span>
             </label>
             <input
               type="date"
@@ -277,7 +284,7 @@ export function PreferenceStep({
           {/* Time Picker */}
           <div>
             <label htmlFor="preferred-time" className="block text-xs font-medium text-[var(--text-muted)] mb-1.5">
-              Время (желаемое) <span className="text-[var(--color-accent)]">*</span>
+              {timeCopy?.timeLabel ?? "Время (желаемое)"} <span className="text-[var(--color-accent)]">*</span>
             </label>
             <select
               id="preferred-time"
@@ -293,7 +300,7 @@ export function PreferenceStep({
               {!state.preferred?.date ? (
                 <option value="">Сначала укажите дату</option>
               ) : availableSlots.length === 0 ? (
-                <option value="">Нет доступных слотов</option>
+                <option value="">Нет времени для выбора</option>
               ) : (
                 <>
                   <option value="">Выберите время</option>

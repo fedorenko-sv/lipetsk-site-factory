@@ -18,7 +18,7 @@ interface LeadSnapshot {
   customer_name: string | null;
   preferred_at: string | null;
   created_at: string;
-  price_snapshot: { name?: string };
+  price_snapshot: { name?: string; estimate?: unknown };
   destination_key: string;
   adapter_id: string;
 }
@@ -71,6 +71,7 @@ export class RecordingAdapter implements NotificationPort {
         destinationKey: snapshot.destination_key,
         adapterId: snapshot.adapter_id,
         service: snapshot.price_snapshot?.name ?? null,
+        ...(snapshot.price_snapshot?.estimate ? { estimate: snapshot.price_snapshot.estimate } : {}),
         preferredAt: snapshot.preferred_at,
         leadCreatedAt: snapshot.created_at,
         phone: snapshot.customer_phone,

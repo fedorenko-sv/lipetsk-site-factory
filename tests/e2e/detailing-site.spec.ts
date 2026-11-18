@@ -162,12 +162,23 @@ test("SITE06: the mobile site connects the film, catalogue, care questions and p
 test("SITE07: photographic entrances stop immediately when reduced motion is enabled", async ({
   page,
 }) => {
+  // Hold only entrance animations in this test: WebKit may finish 440 ms
+  // before the automation poll reaches the card. Cancellation must remove
+  // the real native animation rather than pass because its timer elapsed.
+  await page.addInitScript(() => {
+    const animate = Element.prototype.animate;
+    Element.prototype.animate = function (this: Element, ...args: Parameters<Element["animate"]>) {
+      const animation = animate.apply(this, args);
+      if (this.classList.contains("site-program-reveal")) animation.pause();
+      return animation;
+    };
+  });
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto(base + "/services");
   const last = page.locator(".site-program-reveal").last();
   await last.scrollIntoViewIfNeeded();
   await expect
-    .poll(() => last.evaluate((el) => el.getAnimations().some((a) => a.playState === "running")))
+    .poll(() => last.evaluate((el) => el.getAnimations().some((a) => a.playState === "paused")))
     .toBe(true);
   await page.emulateMedia({ reducedMotion: "reduce" });
   await expect.poll(() => last.evaluate((el) => el.getAnimations().length)).toBe(0);
