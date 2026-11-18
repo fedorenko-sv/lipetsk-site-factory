@@ -1,0 +1,30 @@
+{
+  "command": "npx playwright test --config work/playwright.polish.config.ts tests/e2e/detailing.spec.ts --grep 'DT01|DT02|DT07|DT09|DT11' --repeat-each 2 --reporter=line,json",
+  "environment": "Windows 11, production preview 127.0.0.1:3035",
+  "projects": [
+    "chromium",
+    "webkit"
+  ],
+  "cases": [
+    "DT01: actual autoplay, pause, resume, offscreen stop",
+    "DT02: reduced motion, no video download",
+    "DT07: paused seek preserves pause",
+    "DT09: saveData, complete photo series, no MP4",
+    "DT11: denied autoplay, no unauthorized playing, manual native playback at selected frame"
+  ],
+  "repeatEach": 2,
+  "stats": {
+    "startTime": "2026-11-18T12:21:40.210Z",
+    "duration": 86461.291,
+    "expected": 20,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "exitCode": 0,
+  "checks": {
+    "lint": 0,
+    "typecheck": 0
+  },
+  "notes": "Five behaviors x two browsers x two repetitions. No retries or skips. UI response timeout unchanged."
+}

@@ -286,7 +286,12 @@ test("DT11: autoplay denial keeps every plate usable; user playback resumes at t
   await page.addInitScript(() => {
     let allowed = false;
     let denials = 0;
+    let unauthorizedStarts = 0;
     Object.defineProperty(window, "__dtAutoplayDenials", { get: () => denials });
+    Object.defineProperty(window, "__dtUnauthorizedVideoStarts", { get: () => unauthorizedStarts });
+    document.addEventListener("playing", (event) => {
+      if (!allowed && event.target instanceof HTMLVideoElement) unauthorizedStarts++;
+    }, true);
     const play = HTMLMediaElement.prototype.play;
     document.addEventListener(
       "click",
@@ -315,6 +320,8 @@ test("DT11: autoplay denial keeps every plate usable; user playback resumes at t
   await expect(resume).toBeVisible();
   await page.getByRole("button", { name: "Показать кадр: Линия крыла" }).click();
   await expect(page.locator(".dt-film-still")).toHaveAttribute("src", /reverse\.webp$/);
+  await expect.poll(() => page.locator("video").evaluate((el: HTMLVideoElement) => el.paused)).toBe(true);
+  expect(await page.evaluate(() => Number(Reflect.get(window, "__dtUnauthorizedVideoStarts")))).toBe(0);
   await resume.click();
   await expect
     .poll(

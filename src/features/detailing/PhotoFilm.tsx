@@ -53,7 +53,10 @@ export function PhotoFilm() {
         video.src = media + (window.innerWidth < 720 ? "atelier-720.mp4" : "atelier-1080.mp4");
       }
       void video.play().catch((error: Error) => {
-        if (live && error.name !== "AbortError") setBlocked(true);
+        if (live && error.name !== "AbortError") {
+          video.pause();
+          setBlocked(true);
+        }
       });
     };
     const observer = new IntersectionObserver(([entry]) => {
@@ -133,7 +136,6 @@ export function PhotoFilm() {
           muted
           loop
           playsInline
-          autoPlay
           preload="none"
           poster={media + "hero.webp"}
           onLoadedMetadata={seekPending}

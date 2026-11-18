@@ -63,6 +63,18 @@ test:demo-profiles использует один build. Для каждого п
 
 Общий CI финального коммита: проверки [PR #5](https://github.com/fedorenko-sv/lipetsk-site-factory/pull/5). Результаты CI фиксируются в сдаче после завершения; старые зелёные SHA не подменяют текущий запуск.
 
+## Найденная в CI регрессия медиаплеера
+
+На первом коммите пакета 3a5c9c8 [Quality](https://github.com/fedorenko-sv/lipetsk-site-factory/actions/runs/44300356944) и [backend](https://github.com/fedorenko-sv/lipetsk-site-factory/actions/runs/44300356938) прошли. Серверный CI подтвердил 70 unit, 53 integration, 13 system и все шесть отдельных профилей с двумя ошибочными конфигурациями. Во [frontend](https://github.com/fedorenko-sv/lipetsk-site-factory/actions/runs/44300356920) прошёл 151 browser-тест; DT11 WebKit не увидел кнопку ручного запуска после внедрённого отказа play() за штатные пять секунд.
+
+Проверены screenshot, error-context и trace этого запуска. Отказ вызова play() уже зафиксирован тестовым счётчиком, однако MP4 продолжает загружаться, а кнопка появляется позже. У видео обнаружены два независимых пути запуска: HTML autoplay и управление play() из эффекта видимости. Прежняя подмена play() не контролировала нативный путь целиком. Эти наблюдения не доказывают конкретную причину задержки декодера.
+
+В PhotoFilm оставлен один управляемый путь автоматического воспроизведения: видимость, настройки экономии/движения, пауза и отказ проверяются одним эффектом; при отказе видео сразу ставится на паузу. Muted, loop и playsInline сохранены. DT11 дополнен проверками paused и отсутствия событий playing до разрешённого запуска, затем проверяет настоящий запуск с выбранного кадра. Таймаут реакции интерфейса не увеличен, retries и skip не добавлены.
+
+Отдельное поведение autoplay и вызова play() описано в первичных источниках: [WebKit: video policies](https://webkit.org/blog/6784/new-video-policies-for-ios/) и [HTML: media elements](https://html.spec.whatwg.org/multipage/media.html#attr-media-autoplay). Решение о правке основано на коде и trace проекта; финальная приёмка — реальные Chromium/WebKit.
+
+После правки локально повторно пройдены lint/typecheck и 20/20 проверок медиаплеера: DT01/DT02/DT07/DT09/DT11, по два запуска в Chromium и WebKit. Fail, flaky, skip — 0; [команда и исходная статистика](isolated-demo-profiles/media-followup.json). Полный CI запускается на следующем коммите с этой правкой.
+
 ## Файлы и свидетельства
 
 - [План](../superpowers/plans/2026-11-18-isolated-demo-profiles.md), [команды и окружение](../17-isolated-demo-profiles.md).
