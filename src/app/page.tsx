@@ -1,4 +1,4 @@
-/* eslint-disable @next/next/no-img-element -- Local generated concept images. */
+import Image from "next/image";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { prototypes } from "@/features/prototypes/catalog";
@@ -19,7 +19,7 @@ export default function Showcase() {
   <section className="factory-collection" id="directions" aria-labelledby="collection-title">
    <div className="factory-collection-title"><h2 id="collection-title">Выберите свой контекст.</h2><span>01 — 06</span></div>
    <div className="factory-grid">{prototypes.map((p,index)=><article className={"factory-card factory-card-"+p.id} key={p.id} data-testid="prototype-card">
-    <Link href={p.href} className="factory-card-image" aria-label={"Открыть "+p.brand}><img src={p.image} alt={"Визуальная концепция "+p.name} width="1600" height="1000" loading={index>1?"lazy":"eager"}/><span className="factory-card-number">0{index+1}</span><span className="factory-card-open" aria-hidden="true">↗</span><span className="factory-card-brand">{p.brand}</span></Link>
+    <Link href={p.href} className="factory-card-image" aria-label={"Открыть "+p.brand}><Image src={p.image} alt={"Визуальная концепция "+p.name} width={1600} height={1000} sizes="(max-width: 700px) 90vw, (max-width: 1600px) 44vw, 670px" loading={index>1?"lazy":"eager"} fetchPriority={index===0?"high":"auto"}/><span className="factory-card-number">0{index+1}</span><span className="factory-card-open" aria-hidden="true">↗</span><span className="factory-card-brand">{p.brand}</span></Link>
     <div className="factory-card-heading"><h3><Link href={p.href}>{p.name}</Link></h3><span>{p.core==="booking"?"Заявка":"Расчёт"}</span></div>
     <p>{p.summary}</p>
     {"extraHref" in p && <Link className="factory-detail-link" href={p.extraHref}>{p.extraLabel} ↗</Link>}

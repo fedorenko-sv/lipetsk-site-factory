@@ -32,7 +32,8 @@
     "verify:release": "npm run verify:architecture && npm run test:backend && npm run test:ui && npm run test:integration && npm run test:e2e && npm run test:system",
     "preview:portfolio": "node --experimental-strip-types scripts/preview-detailing.mjs",
     "test:portfolio:system": "node --experimental-strip-types scripts/test-portfolio-preview.mjs",
-    "verify:demo-routes": "node --experimental-strip-types scripts/verify-demo-routes.mjs"
+    "verify:demo-routes": "node --experimental-strip-types scripts/verify-demo-routes.mjs",
+    "measure:demo-performance": "node scripts/measure-demo-performance.mjs"
   },
   "dependencies": {
     "ajv": "8.20.0",

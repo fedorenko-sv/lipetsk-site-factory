@@ -224,3 +224,9 @@
 .prototype-sports .prototype-booking-host>div { --badge-demo-bg:#fff9dc;--badge-demo-border:#c8b16a;--badge-demo-text:#5a491e;--error-bg:#fff1f2;--error-border:#fca5a5;--error-text:#9f1239;--success-bg:#f0fdf4;--success-border:#86efac;--success-text:#166534; }
 
 .prototype-header nav a { min-height:44px; display:inline-flex; align-items:center; }
+
+.prototype-service-photo { aspect-ratio:3/2; overflow:hidden; background:var(--p-surface); margin:24px 0; }
+
+.prototype-service-photo img { transition:transform 500ms ease; }
+.prototype-service-card:hover .prototype-service-photo img { transform:scale(1.035); }
+@media(prefers-reduced-motion:reduce) { .prototype-service-photo img { transition:none; } .prototype-service-card:hover .prototype-service-photo img { transform:none; } }

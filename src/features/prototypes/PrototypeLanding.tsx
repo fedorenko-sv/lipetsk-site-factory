@@ -1,10 +1,11 @@
-/* eslint-disable @next/next/no-img-element -- Local concept assets have explicit sizes. */
+import Image from "next/image";
 import Link from "next/link";
 import type { SiteConfig } from "@/shared/contracts";
 import { formatPrice } from "@/features/booking/client/formatters";
 import { getPrototype, type PrototypeId } from "./catalog";
 import { catalogPage, demoPageHref } from "./pages";
 import { profiles } from "./profiles";
+import { OfferArtwork } from "./OfferArtwork";
 import { BookingEntry } from "./BookingEntry";
 import { PrototypeMotion } from "./PrototypeMotion";
 import { PrototypeHeader, PrototypeFooter, PrototypeFAQ } from "./sections";
@@ -29,7 +30,7 @@ export function PrototypeLanding({ config }: { config: SiteConfig }) {
             <span className="prototype-scroll-note">Листайте, чтобы познакомиться ↓</span>
           </div>
           <figure className="prototype-hero-visual">
-            <img src={prototype.image} alt={id === "auto" ? "Графитовое купе в студийном свете" : id === "beauty" ? "Светлая студия с пудровым креслом и овальным зеркалом" : id === "medical" ? "Светлый холл с голубыми акцентами" : id === "sports" ? "Пространство для движения с солнечным жёлтым светом" : "Лесной дом с тёплым светом в окнах"} width="1600" height="1000" fetchPriority="high" />
+            <Image src={prototype.image} alt={id === "auto" ? "Графитовое купе в студийном свете" : id === "beauty" ? "Светлая студия с пудровым креслом и овальным зеркалом" : id === "medical" ? "Светлый холл с голубыми акцентами" : id === "sports" ? "Пространство для движения с солнечным жёлтым светом" : "Лесной дом с тёплым светом в окнах"} width={1600} height={1000} sizes={id === "stay" ? "(max-width: 1600px) 100vw, 1600px" : "(max-width: 700px) 100vw, (max-width: 1600px) 51vw, 820px"} loading="eager" fetchPriority="high" />
             <figcaption>Визуальная концепция · {prototype.brand}</figcaption>
             <span className="prototype-visual-tag" aria-hidden="true">{id === "sports" ? "В своём темпе." : id === "medical" ? "Ясность с первого шага." : id === "beauty" ? "Маленький ритуал для себя." : id === "stay" ? "Пауза. Лес. Тишина." : "Внимание к каждой детали."}</span>
           </figure>
@@ -41,7 +42,7 @@ export function PrototypeLanding({ config }: { config: SiteConfig }) {
           <div className="prototype-service-grid">
             {config.services.map((service, index) => <article className="prototype-service-card" key={service.id} data-reveal>
               <span className="prototype-card-index">0{index + 1} / {service.category}</span>
-              <div className={"prototype-service-art art-" + index} aria-hidden="true"><span>{id === "stay" ? "⌂" : id === "medical" ? "+" : id === "sports" ? "↗" : id === "beauty" ? "✳" : "↗"}</span></div>
+              <OfferArtwork siteKey={id} serviceId={service.id} index={index}/>
               <h3>{service.name}</h3>
               <div className="prototype-price"><strong>{formatPrice(service.price)}</strong><span>{id === "stay" ? "за ночь · ориентир" : service.durationMinutes + " мин · демо"}</span></div>
               <Link aria-label={"Подробнее: "+service.name} href={demoPageHref(id,catalogPage(id).slug)+"/"+service.id}>Подробнее <span aria-hidden="true">↗</span></Link>

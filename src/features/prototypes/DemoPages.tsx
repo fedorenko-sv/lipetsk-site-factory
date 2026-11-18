@@ -1,4 +1,4 @@
-/* eslint-disable @next/next/no-img-element -- Locally generated concept images. */
+import Image from "next/image";
 import Link from "next/link";
 import type { SiteConfig, SiteService } from "@/shared/contracts";
 import { getSiteConfig } from "@/config/sites";
@@ -8,6 +8,9 @@ import { defaultWindowParameters, quoteWindow } from "@/features/estimate/domain
 import { EstimateFlow } from "@/features/estimate/EstimateFlow";
 import { getPrototype, type PrototypeId } from "./catalog";
 import { getOfferStory } from "./offer-stories";
+import { getOfferMedia, type OfferPhoto } from "./media";
+import { OfferGallery } from "./OfferGallery";
+import { OfferArtwork } from "./OfferArtwork";
 import { actionPage, catalogPage, demoPageHref, type DemoPage } from "./pages";
 import { PrototypeHeader, PrototypeFooter } from "./sections";
 import { BookingEntry } from "./BookingEntry";
@@ -15,7 +18,7 @@ import "./styles.css";
 import "./pages.css";
 
 type Query=Record<string,string|string[]|undefined>;
-export function DemoFrame({id,title,lead,children,visual=true}:{id:PrototypeId;title:string;lead:string;children:React.ReactNode;visual?:boolean}) {
+export function DemoFrame({id,title,lead,children,visual=true,image}:{id:PrototypeId;title:string;lead:string;children:React.ReactNode;visual?:boolean;image?:OfferPhoto}) {
  const p=getPrototype(id)!;
  return <div className={"prototype prototype-"+id+" prototype-interior"} data-testid="demo-page">
   <a className="prototype-skip" href="#demo-content">К содержимому</a>
@@ -23,7 +26,7 @@ export function DemoFrame({id,title,lead,children,visual=true}:{id:PrototypeId;t
   <main id="demo-content">
    <section className={"prototype-subhero "+(!visual?"prototype-subhero-compact":"")}>
     <div><nav aria-label="Хлебные крошки"><Link href={"/demo/"+id}>Главная</Link><span aria-hidden="true">/</span><span>{id==="stay"?"ТИШЕ":p.brand}</span></nav><p className="prototype-kicker">Демонстрационный концепт</p><h1>{title}</h1><p className="prototype-lead">{lead}</p></div>
-    {visual&&<figure><img src={p.image} alt={"Визуальная концепция "+p.brand} width="1600" height="1000"/><figcaption>Образ пространства · концепт</figcaption></figure>}
+    {visual&&<figure><Image src={image?.src ?? p.image} alt={image?.alt ?? "Визуальная концепция "+p.brand} width={image?.width ?? 1600} height={image?.height ?? 1000} sizes="(max-width: 700px) 90vw, (max-width: 1600px) 36vw, 570px" loading="eager"/><figcaption>Образ пространства · концепт</figcaption></figure>}
    </section>
    {children}
   </main>
@@ -40,7 +43,7 @@ function bookingHref(id:PrototypeId,serviceId?:string,resourceId?:string) {
 function ServiceCards({id,config}:{id:PrototypeId;config:SiteConfig}) {
  return <div className="prototype-service-grid">{config.services.map((service,index)=><article className="prototype-service-card" key={service.id}>
   <span className="prototype-card-index">0{index+1} / {service.category}</span>
-  <div className={"prototype-service-art art-"+index} aria-hidden="true"><span>{id==="stay"?"⌂":id==="medical"?"+":id==="beauty"?"✳":"↗"}</span></div>
+  <OfferArtwork siteKey={id} serviceId={service.id} index={index}/>
   <h2>{service.name}</h2><p>{getOfferStory(id,service.id)?.intro}</p>
   <div className="prototype-price"><strong>{formatPrice(service.price)}</strong><span>{id==="stay"?"за ночь · ориентир":service.durationMinutes+" мин · демо"}</span></div>
   <Link aria-label={"Подробнее: "+service.name} href={demoPageHref(id,catalogPage(id).slug)+"/"+service.id}>Подробнее<span aria-hidden="true">↗</span></Link>
@@ -72,8 +75,10 @@ export function DemoArticle({id,page}:{id:PrototypeId;page:DemoPage}) {
 }
 export function DemoService({id,service,config}:{id:PrototypeId;service:SiteService;config:SiteConfig}) {
  const story=getOfferStory(id,service.id)!;
+ const media=getOfferMedia(id,service.id);
  const resources=config.resources.filter(resource=>service.resourceIds.includes(resource.id));
- return <DemoFrame id={id} title={service.name} lead={story.intro}>
+ return <DemoFrame id={id} title={service.name} lead={story.intro} image={media?.photos[0]}>
+  {media && <OfferGallery media={media}/>}
   <section className="prototype-section prototype-offer-detail">
    <div><Link className="prototype-back" href={demoPageHref(id,catalogPage(id).slug)}>← Вернуться в каталог</Link>
     <article><p className="prototype-kicker">В предложении</p><h2>Что можно выбрать.</h2><ul>{story.includes.map(text=><li key={text}>{text}</li>)}</ul></article>

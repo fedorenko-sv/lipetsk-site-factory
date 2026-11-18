@@ -1,4 +1,4 @@
-/* eslint-disable @next/next/no-img-element -- Local generated architecture image. */
+import Image from "next/image";
 import { PrototypeHeader, PrototypeFooter, PrototypeFAQ } from "@/features/prototypes/sections";
 import { PrototypeMotion } from "@/features/prototypes/PrototypeMotion";
 import { EstimateFlow } from "./EstimateFlow";
@@ -12,7 +12,7 @@ export function EstimateLanding() {
     <main>
       <section className="prototype-hero">
         <div className="prototype-hero-copy"><p className="prototype-kicker">Окна, с которых начинается дом<span>Демо</span></p><h1>Больше света.<br/>Меньше неизвестных.</h1><p className="prototype-lead">Размеры, цвет, стеклопакет и монтаж. Посмотрите, как каждый выбор влияет на стоимость — ещё до первого разговора.</p><a className="prototype-button" href="#calculator">Рассчитать свой вариант ↗</a><span className="prototype-scroll-note">Архитектура света — в простых деталях ↓</span></div>
-        <figure className="prototype-hero-visual"><img src="/demo-assets/prototypes/estimate.webp" alt="Большое графитовое окно в светлом архитектурном интерьере" width="1600" height="1000" fetchPriority="high"/><figcaption>Архитектурная концепция · ПРОСВЕТ</figcaption><span className="prototype-visual-tag">Прозрачно. С первого расчёта.</span></figure>
+        <figure className="prototype-hero-visual"><Image src="/demo-assets/prototypes/estimate.webp" alt="Большое графитовое окно в светлом архитектурном интерьере" width={1600} height={1000} sizes="(max-width: 700px) 100vw, (max-width: 1600px) 51vw, 820px" loading="eager" fetchPriority="high"/><figcaption>Архитектурная концепция · ПРОСВЕТ</figcaption><span className="prototype-visual-tag">Прозрачно. С первого расчёта.</span></figure>
       </section>
       <div className="prototype-facts"><div><span>01</span>Параметры вместо догадок</div><div><span>02</span>Цена по понятным строкам</div><div><span>03</span>Уточнение после замера</div></div>
       <section className="prototype-section prototype-services" id="services" aria-labelledby="estimate-offer" data-reveal>
