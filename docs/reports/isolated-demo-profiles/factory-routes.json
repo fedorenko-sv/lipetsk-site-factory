@@ -1,0 +1,499 @@
+{
+  "base": "http://127.0.0.1:3035",
+  "checkedAt": "2026-11-18T11:49:44.907Z",
+  "counts": {
+    "factory": 1,
+    "auto": 9,
+    "beauty": 9,
+    "medical": 9,
+    "sports": 10,
+    "stay": 8,
+    "estimate": 9,
+    "detailing": 14
+  },
+  "routes": [
+    {
+      "site": "factory",
+      "path": "/",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "auto",
+      "path": "/demo/auto",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "auto",
+      "path": "/demo/auto/privacy",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "auto",
+      "path": "/demo/auto/services",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "auto",
+      "path": "/demo/auto/about",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "auto",
+      "path": "/demo/auto/visit",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "auto",
+      "path": "/demo/auto/booking",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "auto",
+      "path": "/demo/auto/services/tire-change",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "auto",
+      "path": "/demo/auto/services/balancing",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "auto",
+      "path": "/demo/auto/services/storage",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "beauty",
+      "path": "/demo/beauty",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "beauty",
+      "path": "/demo/beauty/privacy",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "beauty",
+      "path": "/demo/beauty/services",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "beauty",
+      "path": "/demo/beauty/team",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "beauty",
+      "path": "/demo/beauty/studio",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "beauty",
+      "path": "/demo/beauty/visit",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "beauty",
+      "path": "/demo/beauty/booking",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "beauty",
+      "path": "/demo/beauty/services/haircut",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "beauty",
+      "path": "/demo/beauty/services/manicure",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "medical",
+      "path": "/demo/medical",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "medical",
+      "path": "/demo/medical/privacy",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "medical",
+      "path": "/demo/medical/directions",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "medical",
+      "path": "/demo/medical/specialists",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "medical",
+      "path": "/demo/medical/patients",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "medical",
+      "path": "/demo/medical/information",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "medical",
+      "path": "/demo/medical/booking",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "medical",
+      "path": "/demo/medical/directions/consultation",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "medical",
+      "path": "/demo/medical/directions/checkup-info",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "sports",
+      "path": "/demo/sports",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "sports",
+      "path": "/demo/sports/privacy",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "sports",
+      "path": "/demo/sports/programs",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "sports",
+      "path": "/demo/sports/coaches",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "sports",
+      "path": "/demo/sports/first-visit",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "sports",
+      "path": "/demo/sports/space",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "sports",
+      "path": "/demo/sports/booking",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "sports",
+      "path": "/demo/sports/programs/kids-trial",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "sports",
+      "path": "/demo/sports/programs/teens-trial",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "sports",
+      "path": "/demo/sports/programs/adult-trial",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "stay",
+      "path": "/demo/stay",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "stay",
+      "path": "/demo/stay/privacy",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "stay",
+      "path": "/demo/stay/houses",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "stay",
+      "path": "/demo/stay/territory",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "stay",
+      "path": "/demo/stay/trip",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "stay",
+      "path": "/demo/stay/booking",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "stay",
+      "path": "/demo/stay/houses/pine-house",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "stay",
+      "path": "/demo/stay/houses/forest-house",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "estimate",
+      "path": "/demo/estimate",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "estimate",
+      "path": "/demo/estimate/privacy",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "estimate",
+      "path": "/demo/estimate/windows",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "estimate",
+      "path": "/demo/estimate/installation",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "estimate",
+      "path": "/demo/estimate/measurement",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "estimate",
+      "path": "/demo/estimate/examples",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "estimate",
+      "path": "/demo/estimate/calculator",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "estimate",
+      "path": "/demo/estimate/windows/window",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "estimate",
+      "path": "/demo/estimate/windows/balcony-door",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "detailing",
+      "path": "/demo/detailing",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "detailing",
+      "path": "/demo/detailing/services",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "detailing",
+      "path": "/demo/detailing/prices",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "detailing",
+      "path": "/demo/detailing/atelier",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "detailing",
+      "path": "/demo/detailing/care",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "detailing",
+      "path": "/demo/detailing/visit",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "detailing",
+      "path": "/demo/detailing/booking",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "detailing",
+      "path": "/demo/detailing/privacy",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "detailing",
+      "path": "/demo/detailing/services/ppf-front",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "detailing",
+      "path": "/demo/detailing/services/ppf-full",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "detailing",
+      "path": "/demo/detailing/services/ceramic",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "detailing",
+      "path": "/demo/detailing/services/polish",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "detailing",
+      "path": "/demo/detailing/services/wheel-care",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    },
+    {
+      "site": "detailing",
+      "path": "/demo/detailing/services/interior-care",
+      "status": 200,
+      "h1": 1,
+      "noindex": true
+    }
+  ]
+}

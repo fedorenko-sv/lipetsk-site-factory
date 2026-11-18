@@ -6,6 +6,7 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import type { SiteConfig } from "../../shared/contracts.ts";
+import { parseDemoDeployment, deploymentScopeMatches } from "./demo-deployment.ts";
 
 export interface SiteDestination {
   destinationKey: string;
@@ -74,6 +75,9 @@ export function loadRuntimeConfig(
     .map((s) => s.trim())
     .filter((s) => s.length > 0);
 
+  if (!deploymentScopeMatches(parseDemoDeployment(env.DEMO_SITE_KEY), allowedSiteKeys)) {
+    throw new ConfigProblem("DEMO_NOT_READY", "выбранный demo-профиль не совпадает с allowlist");
+  }
   const destinationRegistryRaw = parseJsonMap<{ adapterId: string }>(
     env.NOTIFICATION_DESTINATIONS_JSON,
   );
@@ -163,6 +167,7 @@ export function resolveAllowedSite(env: NodeJS.ProcessEnv, siteKey: string): Sit
     .split(",")
     .map((s) => s.trim())
     .filter((s) => s.length > 0);
+  if (!deploymentScopeMatches(parseDemoDeployment(env.DEMO_SITE_KEY), allowed)) return null;
   if (!allowed.includes(siteKey)) return null;
   return loadSiteConfig(siteKey);
 }

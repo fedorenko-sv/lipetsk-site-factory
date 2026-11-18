@@ -82,3 +82,12 @@ npm run test:portfolio:system
 Канал администратора выбирается для конкретного клиента: Telegram, email или существующая CRM через отдельный адаптер. Recording не является реальным каналом. Live закрыт до готовности соответствующих условий и конфигурации.
 
 Исходные задания двух разработчиков и отчёты PR-3 остаются историей: [источники](docs/00-sources.md), [соглашение](docs/09-batch-contract.md), [проверки архитектора](docs/reports/pr3-final-review.md). Текущий статус не следует определять по старым промежуточным отчётам.
+
+## Выбранное демо отдельным процессом
+
+~~~powershell
+npm run preview:demo -- --list
+npm run preview:demo -- beauty
+~~~
+
+Beauty открывается на http://127.0.0.1:3042/ со своей test-БД и API scope. Аналогично доступны auto/medical/sports/stay/estimate. [Профили, порты, схема и проверка](docs/17-isolated-demo-profiles.md). Общая коллекция по-прежнему запускается через preview:portfolio.

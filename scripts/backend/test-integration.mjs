@@ -20,6 +20,8 @@ import { randomUUID } from "node:crypto";
 import { assertSafeTestDatabaseUrl } from "../../src/server/config/guards.ts";
 
 const ROOT = process.cwd();
+// Every factory fixture, including the test runner and its nested servers, has its own mode.
+const factoryEnv = { ...process.env, DEMO_SITE_KEY: "" };
 const FIXTURE_DSN = "postgresql://lsf_test:lsf_test_only@127.0.0.1:55543/lsf_test_backend";
 const MAIN_PORT = 3022;
 const DOWN_PORT = 3024;
@@ -50,7 +52,7 @@ const destinations = {
 
 function appEnv(port, databaseUrl, overrides = {}) {
   return {
-    ...process.env,
+    ...factoryEnv,
     NODE_ENV: "production",
     DATABASE_URL: databaseUrl,
     ALLOWED_ORIGINS: `http://127.0.0.1:${port}`,
@@ -111,7 +113,7 @@ async function runMigrate(expectApplied) {
       cwd: ROOT,
       encoding: "utf8",
       env: {
-        ...process.env,
+        ...factoryEnv,
         DATABASE_URL: TEST_DSN,
         TEST_DATABASE_URL: TEST_DSN,
         LSF_MIGRATE_TEST_MODE: "1",
@@ -171,7 +173,7 @@ async function main() {
         cwd: ROOT,
         stdio: "inherit",
         env: {
-          ...process.env,
+          ...factoryEnv,
           TEST_BASE_URL: `http://127.0.0.1:${MAIN_PORT}`,
           TEST_BASE_URL_DOWN: `http://127.0.0.1:${DOWN_PORT}`,
           TEST_BASE_URL_READY: `http://127.0.0.1:${READY_PORT}`,

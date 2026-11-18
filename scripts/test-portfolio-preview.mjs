@@ -1,5 +1,6 @@
 // End-to-end checks for the already running local synthetic preview, without HTTP mocks.
 import assert from "node:assert/strict";
+import {submitDemoViaBrowser} from "./portfolio-browser-flow.mjs";
 import { chromium } from "@playwright/test";
 import { Client } from "pg";
 import { mkdir, writeFile } from "node:fs/promises";
@@ -43,41 +44,7 @@ try {
   }
   await page.setViewportSize({width:1280,height:960});
   for(const key of keys) {
-    await page.goto(base+"/demo/"+key);
-    let endpoint;
-    if(key==="estimate"){
-      endpoint="/api/estimates";
-      await page.getByLabel("Количество конструкций").fill("2");
-      await page.getByLabel("Цвет профиля").selectOption("graphite");
-      await page.getByLabel("Стеклопакет").selectOption("triple");
-      await page.getByTestId("estimate-calculate").click();
-      assert.match(await page.getByTestId("estimate-quote-total").textContent(),/67.?060,80/);
-      await page.getByTestId("estimate-to-contact").click();
-      await page.getByTestId("estimate-phone").fill("+7"+"0".repeat(10));
-      await page.getByTestId("estimate-consent").check();
-    }else{
-      endpoint="/api/leads";
-      await page.getByTestId("next-to-preference").click();
-      if(key==="auto")await page.getByTestId("service-option-wheel-size").selectOption("R16");
-      if(key==="beauty")await page.getByTestId("resource-select").selectOption("master-b");
-      if(key==="medical")await page.getByTestId("resource-select").selectOption("doctor-demo");
-      if(key==="sports")await page.getByTestId("resource-select").selectOption("coach-kids");
-      const day=new Date(Date.now()+2*86400000);
-      while(day.getUTCDay()===0)day.setUTCDate(day.getUTCDate()+1);
-      await page.getByTestId("preferred-date").fill(day.toISOString().slice(0,10));
-      await page.getByTestId("preferred-time").selectOption("11:00");
-      await page.getByTestId("next-to-contact").click();
-      await page.getByTestId("customer-phone").fill("+7"+"0".repeat(10));
-      await page.getByTestId("consent").check();
-    }
-    const waiting=page.waitForResponse(r=>r.url().endsWith(endpoint)&&r.request().method()==="POST");
-    await page.getByTestId(key==="estimate"?"estimate-submit":"lead-submit").click();
-    const response=await waiting;
-    assert.equal(response.status(),201,key+" actual POST");
-    const receipt=await response.json();
-    const id=page.getByTestId(key==="estimate"?"estimate-lead-id":"lead-id");
-    await id.waitFor();assert.equal(await id.textContent(),receipt.leadId);
-    const request=response.request();
+    const {endpoint,receipt,request}=await submitDemoViaBrowser(page,base,key);
     const replay=await context.request.post(base+endpoint,{headers:{Origin:base,"Content-Type":"application/json","Idempotency-Key":request.headers()["idempotency-key"]},data:request.postDataJSON()});
     assert.equal(replay.status(),200);assert.equal((await replay.json()).leadId,receipt.leadId);
     const saved=(await db.query("SELECT site_key,kind,service_id,preferred_at,price_snapshot,(SELECT count(*)::int FROM notification_outbox o WHERE o.lead_id=l.id) AS outbox_count FROM leads l WHERE id=$1",[receipt.leadId])).rows[0];

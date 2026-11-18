@@ -19,6 +19,7 @@ export default defineConfig({
     { name: "webkit", use: { ...devices["Desktop Safari"] } },
   ],
   webServer: {
+    env: { DEMO_SITE_KEY: "" },
     command: "npm run start -- --hostname 127.0.0.1 --port 3021",
     url: "http://127.0.0.1:3021",
     reuseExistingServer: false,

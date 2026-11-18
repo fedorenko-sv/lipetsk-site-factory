@@ -163,3 +163,9 @@ tests/{backend,integration,ui,e2e,system}/**
 Медиа предложения отделены от цены и серверной конфигурации: src/features/prototypes/media.ts связывает дом с серией, OfferArtwork показывает карточку, OfferGallery отвечает за ручной просмотр и диалог. Изменение кадра не меняет serviceId. Галерея не загружает кадр диалога до открытия; фото в карточках и миниатюрах используют штатные responsive images Next.
 
 Локальные WOFF2 сохраняют символы и метрики исходных лицензированных TTF. scripts/optimize-demo-fonts.py воспроизводит преобразование и манифест. scripts/measure-demo-performance.mjs измеряет семь входных страниц на фиксированном мобильном профиле; это лабораторный production-замер, а не полевая статистика посетителей. План и критерии: [показ и загрузка демо](superpowers/plans/2026-11-18-demo-presentation-polish.md).
+
+## Runtime-профили показа
+
+src/server/config/demo-deployment.ts задаёт шесть профилей, точный scope и чистое правило маршрутов. src/proxy.ts применяет его до рендера на runtime, сохраняя static/dynamic разделение страниц. loadRuntimeConfig дополнительно проверяет соответствие API allowlist выбранному профилю.
+
+scripts/preview-runtime.mjs готовит приватный env и собственную test-БД; preview-runner.mjs управляет только своими процессами, outbox и public state. preview-demo.mjs выбирает профиль. Фабричный preview-detailing.mjs использует тот же runner. Реальное browser-прохождение выделено в portfolio-browser-flow.mjs; им пользуются обе приёмки. Команды и модель данных: [профили](17-isolated-demo-profiles.md).

@@ -17,6 +17,7 @@ const secret = () => randomBytes(24).toString("hex"); // 48 символов
 
 const childEnv = {
   ...process.env,
+  DEMO_SITE_KEY: "",
   NODE_ENV: "production",
   DATABASE_URL: TEST_DSN,
   ALLOWED_ORIGINS: "http://127.0.0.1:3023",
