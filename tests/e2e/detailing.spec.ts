@@ -285,6 +285,8 @@ test("DT11: autoplay denial keeps every plate usable; user playback resumes at t
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.addInitScript(() => {
     let allowed = false;
+    let denials = 0;
+    Object.defineProperty(window, "__dtAutoplayDenials", { get: () => denials });
     const play = HTMLMediaElement.prototype.play;
     document.addEventListener(
       "click",
@@ -294,12 +296,21 @@ test("DT11: autoplay denial keeps every plate usable; user playback resumes at t
       true,
     );
     HTMLMediaElement.prototype.play = function () {
-      return allowed
-        ? play.call(this)
-        : Promise.reject(new DOMException("Autoplay blocked", "NotAllowedError"));
+      if (allowed) return play.call(this);
+      denials++;
+      return Promise.reject(new DOMException("Autoplay blocked", "NotAllowedError"));
     };
   });
   await page.goto(path);
+  // Observe the injected denial before testing its UI outcome. On cold WebKit,
+  // hydration/viewport startup can outlast the default 5s assertion window.
+  // DT01 gives the same media startup up to 20s; the reaction still has 5s.
+  await expect
+    .poll(() => page.evaluate(() => Number(Reflect.get(window, "__dtAutoplayDenials")) || 0), {
+      timeout: 20_000,
+      message: "PhotoFilm must actually attempt autoplay and receive the injected denial",
+    })
+    .toBeGreaterThan(0);
   const resume = page.getByRole("button", { name: "Включить видео" });
   await expect(resume).toBeVisible();
   await page.getByRole("button", { name: "Показать кадр: Линия крыла" }).click();
