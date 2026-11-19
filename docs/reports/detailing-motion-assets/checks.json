@@ -1,0 +1,38 @@
+{
+  "viewports": [
+    {
+      "width": 1440,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "width": 768,
+      "overflow": 0,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "overflow": 0,
+      "errors": []
+    }
+  ],
+  "visual": {
+    "failures": [],
+    "notes": [
+      "mixed-font-headline",
+      "palette-cream",
+      "size-count",
+      "grey-body",
+      "lopsided"
+    ]
+  },
+  "realSubmission": {
+    "status": 201,
+    "siteKey": "detailing",
+    "service": "wheel-care",
+    "outbox": "sent",
+    "recordingReceipts": 1,
+    "uiMatchesDb": true,
+    "mocked": false
+  }
+}

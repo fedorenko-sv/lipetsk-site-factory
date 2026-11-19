@@ -1,0 +1,106 @@
+{
+  "buildId": "l5ZImxY8eH3it8VryAwHw",
+  "baselineCount": 1,
+  "finalCount": 3,
+  "note": "Metrics measured in the uncommitted release candidate on BASE 59df276. commit in raw JSON is the nearest prior checkpoint, not a clean-tree assertion.",
+  "summary": [
+    {
+      "path": "/",
+      "beforeKiB": 1125,
+      "afterKiB": 550,
+      "reduction": 51,
+      "beforeLcp": 2.128,
+      "afterLcp": 2.056,
+      "lcpRange": [
+        1.516,
+        2.328
+      ],
+      "maxCls": 0.0919118666054452,
+      "fontReduction": 0.30774130297675173
+    },
+    {
+      "path": "/demo/auto",
+      "beforeKiB": 423,
+      "afterKiB": 301,
+      "reduction": 29,
+      "beforeLcp": 3.428,
+      "afterLcp": 2.536,
+      "lcpRange": [
+        2.3,
+        2.976
+      ],
+      "maxCls": 0,
+      "fontReduction": 0.28122006122115173
+    },
+    {
+      "path": "/demo/beauty",
+      "beforeKiB": 549,
+      "afterKiB": 373,
+      "reduction": 32,
+      "beforeLcp": 3.688,
+      "afterLcp": 3.244,
+      "lcpRange": [
+        2.392,
+        3.288
+      ],
+      "maxCls": 0,
+      "fontReduction": 0.2993105677044059
+    },
+    {
+      "path": "/demo/medical",
+      "beforeKiB": 419,
+      "afterKiB": 304,
+      "reduction": 27,
+      "beforeLcp": 3.828,
+      "afterLcp": 3.124,
+      "lcpRange": [
+        2.9,
+        3.6
+      ],
+      "maxCls": 0,
+      "fontReduction": 0.28122006122115173
+    },
+    {
+      "path": "/demo/sports",
+      "beforeKiB": 543,
+      "afterKiB": 338,
+      "reduction": 38,
+      "beforeLcp": 3.728,
+      "afterLcp": 3.564,
+      "lcpRange": [
+        3.28,
+        3.732
+      ],
+      "maxCls": 0,
+      "fontReduction": 0.28122006122115173
+    },
+    {
+      "path": "/demo/stay",
+      "beforeKiB": 726,
+      "afterKiB": 501,
+      "reduction": 31,
+      "beforeLcp": 4.04,
+      "afterLcp": 2.912,
+      "lcpRange": [
+        2.292,
+        3.296
+      ],
+      "maxCls": 0,
+      "fontReduction": 0.2993105677044059
+    },
+    {
+      "path": "/demo/estimate",
+      "beforeKiB": 563,
+      "afterKiB": 338,
+      "reduction": 40,
+      "beforeLcp": 4.244,
+      "afterLcp": 2.848,
+      "lcpRange": [
+        2.448,
+        2.892
+      ],
+      "maxCls": 0,
+      "fontReduction": 0.28122006122115173
+    }
+  ]
+}

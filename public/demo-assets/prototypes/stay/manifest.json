@@ -1,0 +1,36 @@
+{
+  "generatedAt": "2026-11-18",
+  "mode": "built-in image_gen",
+  "images": [
+    {
+      "name": "forest-exterior",
+      "file": "demo-assets/prototypes/stay/forest-exterior.webp",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 319908,
+      "sha256": "0cc9e2ea5123afb140bf2f977344ae74d7ba8864d2166e47c00734ca98331a82",
+      "origin": "Built-in image_gen; fictional architectural concept",
+      "prompt": "Use case: photorealistic-natural. Create a premium editorial architectural photograph for the Russian nature retreat website concept ТИШЕ, no text. Wide landscape 3:2. A single low horizontal contemporary forest cabin made of dark stained timber, flat gently sloped roof, broad floor-to-ceiling panoramic glazing, warm light visible inside, modest timber deck flush with the forest floor. Clearly horizontal rectangular architecture, not an A-frame. Tall straight pine trunks, dense forest, soft early morning mist, restrained sage greens and dark chocolate wood, natural textures. Camera at eye level three-quarter angle showing front and side, house fills central two thirds with room around it, tranquil high-end hospitality art direction, physically plausible geometry and window reflections. No people, no cars, no logos, no lettering, no amenities such as hot tubs or pools. This is a fictional architectural concept, not an existing property."
+    },
+    {
+      "name": "pine-interior",
+      "file": "demo-assets/prototypes/stay/pine-interior.webp",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 234774,
+      "sha256": "e72ac4cd3ea087c17c9458125dd3e2d2c796a0fe0669d380749af2f94c182b6f",
+      "origin": "Built-in image_gen; fictional architectural concept",
+      "prompt": "Use case: photorealistic-natural. Wide landscape 3:2 premium editorial interior architectural photograph, a fictional nature retreat cabin concept. Inside a small elegant A-frame house: unmistakable steep sloping triangular roof, exposed pale timber beams, full-height triangular glazed end wall overlooking tall pine trees. Minimal warm ivory linen sofa, low solid wood table, muted sage textiles, light natural wood floor, restrained styling, warm morning light, realistic material details, peaceful atmosphere. Eye-level lens with straight verticals, intimate rather than palatial, coherent buildable architecture. No people, no text, no logos, no luxury facilities, no fireplace unless structurally plausible, no giant chalet. Consistent with a modest dark timber A-frame exterior in pine forest. Photograph feels tactile, quiet and editorial."
+    },
+    {
+      "name": "forest-interior",
+      "file": "demo-assets/prototypes/stay/forest-interior.webp",
+      "width": 1536,
+      "height": 1024,
+      "bytes": 247392,
+      "sha256": "dd1862023feaa5550c35eecc42425952092f06aaabfa3bbf0b5bc7f806d581d3",
+      "origin": "Built-in image_gen; fictional architectural concept",
+      "prompt": "Use case: photorealistic-natural. Wide landscape 3:2 premium editorial interior architectural photograph of a fictional low horizontal dark timber cabin in a pine forest. Rectangular comfortable single-storey living room with flat ceiling and warm honey wood interior, one broad floor-to-ceiling panoramic glass wall looking directly at tall pine trunks and soft mist. Modest oatmeal linen sofa, dark timber low table, muted moss-green textile detail, warm indirect light, spare sophisticated objects, realistic materials, camera at human eye level from one corner, physically plausible walls and reflections. Calm cinematic hospitality concept with restrained sage and chocolate palette. This house is horizontal and rectangular, absolutely no triangular roof or A-frame beams. No people, no logos, no lettering, no pool, no hot tub, no extravagant amenities."
+    }
+  ]
+}

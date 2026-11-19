@@ -1,0 +1,5 @@
+
+> lipetsk-site-factory@0.1.0 test:detailing:system
+> node --experimental-strip-types scripts/test-detailing-preview.mjs
+
+Real browser → HTTP 201 → PostgreSQL lead + outbox sent + one recording receipt: PASS

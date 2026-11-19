@@ -1,6 +1,19 @@
 # Правила проекта
 
-Отвечать владельцу по-русски. Работать по ТЗ, не расширять первый релиз за пределы PR-3.
+## Текущий выпуск: шесть направлений
+
+По прямому поручению владельца 18.11.2026 архитектор самостоятельно расширяет фабрику до всех шести оболочек и рабочего Core B. План: docs/superpowers/plans/2026-11-18-six-prototypes.md; карта: docs/13-six-prototypes-project-map.md; отдельный контракт Calculator: docs/14-estimate-contract.md. Ветка codex/six-prototypes, отдельный worktree portfolio. Это поручение имеет приоритет над прежним сужением только до OBLIK и историческими границами PR-3. Сохранять все готовые части OBLIK, контракт Booking A и demo-only. Core C/RFQ не заявлять готовым. Дополнительное делегирование не поручено.
+
+
+Уточнение владельца: шесть демо должны быть самостоятельными для показа. Продолжение: docs/superpowers/plans/2026-11-18-standalone-demos.md; прямые входы и правила показа: docs/16-demo-delivery.md. Статические разделы отделены от динамических booking/calculator. Основная навигация каждого демо остаётся внутри него.
+
+Раздельный запуск демо: docs/17-isolated-demo-profiles.md; план docs/superpowers/plans/2026-11-18-isolated-demo-profiles.md. DEMO_SITE_KEY читается на runtime, scope проверяется сервером. Общие test-harness явно используют factory, отдельные профили проходят настоящую приёмку. Публичная публикация и live по-прежнему требуют отдельного поручения.
+
+## Текущее развитие OBLIK
+
+По прямому поручению владельца 15.11.2026 архитектор самостоятельно развивает OBLIK за пределами первоначального пакета PR-3. Актуальные страницы и следующий этап описаны в docs/12-detailing-site-map.md и docs/superpowers/plans/2026-11-15-detailing-complete-demo.md. Рабочая ветка codex/detailing-complete-demo, отдельный worktree detailing-site; действующие задания разработчиков не перезаписываются. Сохранять контракт заявки и демонстрационный режим.
+
+Отвечать владельцу по-русски. Исторические задания PR-3 выполнять в их границах; текущее развитие OBLIK определяется планом выше.
 
 ## Источники истины
 
@@ -54,3 +67,13 @@
 - Перед сдачей: актуальный main, чистый diff, команды проверок и их фактический результат, ограничения.
 - Скриншоты и видео — без персональных данных. Временные материалы хранить вне репозитория или в игнорируемом work/; финальные свидетельства — docs/reports/.
 - Статус «готово» допустим только с проверяемыми результатами. Релизное решение принимает архитектор.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+## This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

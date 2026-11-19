@@ -1,0 +1,71 @@
+.estimate-flow { border: 1px solid var(--p-line); background: #fff; padding: 35px; color: var(--p-ink); }
+.estimate-progress { padding: 0 0 25px; margin: 0 0 35px; list-style: none; display: grid; grid-template-columns: repeat(3,1fr); border-bottom: 1px solid var(--p-line); }
+.estimate-progress li { display: flex; align-items: center; gap: 10px; font-size: 11px; color: var(--p-muted); }
+.estimate-progress li span { display: grid; place-items: center; width: 26px; height: 26px; border: 1px solid var(--p-line); border-radius: 50%; font-size: 9px; }
+.estimate-progress li[aria-current] { color: var(--p-accent); font-weight: 650; }
+.estimate-progress li[aria-current] span { background: var(--p-accent); color: white; border-color: var(--p-accent); }
+.estimate-flow h2 { font-size: 34px; letter-spacing: -.04em; font-weight: 500; margin: 0 0 20px; }
+.estimate-flow h2:focus { outline: none; }
+.estimate-description { max-width: 490px; }
+.estimate-parameters, .estimate-result, .estimate-contact { display: grid; grid-template-columns: 1.15fr .85fr; gap: 50px; }
+.estimate-flow label { display: block; font-size: 11px; font-weight: 600; margin-bottom: 20px; }
+.estimate-flow input:not([type=checkbox]), .estimate-flow select { display: block; padding: 13px 12px; height: 48px; border: 1px solid #bfcdd7; background: #fbfcfd; border-radius: 0; width: 100%; margin-top: 10px; font-size: 13px; font-family: inherit; color: #243d53; min-width: 0; }
+.estimate-flow input:focus-visible, .estimate-flow select:focus-visible { outline: 2px solid var(--p-accent); outline-offset: 3px; }
+.estimate-flow input[aria-invalid=true] { border-color: #a73f37; }
+.estimate-input-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.estimate-flow .estimate-hint { font-size: 10px !important; color: #546b7b !important; margin: -7px 0 25px; line-height: 1.8 !important; }
+.estimate-flow .estimate-description { font-size: 12px !important; color: #536a7a !important; margin: 0 0 30px; }
+.estimate-flow .estimate-check { display: flex; align-items: flex-start; gap: 12px; font-size: 11px; line-height: 1.7; font-weight: 400; }
+.estimate-check input { margin-top: 2px; width: 19px; height: 19px; flex-shrink: 0; accent-color: var(--p-accent); }
+.estimate-options { align-items: center; }
+.estimate-options .estimate-check { align-items: center; padding-top: 15px; }
+.estimate-preview, .estimate-assumptions, .estimate-contact-summary { background: #edf2f5; padding: 25px; align-self: start; }
+.estimate-preview .prototype-kicker { font-size: 9px; }
+.estimate-preview>div { border-top: 1px solid var(--p-line); padding-top: 22px; display: grid; gap: 10px; }
+.estimate-preview>div>span { font-size: 11px; }
+.estimate-preview output { font-size: 32px; font-weight: 500; letter-spacing: -.06em; }
+.estimate-preview p, .estimate-assumptions p, .estimate-contact-summary p { font-size: 11px !important; color: #536a7a !important; }
+.estimate-drawing { width: 100%; height: 260px; color: #607e91; margin-bottom: 25px; }
+.estimate-frame { fill: #f9fafb; stroke: #c7cfd2; transition: fill 250ms, stroke 250ms; }
+.estimate-drawing.is-graphite .estimate-frame { fill: #4f5d65; stroke: #4f5d65; }
+.estimate-flow .estimate-error { padding: 15px 18px; color: #8d352e; background: #fff0eb; border: 1px solid #e2b6ae; font-size: 12px; line-height: 1.7; margin: 20px 0; }
+.estimate-error p { color: inherit !important; margin: 0; }
+.estimate-field-error { color: #8d352e !important; font-size: 11px !important; margin-top: -10px; }
+.estimate-flow .prototype-button { max-width: 100%; text-align: left; line-height: 1.5; }
+.estimate-flow button:disabled { opacity: .55; cursor: wait; transform: none; filter: none; }
+.estimate-breakdown { margin: 25px 0; }
+.estimate-breakdown>div { display: flex; justify-content: space-between; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--p-line); font-size: 12px; }
+.estimate-breakdown dd { white-space: nowrap; font-weight: 550; margin: 0; }
+.estimate-total { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin: 25px 0 35px; }
+.estimate-total span { font-size: 12px; }
+.estimate-total strong { font-size: 35px; font-weight: 500; letter-spacing: -.06em; }
+.estimate-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; }
+.estimate-text-button { border: 0; background: transparent; padding: 10px 0; font-family: inherit; color: var(--p-accent); text-decoration: underline; text-underline-offset: 4px; font-size: 11px; cursor: pointer; min-height: 42px; }
+.estimate-flow .estimate-hint .estimate-text-button { font-size: inherit; min-height: 30px; }
+.estimate-assumptions h3 { font-size: 21px; font-weight: 500; letter-spacing: -.03em; }
+.estimate-contact-summary strong { font-size: 40px; font-weight: 500; letter-spacing: -.06em; }
+.estimate-consent { padding-top: 16px; }
+.estimate-consent a { text-decoration: underline; text-underline-offset: 3px; }
+.estimate-contact fieldset { border: 0; margin: 0; padding: 0; }
+.estimate-honeypot { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.estimate-receipt { max-width: 630px; margin: 30px auto; text-align: center; }
+.estimate-receipt-mark { display: grid; width: 65px; height: 65px; place-items: center; margin: 0 auto 30px; background: #dcebe5; color: #275345; border-radius: 50%; font-size: 28px; }
+.estimate-receipt p { max-width: none !important; overflow-wrap: anywhere; }
+.estimate-receipt code { display: inline-block; padding: 8px 10px; font-size: 11px; background: #e9eef3; }
+.estimate-receipt button { margin: 25px auto 0; }
+@media(max-width:1000px) { .estimate-parameters,.estimate-result,.estimate-contact { gap: 30px; grid-template-columns: 1.1fr .9fr; } .estimate-flow { padding: 25px; } }
+@media(max-width:700px) {
+  .estimate-flow { padding: 22px 5vw; }
+  .estimate-progress { gap: 10px; margin-bottom: 30px; }
+  .estimate-progress li { font-size: 9px; gap: 6px; }
+  .estimate-progress li span { width: 21px; height: 21px; font-size: 8px; flex-shrink: 0; }
+  .estimate-parameters, .estimate-result, .estimate-contact { grid-template-columns: 1fr; gap: 30px; }
+  .estimate-flow h2 { font-size: 30px; }
+  .estimate-input-pair { gap: 14px; }
+  .estimate-flow label { font-size: 10px; }
+  .estimate-flow input:not([type=checkbox]), .estimate-flow select { font-size: 12px; padding: 12px 9px; }
+  .estimate-total strong { font-size: 32px; }
+  .estimate-parameters .estimate-preview { display: none; }
+  .estimate-contact-summary { order: -1; }
+  .estimate-contact-summary strong { font-size: 32px; }
+}

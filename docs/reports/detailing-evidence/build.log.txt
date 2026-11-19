@@ -1,0 +1,38 @@
+
+> lipetsk-site-factory@0.1.0 build
+> next build --webpack
+
+▲ Next.js 16.4.3 (webpack)
+✓ Running next.config.ts took 454ms
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 17.7s
+  Running TypeScript ...
+  Finished TypeScript in 9.3s ...
+  Collecting page data using 10 workers ...
+  Generating static pages using 10 workers (0/9) ...
+  Generating static pages using 10 workers (2/9)
+  Generating static pages using 10 workers (4/9)
+  Generating static pages using 10 workers (6/9)
+✓ Generating static pages using 10 workers (9/9) in 4.2s
+  Finalizing page optimization ...
+  Collecting build traces ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ƒ /api/internal/outbox
+├ ƒ /api/leads
+├   /demo/[siteKey]
+│ ├ ● /demo/auto
+│ └ ● /demo/beauty
+├   /demo/[siteKey]/privacy
+│ ├ ● /demo/auto/privacy
+│ └ ● /demo/beauty/privacy
+├ ○ /demo/detailing
+└ ○ /demo/detailing/privacy
+
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand

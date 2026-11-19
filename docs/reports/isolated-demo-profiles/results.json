@@ -1,0 +1,122 @@
+{
+  "runId": "380ff0185289",
+  "at": "2026-11-18T11:47:41.590Z",
+  "build": "single production build",
+  "buildId": "8mKZJnCHCIh3TuoEI_TM0",
+  "mocked": false,
+  "results": [
+    {
+      "profile": "auto",
+      "base": "http://127.0.0.1:57100",
+      "database": "lsf_test_demo_auto_57100_380ff0185289",
+      "ownPages": 4,
+      "foreignRoutesBlocked": 5,
+      "root": 307,
+      "leadId": "0ef78fe8-ab1d-41ee-96a6-f12139ca7e1b",
+      "http": 201,
+      "replay": 200,
+      "originDenied": 403,
+      "foreignDenied": 404,
+      "kind": "booking",
+      "delivery": "sent",
+      "receipts": 1
+    },
+    {
+      "profile": "beauty",
+      "base": "http://127.0.0.1:54382",
+      "database": "lsf_test_demo_beauty_54382_380ff0185289",
+      "ownPages": 4,
+      "foreignRoutesBlocked": 6,
+      "root": 307,
+      "leadId": "bc266ad8-095c-4ac5-80ac-f154b48091dd",
+      "http": 201,
+      "replay": 200,
+      "originDenied": 403,
+      "foreignDenied": 404,
+      "kind": "booking",
+      "delivery": "sent",
+      "receipts": 1
+    },
+    {
+      "profile": "medical",
+      "base": "http://127.0.0.1:60977",
+      "database": "lsf_test_demo_medical_60977_380ff0185289",
+      "ownPages": 4,
+      "foreignRoutesBlocked": 6,
+      "root": 307,
+      "leadId": "19faf403-b2c5-412b-a180-7ed56ac5b851",
+      "http": 201,
+      "replay": 200,
+      "originDenied": 403,
+      "foreignDenied": 404,
+      "kind": "booking",
+      "delivery": "sent",
+      "receipts": 1
+    },
+    {
+      "profile": "sports",
+      "base": "http://127.0.0.1:58359",
+      "database": "lsf_test_demo_sports_58359_380ff0185289",
+      "ownPages": 4,
+      "foreignRoutesBlocked": 6,
+      "root": 307,
+      "leadId": "74cbc70b-3c19-4cb2-9651-9f8247d11866",
+      "http": 201,
+      "replay": 200,
+      "originDenied": 403,
+      "foreignDenied": 404,
+      "kind": "booking",
+      "delivery": "sent",
+      "receipts": 1
+    },
+    {
+      "profile": "stay",
+      "base": "http://127.0.0.1:63320",
+      "database": "lsf_test_demo_stay_63320_380ff0185289",
+      "ownPages": 4,
+      "foreignRoutesBlocked": 6,
+      "root": 307,
+      "leadId": "d1f547fb-413d-4e65-8254-c4d9525f71e7",
+      "http": 201,
+      "replay": 200,
+      "originDenied": 403,
+      "foreignDenied": 404,
+      "kind": "booking",
+      "delivery": "sent",
+      "receipts": 1
+    },
+    {
+      "profile": "estimate",
+      "base": "http://127.0.0.1:60501",
+      "database": "lsf_test_demo_estimate_60501_380ff0185289",
+      "ownPages": 4,
+      "foreignRoutesBlocked": 6,
+      "root": 307,
+      "leadId": "217deb1b-5505-4dde-8b5f-7f1f70daa24a",
+      "http": 201,
+      "replay": 200,
+      "originDenied": 403,
+      "foreignDenied": 404,
+      "kind": "estimate",
+      "delivery": "sent",
+      "receipts": 1
+    }
+  ],
+  "faults": [
+    {
+      "mode": "constructor",
+      "scope": "beauty",
+      "root": 503,
+      "api": 503,
+      "error": "DEMO_NOT_READY"
+    },
+    {
+      "mode": "beauty",
+      "scope": "beauty,auto",
+      "root": 307,
+      "api": 503,
+      "error": "DEMO_NOT_READY"
+    }
+  ],
+  "cleanup": "Only newly created databases owned by this run"
+}

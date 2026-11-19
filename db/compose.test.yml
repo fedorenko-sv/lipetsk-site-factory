@@ -1,0 +1,21 @@
+# Только локальный тестовый PostgreSQL (PR3, §13).
+# Публичные синтетические credentials контейнера, не production-секреты.
+# Петлевой интерфейс, tmpfs для данных: ничего не публикуется и не переживает рестарт.
+services:
+  postgres:
+    image: postgres:18
+    container_name: lsf-test-backend-pg
+    ports:
+      - "127.0.0.1:55543:5432"
+    environment:
+      POSTGRES_DB: lsf_test_backend
+      POSTGRES_USER: lsf_test
+      POSTGRES_PASSWORD: lsf_test_only
+      PGDATA: /var/lib/postgresql/data/pgdata
+    tmpfs:
+      - /var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lsf_test -d lsf_test_backend"]
+      interval: 2s
+      timeout: 3s
+      retries: 30

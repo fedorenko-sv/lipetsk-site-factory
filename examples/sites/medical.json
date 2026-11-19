@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "medical",
+  "contentVersion": "demo-2026-11-18",
+  "mode": "demo",
+  "core": "booking",
+  "theme": "editorial",
+  "locale": "ru-RU",
+  "timezone": "Europe/Moscow",
+  "brandName": "ЯСНО · демо",
+  "hero": {
+    "eyebrow": "Демонстрационный концепт",
+    "title": "Понятный путь к специалисту.",
+    "subtitle": "Выберите направление и удобное время. Здесь только организационная заявка без медицинских сведений.",
+    "ctaText": "Первичный приём"
+  },
+  "contacts": {},
+  "address": "Липецк · демонстрационный адрес",
+  "priceDisclaimer": "Демонстрационные цены. Точную стоимость и время подтверждает администратор.",
+  "services": [
+    {
+      "id": "consultation",
+      "name": "Первичный приём",
+      "category": "Приём",
+      "durationMinutes": 30,
+      "price": {
+        "kind": "from",
+        "amountMinor": 300000,
+        "currency": "RUB"
+      },
+      "resourceIds": [
+        "doctor-demo"
+      ],
+      "options": []
+    },
+    {
+      "id": "checkup-info",
+      "name": "Консультация по обследованию",
+      "category": "Организация",
+      "durationMinutes": 30,
+      "price": {
+        "kind": "from",
+        "amountMinor": 250000,
+        "currency": "RUB"
+      },
+      "resourceIds": [
+        "doctor-demo"
+      ],
+      "options": []
+    }
+  ],
+  "resources": [
+    {
+      "id": "doctor-demo",
+      "name": "Специалист · демо-профиль"
+    }
+  ],
+  "booking": {
+    "resourceSelection": "optional",
+    "preferenceRequired": true,
+    "horizonDays": 30,
+    "timeStepMinutes": 30,
+    "workingHours": {
+      "opens": "10:00",
+      "closes": "20:00",
+      "days": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    }
+  },
+  "legal": {
+    "consentVersion": "demo-2026-11-18",
+    "policyPath": "/demo/medical/privacy",
+    "operatorName": null,
+    "approved": false
+  }
+}
