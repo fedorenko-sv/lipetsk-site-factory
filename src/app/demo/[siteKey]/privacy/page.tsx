@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { DemoFrame } from "@/features/prototypes/DemoPages";
+import { getPrototype } from "@/features/prototypes/catalog";
 import { notFound } from "next/navigation";
 import { getSiteConfig, getAllSiteKeys } from "@/config/sites";
 import { estimateConfig } from "@/features/estimate/config";
@@ -36,40 +37,29 @@ export default async function DemoPrivacyPage({ params }: Props) {
 
   if (!config) notFound();
 
-  const themeClass = config.theme === "editorial" ? "theme-editorial" : "theme-technical";
+  const prototype = getPrototype(siteKey);
+  if (!prototype) notFound();
 
   return (
-    <div className={`min-h-screen ${themeClass}`}>
-      <main className="max-w-2xl mx-auto px-4 py-12 text-[var(--text-main)]">
-        <div className="mb-6">
-          <Link
-            href={`/demo/${config.id}`}
-            className="text-xs text-[var(--color-accent)] hover:underline inline-flex items-center gap-1"
-          >
-            ← Вернуться к предложению
-          </Link>
-        </div>
-
-        <div className="rounded-xl border border-[var(--badge-demo-border)] bg-[var(--badge-demo-bg)] p-4 mb-8 text-xs text-[var(--badge-demo-text)]">
-          <strong>Демонстрационный режим.</strong> На данном стенде не собираются и не обрабатываются реальные персональные данные.
-        </div>
-
-        <h1 className="text-2xl sm:text-3xl font-extrabold mb-4 text-[var(--text-main)]">
-          Демонстрационная политика обработки данных
-        </h1>
-
-        <div className="space-y-4 text-sm text-[var(--text-muted)] leading-relaxed">
-          <p>
-            Версия согласия: <code className="text-[var(--color-accent)] font-mono">{config.legal.consentVersion}</code>
-          </p>
-          <p>
-            Данный демонстрационный стенд Lipetsk Site Factory демонстрирует работу тестовой заявки для направления «{config.brandName}».
-          </p>
-          <p>
-            В демонстрационном режиме для тестирования используется номер <code className="text-[var(--color-accent)]">+70000000000</code>. Форма сохраняет тестовую заявку в демонстрационную базу и создаёт запись для проверочного адаптера. Внешние уведомления не подключены. Не вводите настоящие контакты и медицинские сведения.
-          </p>
-        </div>
-      </main>
-    </div>
+    <DemoFrame id={prototype.id} title="Данные в демо" lead="Какие данные нужны для тестовой заявки и что происходит после её отправки." visual={false}>
+      <section className="prototype-section prototype-privacy">
+        <article>
+          <h2>Что можно указать</h2>
+          <p className="editorial-section-copy">{siteKey==="estimate" ? "Параметры окна и количество конструкций." : "Услугу, доступные параметры и удобный для связи день и время."} Для проверки формы используйте +70000000000 и вымышленное имя. {siteKey==="medical" && "Не вводите сведения о здоровье, диагнозы или документы."}</p>
+        </article>
+        <article>
+          <h2>Что сохраняется</h2>
+          <p className="editorial-section-copy">Тестовая заявка и номер квитанции сохраняются в демонстрационной базе. Проверочный адаптер регистрирует обработку заявки внутри системы.</p>
+        </article>
+        <article>
+          <h2>Что означает квитанция</h2>
+          <p className="editorial-section-copy">Квитанция подтверждает сохранение тестовой заявки. В демо нет внешней рассылки, оплаты или подтверждения реального визита, проживания и заказа.</p>
+        </article>
+        <article>
+          <h2>Версия согласия</h2>
+          <p className="editorial-section-copy"><code>{config.legal.consentVersion}</code>. Политика относится к демонстрационному сайту «{config.brandName}».</p>
+        </article>
+      </section>
+    </DemoFrame>
   );
 }

@@ -23,7 +23,7 @@
 .prototype-subhero-compact nav { margin-bottom:30px; }
 .prototype-page-catalog { padding-top:65px; }
 .prototype-page-catalog .prototype-service-card h2 { font-size:26px; font-family:"Oblik Sans",sans-serif; line-height:1.2; margin:20px 0; }
-.prototype-page-catalog .prototype-service-card p { min-height:85px; font-size:12px; }
+.prototype-page-catalog .prototype-service-card p { font-size:.9375rem; line-height:1.65; }
 .prototype-page-note { padding-top:35px; border-top:1px solid var(--p-line); margin:50px 0 0; }
 .prototype-team-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:25px; }
 .prototype-team-cards article { border:1px solid var(--p-line); padding:30px; min-width:0; }
@@ -84,7 +84,6 @@
  .prototype-subhero-compact { padding-bottom:30px; }
  .prototype-interior .prototype-subhero-compact h1 { font-size:46px; }
  .prototype-page-catalog { padding-top:40px; }
- .prototype-page-catalog .prototype-service-card p { min-height:0; }
  .prototype-team-cards,.prototype-team-cards:has(> :last-child:nth-child(1)),.prototype-team-cards:has(> :last-child:nth-child(2)) { grid-template-columns:1fr; }
  .prototype-article-content,.prototype-offer-detail { grid-template-columns:1fr; gap:30px; }
  .prototype-offer-summary { position:static; order:-1; padding:28px; }

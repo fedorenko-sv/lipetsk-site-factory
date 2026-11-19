@@ -1284,3 +1284,14 @@ body:has(.site-menu[open]) {
     grid-column: 1/-1;
   }
 }
+.detailing-editorial .editorial-figure figcaption { color: var(--dt-muted, #adaba8); }
+.detailing-editorial h3 { font-size: clamp(1.25rem, 2vw, 1.85rem); line-height: 1.2; margin: 1rem 0; }
+.detailing-editorial p { max-width: 59ch; line-height: 1.65; }
+.detailing-scenes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1rem, 3vw, 3rem); margin-top: 2rem; }
+.site-care-grid .editorial-figure { margin-bottom: 1.25rem; }
+.site-visit-help { margin-block: 1.5rem; padding: 1rem 1.25rem; border: 1px solid #8887; }
+.site-visit-help summary { cursor: pointer; padding-block: .75rem; }
+.site-visit-help p { max-width: 65ch; }
+@media (max-width: 700px) {
+  .detailing-scenes { grid-template-columns: 1fr; gap: 2rem; }
+}

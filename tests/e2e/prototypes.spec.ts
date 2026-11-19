@@ -56,7 +56,7 @@ test("PX04: все политики доступны и предупреждаю
   for(const key of ["auto","beauty","medical","sports","stay","estimate"]) {
     const response=await page.goto("/demo/"+key+"/privacy");
     expect(response?.status()).toBe(200);
-    await expect(page.locator("h1")).toContainText("Демонстрационная");
+    await expect(page.getByRole("heading", { level: 1, name: "Данные в демо" })).toBeVisible();
     await expect(page.locator("main")).toContainText("+70000000000");
   }
 });

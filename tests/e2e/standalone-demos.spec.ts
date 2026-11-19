@@ -3,9 +3,9 @@ import type { LeadCreateRequest } from "../../src/shared/contracts";
 const receipt={leadId:"d0000000-0000-4000-8000-000000000001",status:"received",replayed:false,message:"Тестовая заявка сохранена."};
 const scenarios=[
  {id:"auto",section:"services",service:"storage"},
- {id:"beauty",section:"services",service:"manicure",resource:"master-b"},
- {id:"medical",section:"directions",service:"checkup-info",resource:"doctor-demo"},
- {id:"sports",section:"programs",service:"teens-trial",resource:"coach-teens"},
+ {id:"beauty",section:"services",service:"manicure",resource:"master-b",name:"Лера · демо"},
+ {id:"medical",section:"directions",service:"checkup-info",resource:"doctor-demo",name:"Марина · демо"},
+ {id:"sports",section:"programs",service:"teens-trial",resource:"coach-teens",name:"Антон · демо"},
  {id:"stay",section:"houses",service:"forest-house"},
 ]as const;
 function date(){const day=new Date(Date.now()+2*86400000);while(day.getUTCDay()===0)day.setUTCDate(day.getUTCDate()+1);return day.toISOString().slice(0,10);}
@@ -28,7 +28,11 @@ for(const scenario of scenarios)test("DEMO02: "+scenario.id+" каталог →
  else await page.getByTestId("offer-to-booking").click();
  await expect(page).toHaveURL(new RegExp("/demo/"+scenario.id+"/booking"));
  await expect(page.getByLabel("Выбранная услуга")).toHaveValue(scenario.service);
- if("resource"in scenario)await expect(page.getByTestId("resource-select")).toHaveValue(scenario.resource);
+ if("resource"in scenario){
+  const resource = page.getByTestId("resource-select");
+  await expect(resource).toHaveValue(scenario.resource);
+  await expect(resource.locator("option:checked")).toHaveText(scenario.name);
+ }
  if(scenario.id==="stay")await expect(page.getByTestId("preference-step")).toContainText("обратной связи");
  await page.getByTestId("preferred-date").fill(date());await page.getByTestId("preferred-time").selectOption("11:00");
  await page.getByTestId("next-to-contact").click();await page.getByTestId("customer-phone").fill("+70000000000");await page.getByTestId("consent").check();

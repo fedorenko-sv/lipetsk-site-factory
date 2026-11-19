@@ -1,5 +1,7 @@
 "use client";
 
+import { DetailingScenarios } from "./site/DetailingEditorial";
+
 /* eslint-disable @next/next/no-img-element -- Native images allow art-directed local media and predictable hero framing. */
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -368,6 +370,7 @@ export function DetailingLanding() {
           </div>
         </section>
 
+        <DetailingScenarios/>
         <section className="dt-faq dt-shell" aria-labelledby="dt-faq-title">
           <div data-reveal>
             <h2 id="dt-faq-title">

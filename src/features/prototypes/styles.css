@@ -125,7 +125,7 @@
 .prototype-stay .prototype-hero-visual { position: absolute; inset: 0; z-index: -2; }
 .prototype-stay .prototype-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg,#0b211be0 0%,#10231b99 40%,transparent 85%); z-index: -1; }
 .prototype-stay h1 { font-size: clamp(70px,8vw,126px); max-width: 730px; }
-.prototype-stay .prototype-lead, .prototype-stay .prototype-scroll-note { color: #f1f2e4; }
+.prototype-stay .prototype-hero .prototype-lead, .prototype-stay .prototype-hero .prototype-scroll-note { color: #f1f2e4; }
 .prototype-stay .prototype-hero .prototype-button { background: #eeeddc; color: #263d30 !important; }
 .prototype-stay .prototype-hero-visual figcaption { left: auto; right: 25px; }
 .prototype-stay .prototype-visual-tag { left: auto; right: 35px; bottom: 35px; }

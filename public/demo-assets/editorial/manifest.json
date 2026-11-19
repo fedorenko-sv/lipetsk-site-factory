@@ -1,0 +1,218 @@
+{
+  "source": "OpenAI ImageGen, 2026-11-19",
+  "purpose": "Fictional demonstration imagery. Educational mock-ups and fictional portraits, not customer work.",
+  "layout": "7 sheets, 3×2. Individual center crops to 480×480 WebP.",
+  "bytes": 1167358,
+  "groups": [
+    {
+      "key": "auto",
+      "source": "exec-36adede8-6d56-4270-a25e-d831de660c50.png",
+      "images": [
+        {
+          "name": "tire-change.webp",
+          "bytes": 32172
+        },
+        {
+          "name": "balancing.webp",
+          "bytes": 17686
+        },
+        {
+          "name": "storage.webp",
+          "bytes": 39298
+        },
+        {
+          "name": "tread.webp",
+          "bytes": 35718
+        },
+        {
+          "name": "torque.webp",
+          "bytes": 27312
+        },
+        {
+          "name": "wheels.webp",
+          "bytes": 28690
+        }
+      ]
+    },
+    {
+      "key": "beauty",
+      "source": "exec-bdffe593-2409-49a0-a384-f8e83d300dce.png",
+      "images": [
+        {
+          "name": "haircut.webp",
+          "bytes": 26448
+        },
+        {
+          "name": "manicure.webp",
+          "bytes": 20268
+        },
+        {
+          "name": "master-a.webp",
+          "bytes": 21458
+        },
+        {
+          "name": "master-b.webp",
+          "bytes": 17926
+        },
+        {
+          "name": "hair-tools.webp",
+          "bytes": 40300
+        },
+        {
+          "name": "nail-tools.webp",
+          "bytes": 19316
+        }
+      ]
+    },
+    {
+      "key": "medical",
+      "source": "exec-e7241f2f-08ee-4766-b453-539b48e585e3.png",
+      "images": [
+        {
+          "name": "consultation.webp",
+          "bytes": 17776
+        },
+        {
+          "name": "checkup-info.webp",
+          "bytes": 9086
+        },
+        {
+          "name": "doctor-demo.webp",
+          "bytes": 15334
+        },
+        {
+          "name": "waiting.webp",
+          "bytes": 23098
+        },
+        {
+          "name": "corridor.webp",
+          "bytes": 12700
+        },
+        {
+          "name": "access.webp",
+          "bytes": 14402
+        }
+      ]
+    },
+    {
+      "key": "sports",
+      "source": "exec-69d62ec2-b31f-4c22-8c2d-6d85c694123f.png",
+      "images": [
+        {
+          "name": "kids-trial.webp",
+          "bytes": 30590
+        },
+        {
+          "name": "teens-trial.webp",
+          "bytes": 27154
+        },
+        {
+          "name": "adult-trial.webp",
+          "bytes": 25880
+        },
+        {
+          "name": "coach-kids.webp",
+          "bytes": 22666
+        },
+        {
+          "name": "coach-teens.webp",
+          "bytes": 21618
+        },
+        {
+          "name": "coach-adult.webp",
+          "bytes": 21842
+        }
+      ]
+    },
+    {
+      "key": "stay",
+      "source": "exec-f2c250b5-d7d9-4b25-bc47-72971f71367c.png",
+      "images": [
+        {
+          "name": "pine-terrace.webp",
+          "bytes": 66860
+        },
+        {
+          "name": "pine-reading.webp",
+          "bytes": 46588
+        },
+        {
+          "name": "forest-terrace.webp",
+          "bytes": 64830
+        },
+        {
+          "name": "forest-view.webp",
+          "bytes": 52384
+        },
+        {
+          "name": "trail.webp",
+          "bytes": 80490
+        },
+        {
+          "name": "table.webp",
+          "bytes": 37562
+        }
+      ]
+    },
+    {
+      "key": "estimate",
+      "source": "exec-86069897-5ef5-4c71-855e-85882a4c9a2a.png",
+      "images": [
+        {
+          "name": "window.webp",
+          "bytes": 20104
+        },
+        {
+          "name": "balcony-door.webp",
+          "bytes": 25526
+        },
+        {
+          "name": "frame.webp",
+          "bytes": 9328
+        },
+        {
+          "name": "graphite.webp",
+          "bytes": 26682
+        },
+        {
+          "name": "measure.webp",
+          "bytes": 23392
+        },
+        {
+          "name": "glass.webp",
+          "bytes": 18528
+        }
+      ]
+    },
+    {
+      "key": "detailing",
+      "source": "exec-ba59aa33-a62d-40b9-a186-12f5d5f9868c.png",
+      "images": [
+        {
+          "name": "ppf-front.webp",
+          "bytes": 28000
+        },
+        {
+          "name": "ppf-full.webp",
+          "bytes": 27076
+        },
+        {
+          "name": "ceramic.webp",
+          "bytes": 16328
+        },
+        {
+          "name": "polish.webp",
+          "bytes": 20026
+        },
+        {
+          "name": "wheel-care.webp",
+          "bytes": 20772
+        },
+        {
+          "name": "interior-care.webp",
+          "bytes": 14144
+        }
+      ]
+    }
+  ]
+}

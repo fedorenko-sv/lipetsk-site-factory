@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element -- Own concept plate for the visit page. */
 import type { Metadata } from "next";
+import { DetailingScenarios } from "@/features/detailing/site/DetailingEditorial";
 import Link from "next/link";
 import { basePath, mediaPath, siteConfig, bookingHref } from "@/features/detailing/content";
 import { Breadcrumbs, PageIntro } from "@/features/detailing/site/PageParts";
@@ -80,6 +81,7 @@ export default function Visit() {
           </Link>
         </div>
       </section>
+      <DetailingScenarios/>
     </main>
   );
 }

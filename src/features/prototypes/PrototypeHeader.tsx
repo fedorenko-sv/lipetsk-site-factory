@@ -7,6 +7,14 @@ import { actionPage, catalogPage, demoPageHref, getDemoPages } from "./pages";
 import type { PrototypeId } from "./catalog";
 import "./pages.css";
 
+const articleLabels: Record<string, string> = {
+  about: "О сервисе", visit: "Подготовка к визиту", studio: "О студии",
+  patients: "Перед обращением", information: "О клинике",
+  "first-visit": "Первое занятие", space: "Спортивный зал",
+  territory: "Территория", trip: "Планирование поездки",
+  installation: "Монтаж", measurement: "Замер", examples: "Примеры расчёта",
+};
+
 export function PrototypeHeader({ brand, id, cta = "Оставить заявку" }: { brand:string; id:PrototypeId; cta?:string }) {
   const pathname=usePathname();
   const dialog=useRef<HTMLDialogElement>(null);
@@ -28,7 +36,7 @@ export function PrototypeHeader({ brand, id, cta = "Оставить заявк�
     <button className="prototype-menu-trigger" aria-label="Открыть меню демо" aria-haspopup="dialog" onClick={()=>dialog.current?.showModal()} ref={trigger}><span>Меню</span><span aria-hidden="true">☰</span></button>
     <dialog className="prototype-menu" aria-label={brand+" — меню"} ref={dialog} onCancel={event=>{event.preventDefault();close();}} onClose={restoreFocus} onClick={event=>{if(event.target===event.currentTarget)close();}}>
       <div><div className="prototype-menu-heading"><span>{brand}</span><button type="button" onClick={close} aria-label="Закрыть меню демо">×</button></div>
-        <nav aria-label="Разделы демо"><Link href={home} onClick={close}>Главная<span aria-hidden="true">↗</span></Link>{pages.map(p=><Link href={demoPageHref(id,p.slug)} key={p.slug} onClick={close} aria-current={pathname===demoPageHref(id,p.slug)?"page":undefined}>{p.kind==="booking"?"Оставить заявку":p.kind==="calculator"?"Калькулятор":p.slug===catalog.slug?(id==="stay"?"Дома":id==="sports"?"Программы":id==="medical"?"Направления":id==="estimate"?"Конструкции":"Услуги"):p.kind==="team"?(id==="beauty"?"Мастера":id==="medical"?"Специалисты":"Тренеры"):p.title}<span aria-hidden="true">↗</span></Link>)}</nav>
+        <nav aria-label="Разделы демо"><Link href={home} onClick={close}>Главная<span aria-hidden="true">↗</span></Link>{pages.map(p=><Link href={demoPageHref(id,p.slug)} key={p.slug} onClick={close} aria-current={pathname===demoPageHref(id,p.slug)?"page":undefined}>{p.kind==="booking"?"Оставить заявку":p.kind==="calculator"?"Калькулятор":p.slug===catalog.slug?(id==="stay"?"Дома":id==="sports"?"Программы":id==="medical"?"Направления":id==="estimate"?"Конструкции":"Услуги"):p.kind==="team"?(id==="beauty"?"Мастера":id==="medical"?"Специалисты":"Тренеры"):(articleLabels[p.slug] ?? p.title)}<span aria-hidden="true">↗</span></Link>)}</nav>
         <p>Демонстрационный концепт. Только синтетические данные.</p>
       </div>
     </dialog>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { DetailingScenarios } from "@/features/detailing/site/DetailingEditorial";
 import Link from "next/link";
 import {
   categories,
@@ -54,6 +55,7 @@ export default async function Services({
           ))}
         </div>
       </section>
+      {category === "all" && <DetailingScenarios/>}
       <NextVisit
         title="Не уверены в выборе?"
         text="Сравните плёнку, керамику и полировку на странице цен или начните с пожелания по визиту. Программа уточняется по состоянию машины."

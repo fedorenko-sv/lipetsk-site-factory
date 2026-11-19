@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element -- Local commissioned concept photography. */
 import type { Metadata } from "next";
+import { DetailingScenarios } from "@/features/detailing/site/DetailingEditorial";
 import Link from "next/link";
 import { basePath, mediaPath } from "@/features/detailing/content";
 import { Breadcrumbs, PageIntro, NextVisit } from "@/features/detailing/site/PageParts";
@@ -121,6 +122,7 @@ export default function Atelier() {
           команде.
         </p>
       </section>
+      <DetailingScenarios section="materials"/>
       <NextVisit title="Начнём с разговора о машине." />
     </main>
   );

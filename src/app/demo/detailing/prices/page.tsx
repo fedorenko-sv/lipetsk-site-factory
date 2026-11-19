@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element -- Local detail photography. */
 import type { Metadata } from "next";
+import { DetailingScenarios } from "@/features/detailing/site/DetailingEditorial";
 import Link from "next/link";
 import { programs, basePath, bookingHref, mediaPath } from "@/features/detailing/content";
 import { Breadcrumbs, PageIntro, NextVisit } from "@/features/detailing/site/PageParts";
@@ -115,6 +116,7 @@ export default function Prices() {
           </div>
         </div>
       </section>
+      <DetailingScenarios section="prices"/>
       <NextVisit />
     </main>
   );

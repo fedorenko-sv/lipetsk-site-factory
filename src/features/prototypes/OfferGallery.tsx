@@ -29,8 +29,8 @@ export function OfferGallery({ media }: { media: OfferMedia }) {
 
   return <section className="prototype-section offer-gallery" aria-labelledby={id + "-heading"}>
     <div className="offer-gallery-heading">
-      <div><h2 id={id + "-heading"}>Представьте себя здесь.</h2><p>Снаружи и внутри — два взгляда на {media.title.toLocaleLowerCase("ru-RU")}.</p></div>
-      <p className="offer-gallery-concept">Визуальные концепты, созданные для демо. Они не показывают реальный объект или его комплектацию.</p>
+      <div><h2 id={id + "-heading"}>Фотогалерея</h2><p>{media.intro ?? media.title}</p></div>
+      <p className="offer-gallery-concept">Изображения созданы для демонстрации. Оснащение, состав услуг и условия уточняются отдельно.</p>
     </div>
     <div className="offer-gallery-grid">
       {media.photos.map((item, index) => <button key={item.src} type="button" className="offer-gallery-frame"

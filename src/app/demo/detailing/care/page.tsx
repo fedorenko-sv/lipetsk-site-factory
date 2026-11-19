@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { EditorialFigure } from "@/features/prototypes/EditorialSections";
+import { getEditorialPhoto } from "@/features/prototypes/editorial-photos";
 import Link from "next/link";
 import { programs, commonQuestions, basePath } from "@/features/detailing/content";
 import {
@@ -27,6 +29,7 @@ export default function Care() {
             .filter((p) => p.id !== "ppf-full")
             .map((p) => (
               <article key={p.id}>
+                <EditorialFigure photo={getEditorialPhoto("detailing",p.id)}/>
                 <h2>{p.service.name}</h2>
                 <p>{p.care}</p>
                 <Link className="site-text-link" href={basePath + "/services/" + p.id}>

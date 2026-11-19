@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Link from "next/link";
+import { ChoiceGuide } from "@/features/prototypes/EditorialSections";
 import { PrototypeHeader, PrototypeFooter, PrototypeFAQ } from "@/features/prototypes/sections";
 import { PrototypeMotion } from "@/features/prototypes/PrototypeMotion";
 import { EstimateFlow } from "./EstimateFlow";
@@ -23,8 +25,10 @@ export function EstimateLanding() {
           <article><span>Следующий шаг</span><h3>Свериться с реальностью.</h3><p>Предварительный расчёт помогает обсудить задачу. Замер и осмотр нужны для окончательного предложения.</p></article>
         </div>
       </section>
+      <ChoiceGuide id="estimate" photo link/>
       <section className="prototype-section" id="calculator" aria-label="Калькулятор стоимости окна">
         <EstimateFlow config={estimateConfig}/>
+        <p><Link href="/demo/estimate/examples">Посмотреть шесть готовых расчётов</Link></p>
       </section>
       <section className="prototype-section prototype-process" id="approach" aria-labelledby="estimate-process" data-reveal><div className="prototype-section-heading"><p className="prototype-kicker">Простой порядок</p><h2 id="estimate-process">От идеи — к точным размерам.</h2></div><div className="prototype-process-grid">{[
         ["Укажите параметры","Снимите ориентировочные размеры и выберите нужную комплектацию."],

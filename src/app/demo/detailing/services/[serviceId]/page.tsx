@@ -10,6 +10,7 @@ import {
   bookingHref,
 } from "@/features/detailing/content";
 import { Breadcrumbs, ProgramCard, QuestionList } from "@/features/detailing/site/PageParts";
+import { ProgramExample } from "@/features/detailing/site/DetailingEditorial";
 import { formatPrice } from "@/features/booking/client/formatters";
 export const dynamicParams = false;
 export function generateStaticParams() {
@@ -62,6 +63,7 @@ export default async function ServicePage({ params }: { params: Promise<{ servic
         <h2>{p.headline}</h2>
         <p>{p.purpose}</p>
       </section>
+      <ProgramExample program={p}/>
       <section className="site-included">
         <div className="dt-shell site-split">
           <h2>

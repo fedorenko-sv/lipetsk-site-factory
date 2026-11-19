@@ -45,7 +45,7 @@ test("FE25: Privacy / метаданные / noindex", async ({ page }) => {
   await expect(privacyLink).toHaveAttribute("href", "/demo/auto/privacy");
 
   await page.goto("/demo/auto/privacy");
-  await expect(page.getByText("Демонстрационная политика обработки данных")).toBeVisible();
+  await expect(page.getByRole("heading", {level:1,name:"Данные в демо"})).toBeVisible();
 });
 
 test("FE26: Console/Storage/URL — подписка до ввода, нет утечки телефона", async ({ page }) => {
