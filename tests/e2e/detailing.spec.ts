@@ -269,6 +269,11 @@ test("DT10: scrolling moves inspection light; reduced motion restores the static
       behavior: "instant",
     }),
   );
+  // The drawing is complete before its scroll animation is downloaded.
+  await expect.poll(
+    () => study.locator(".dt-ink-trace").evaluate((trace: SVGPathElement) => trace.style.strokeDasharray),
+    { timeout: 20_000, message: "The lazy inspection animation should initialize near the viewport" },
+  ).not.toBe("");
   await expect.poll(shift).toBeLessThan(220);
   await study.evaluate((el) =>
     window.scrollTo({ top: window.scrollY + el.getBoundingClientRect().top, behavior: "instant" }),

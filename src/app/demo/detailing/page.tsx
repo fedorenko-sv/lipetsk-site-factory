@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DetailingLanding } from "@/features/detailing/DetailingLanding";
+import { DetailingScenarios } from "@/features/detailing/site/DetailingEditorial";
 import "@/features/detailing/detailing.css";
 import "@/features/detailing/art-direction.css";
 
@@ -11,5 +12,5 @@ export const metadata: Metadata = {
 };
 
 export default function DetailingPage() {
-  return <DetailingLanding />;
+  return <DetailingLanding scenarios={<DetailingScenarios/>} />;
 }

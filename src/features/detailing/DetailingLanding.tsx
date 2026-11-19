@@ -1,6 +1,5 @@
 "use client";
 
-import { DetailingScenarios } from "./site/DetailingEditorial";
 
 /* eslint-disable @next/next/no-img-element -- Native images allow art-directed local media and predictable hero framing. */
 import Link from "next/link";
@@ -77,7 +76,7 @@ const questions = [
   ],
 ];
 
-export function DetailingLanding() {
+export function DetailingLanding({ scenarios }: { scenarios: React.ReactNode }) {
   const [zoneId, setZoneId] = useState("front");
   const [serviceId, setServiceId] = useState("ppf-front");
   const [booking, setBooking] = useState(false);
@@ -370,7 +369,7 @@ export function DetailingLanding() {
           </div>
         </section>
 
-        <DetailingScenarios/>
+        {scenarios}
         <section className="dt-faq dt-shell" aria-labelledby="dt-faq-title">
           <div data-reveal>
             <h2 id="dt-faq-title">
