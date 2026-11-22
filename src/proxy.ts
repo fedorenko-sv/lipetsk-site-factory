@@ -1,9 +1,12 @@
 import {NextResponse, type NextRequest} from "next/server";
 import {decideDemoRoute,parseDemoDeployment} from "./server/config/demo-deployment";
+import {resolveBrandSelection} from "./brands/select";
 
 export function proxy(request:NextRequest) {
   const mode=parseDemoDeployment(process.env.DEMO_SITE_KEY);
-  const decision=decideDemoRoute(mode,request.nextUrl.pathname);
+  // An unknown brand, or one that belongs to another profile, disables pages like an invalid profile does.
+  const brandInvalid=resolveBrandSelection(process.env.DEMO_BRAND_KEY,mode).kind==="invalid";
+  const decision=decideDemoRoute(brandInvalid?{kind:"invalid"}:mode,request.nextUrl.pathname);
   if(decision.action==="next")return NextResponse.next();
   const headers={"X-Robots-Tag":"noindex, nofollow","Cache-Control":"no-store"};
   if(decision.action==="redirect"){

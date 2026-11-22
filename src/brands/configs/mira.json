@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "brand/1",
+  "key": "mira",
+  "version": "2026-11-22",
+  "shell": "beauty",
+  "synthetic": true,
+  "name": { "short": "MIRA", "full": "MIRA — студия красоты" },
+  "scheme": "light",
+  "palette": {
+    "canvas": "#f6f0e8", "surface": "#eaded3", "raised": "#fbf7f2",
+    "ink": "#412d30", "muted": "#6c5558", "line": "#dacbc4",
+    "accent": "#7c494f", "onAccent": "#ffffff", "focus": "#7c494f",
+    "danger": "#9f1239", "success": "#166534"
+  },
+  "typography": {
+    "display": { "family": "oblik-serif", "weight": 400, "tracking": -0.045 },
+    "body": { "family": "oblik-sans", "weight": 400 }
+  },
+  "media": {
+    "hero": { "path": "/demo-assets/prototypes/beauty.webp", "license": "Synthetic, OpenAI ImageGen 2026-11-18, see prototypes/manifest.json", "width": 1536, "height": 1024, "alt": "Светлая студия с пудровым креслом и овальным зеркалом" }
+  },
+  "copy": { "kicker": "Студия красоты · ваш ритм", "tagline": "Маленький ритуал для себя." },
+  "metadata": { "description": "Услуга, знакомство с мастером и удобное время." }
+}

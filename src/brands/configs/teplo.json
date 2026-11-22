@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "brand/1",
+  "key": "teplo",
+  "version": "2026-11-22",
+  "shell": "estimate",
+  "synthetic": true,
+  "name": { "short": "ТЕПЛО", "full": "ТЕПЛО — деревянные и тёплые окна" },
+  "logo": {
+    "onLight": { "path": "/demo-assets/brands/teplo/logo-on-light.svg", "license": "Synthetic wordmark drawn for this demo, CC0", "width": 168, "height": 34, "alt": "ТЕПЛО" }
+  },
+  "scheme": "light",
+  "palette": {
+    "canvas": "#f7f1e8", "surface": "#ede2d3", "raised": "#fffaf3",
+    "ink": "#2f2420", "muted": "#66544a", "line": "#dccdbb",
+    "accent": "#9c3f1e", "onAccent": "#fffaf3", "focus": "#9c3f1e",
+    "danger": "#a3242e", "success": "#3c6a3a"
+  },
+  "typography": {
+    "display": { "family": "oblik-serif", "weight": 400, "tracking": -0.035 },
+    "body": { "family": "oblik-sans", "weight": 400 }
+  },
+  "media": {
+    "hero": { "path": "/demo-assets/brands/teplo/hero.webp", "license": "Warm grade and crop of the synthetic estimate.webp (ffmpeg), same origin", "width": 1600, "height": 1028, "alt": "Высокое окно в тёплом утреннем свете" }
+  },
+  "copy": { "kicker": "Окна, в которых тепло", "tagline": "Тепло видно в каждой строке.", "lead": "Дерево, тёплый профиль и честный расчёт. Задайте размеры и комплектацию и посмотрите, из чего складывается цена, ещё до замера." },
+  "metadata": { "description": "Тёплые окна: параметры, расчёт по строкам и заявка на уточнение." }
+}

@@ -1,0 +1,300 @@
+{
+  "runId": "e82b51d86522",
+  "at": "2026-11-22T13:53:54.535Z",
+  "payloadContract": {
+    "mira": {
+      "siteKey": "beauty",
+      "configVersion": "demo-2026-11-04",
+      "kind": "booking",
+      "serviceId": "haircut",
+      "serviceOptions": {},
+      "resourceId": "master-b",
+      "customerKeys": [
+        "phone"
+      ],
+      "consentKeys": [
+        "accepted",
+        "version"
+      ],
+      "preferredKeys": [
+        "date",
+        "time",
+        "timezone"
+      ]
+    },
+    "vecher": {
+      "siteKey": "beauty",
+      "configVersion": "demo-2026-11-04",
+      "kind": "booking",
+      "serviceId": "haircut",
+      "serviceOptions": {},
+      "resourceId": "master-b",
+      "customerKeys": [
+        "phone"
+      ],
+      "consentKeys": [
+        "accepted",
+        "version"
+      ],
+      "preferredKeys": [
+        "date",
+        "time",
+        "timezone"
+      ]
+    },
+    "prosvet": {
+      "siteKey": "estimate",
+      "configVersion": "demo-2026-11-18",
+      "kind": "estimate",
+      "parameters": {
+        "product": "window",
+        "widthMm": 1200,
+        "heightMm": 1400,
+        "quantity": 2,
+        "glazing": "triple",
+        "finish": "graphite",
+        "installation": true
+      },
+      "customerKeys": [
+        "phone"
+      ],
+      "consentKeys": [
+        "accepted",
+        "version"
+      ],
+      "preferredKeys": null
+    },
+    "teplo": {
+      "siteKey": "estimate",
+      "configVersion": "demo-2026-11-18",
+      "kind": "estimate",
+      "parameters": {
+        "product": "window",
+        "widthMm": 1200,
+        "heightMm": 1400,
+        "quantity": 2,
+        "glazing": "triple",
+        "finish": "graphite",
+        "installation": true
+      },
+      "customerKeys": [
+        "phone"
+      ],
+      "consentKeys": [
+        "accepted",
+        "version"
+      ],
+      "preferredKeys": null
+    }
+  },
+  "results": [
+    {
+      "shell": "beauty",
+      "brand": "mira",
+      "base": "http://127.0.0.1:50599",
+      "pages": {
+        "/demo/beauty": {
+          "status": 200,
+          "title": "MIRA — студия красоты"
+        },
+        "/demo/beauty/services": {
+          "status": 200,
+          "title": "Ритуалы вашего ритма. · MIRA"
+        },
+        "/demo/beauty/booking": {
+          "status": 200,
+          "title": "Заявка · MIRA"
+        },
+        "/demo/beauty/privacy": {
+          "status": 200,
+          "title": "Демо-политика конфиденциальности — MIRA — студия красоты"
+        }
+      },
+      "logo": "text fallback",
+      "focus": {
+        "cls": "prototype-brand",
+        "style": "solid",
+        "width": "3px",
+        "color": "rgb(124, 73, 79)"
+      },
+      "widths": {
+        "360": "no horizontal scroll",
+        "390": "no horizontal scroll",
+        "720": "no horizontal scroll",
+        "768": "no horizontal scroll",
+        "1440": "no horizontal scroll"
+      },
+      "fonts": [
+        "font-1.woff2",
+        "font-2.woff2",
+        "font-3.woff2",
+        "font-4.woff2"
+      ],
+      "fontFallback": "ok",
+      "reducedMotion": "content visible",
+      "submission": "stored"
+    },
+    {
+      "shell": "beauty",
+      "brand": "vecher",
+      "base": "http://127.0.0.1:50639",
+      "pages": {
+        "/demo/beauty": {
+          "status": 200,
+          "title": "Вечерняя студия красоты «Вечер»"
+        },
+        "/demo/beauty/services": {
+          "status": 200,
+          "title": "Ритуалы вашего ритма. · ВЕЧЕР"
+        },
+        "/demo/beauty/booking": {
+          "status": 200,
+          "title": "Заявка · ВЕЧЕР"
+        },
+        "/demo/beauty/privacy": {
+          "status": 200,
+          "title": "Демо-политика конфиденциальности — Вечерняя студия красоты «Вечер»"
+        }
+      },
+      "logo": "image",
+      "focus": {
+        "cls": "prototype-brand",
+        "style": "solid",
+        "width": "3px",
+        "color": "rgb(243, 207, 168)"
+      },
+      "widths": {
+        "360": "no horizontal scroll",
+        "390": "no horizontal scroll",
+        "720": "no horizontal scroll",
+        "768": "no horizontal scroll",
+        "1440": "no horizontal scroll"
+      },
+      "fonts": [
+        "font-2.woff2",
+        "font-3.woff2",
+        "font-4.woff2"
+      ],
+      "fontFallback": "ok",
+      "reducedMotion": "content visible",
+      "submission": {
+        "retryStatus": 201,
+        "sameIdempotencyKey": true,
+        "contactKept": true
+      }
+    },
+    {
+      "shell": "estimate",
+      "brand": "prosvet",
+      "base": "http://127.0.0.1:50695",
+      "pages": {
+        "/demo/estimate": {
+          "status": 200,
+          "title": "ПРОСВЕТ — окна и балконные двери"
+        },
+        "/demo/estimate/windows": {
+          "status": 200,
+          "title": "Две конструкции. Ваш выбор. · ПРОСВЕТ"
+        },
+        "/demo/estimate/calculator": {
+          "status": 200,
+          "title": "Калькулятор · ПРОСВЕТ"
+        },
+        "/demo/estimate/privacy": {
+          "status": 200,
+          "title": "Демо-политика конфиденциальности — ПРОСВЕТ — окна и балконные двери"
+        }
+      },
+      "logo": "text fallback",
+      "focus": {
+        "cls": "prototype-brand",
+        "style": "solid",
+        "width": "3px",
+        "color": "rgb(36, 79, 122)"
+      },
+      "widths": {
+        "360": "no horizontal scroll",
+        "390": "no horizontal scroll",
+        "720": "no horizontal scroll",
+        "768": "no horizontal scroll",
+        "1440": "no horizontal scroll"
+      },
+      "fonts": [
+        "font-2.woff2",
+        "font-3.woff2",
+        "font-4.woff2"
+      ],
+      "fontFallback": "ok",
+      "reducedMotion": "content visible",
+      "submission": "stored"
+    },
+    {
+      "shell": "estimate",
+      "brand": "teplo",
+      "base": "http://127.0.0.1:50745",
+      "pages": {
+        "/demo/estimate": {
+          "status": 200,
+          "title": "ТЕПЛО — деревянные и тёплые окна"
+        },
+        "/demo/estimate/windows": {
+          "status": 200,
+          "title": "Две конструкции. Ваш выбор. · ТЕПЛО"
+        },
+        "/demo/estimate/calculator": {
+          "status": 200,
+          "title": "Калькулятор · ТЕПЛО"
+        },
+        "/demo/estimate/privacy": {
+          "status": 200,
+          "title": "Демо-политика конфиденциальности — ТЕПЛО — деревянные и тёплые окна"
+        }
+      },
+      "logo": "image",
+      "focus": {
+        "cls": "prototype-brand",
+        "style": "solid",
+        "width": "3px",
+        "color": "rgb(156, 63, 30)"
+      },
+      "widths": {
+        "360": "no horizontal scroll",
+        "390": "no horizontal scroll",
+        "720": "no horizontal scroll",
+        "768": "no horizontal scroll",
+        "1440": "no horizontal scroll"
+      },
+      "fonts": [
+        "font-1.woff2",
+        "font-2.woff2",
+        "font-3.woff2",
+        "font-4.woff2"
+      ],
+      "fontFallback": "ok",
+      "reducedMotion": "content visible",
+      "submission": "stored"
+    },
+    {
+      "invalidSelections": [
+        {
+          "site": "beauty",
+          "brand": "teplo",
+          "why": "incompatible",
+          "status": 503
+        },
+        {
+          "site": "beauty",
+          "brand": "nope",
+          "why": "unknown",
+          "status": 503
+        },
+        {
+          "site": "estimate",
+          "brand": "vecher",
+          "why": "incompatible",
+          "status": 503
+        }
+      ]
+    }
+  ]
+}

@@ -17,23 +17,27 @@ import { BookingEntry } from "./BookingEntry";
 import { ChoiceGuide, EditorialFigure, RequestGuide } from "./EditorialSections";
 import { articleNotes, guides, offerExampleIndex, people, withEditorialResourceNames } from "./editorial";
 import { editorialPhotos, getEditorialPhoto } from "./editorial-photos";
+import { getShellBrand } from "@/brands/server";
+import { brandLogo, brandRootProps } from "@/brands/style";
 import "./styles.css";
 import "./pages.css";
 
 type Query=Record<string,string|string[]|undefined>;
-export function DemoFrame({id,title,lead,children,visual=true,image,parent}:{id:PrototypeId;title:string;lead:string;children:React.ReactNode;visual?:boolean;image?:OfferPhoto;parent?:DemoPage}) {
+export async function DemoFrame({id,title,lead,children,visual=true,image,parent}:{id:PrototypeId;title:string;lead:string;children:React.ReactNode;visual?:boolean;image?:OfferPhoto;parent?:DemoPage}) {
  const p=getPrototype(id)!;
- return <div className={"prototype prototype-"+id+" prototype-interior"} data-testid="demo-page">
+ const brand=await getShellBrand(id);
+ const hero=brand.media?.hero;
+ return <div className={"prototype prototype-"+id+" prototype-interior"} data-testid="demo-page" {...brandRootProps(brand)}>
   <a className="prototype-skip" href="#demo-content">К содержимому</a>
-  <PrototypeHeader id={id} brand={p.brand} cta={id==="stay"?"Обсудить поездку":id==="estimate"?"Рассчитать окно":"Оставить заявку"}/>
+  <PrototypeHeader id={id} brand={brand.name.short} logo={brandLogo(brand)} cta={id==="stay"?"Обсудить поездку":id==="estimate"?"Рассчитать окно":"Оставить заявку"}/>
   <main id="demo-content">
    <section className={"prototype-subhero "+(!visual?"prototype-subhero-compact":"")}>
     <div><nav aria-label="Хлебные крошки"><Link href={"/demo/"+id}>Главная</Link>{parent && <><span aria-hidden="true">/</span><Link href={demoPageHref(id,parent.slug)}>{id==="stay"?"Дома":id==="estimate"?"Конструкции":"Каталог"}</Link></>}</nav><p className="prototype-kicker">Демонстрационный концепт</p><h1>{title}</h1><p className="prototype-lead">{lead}</p></div>
-    {visual&&<figure><Image src={image?.src ?? p.image} alt={image?.alt ?? "Визуальная концепция "+p.brand} width={image?.width ?? 1600} height={image?.height ?? 1000} sizes="(max-width: 700px) 90vw, (max-width: 1600px) 36vw, 570px" loading="eager"/><figcaption>{image?.caption ?? "Образ пространства"} · демо</figcaption></figure>}
+    {visual&&<figure><Image src={image?.src ?? hero?.path ?? p.image} alt={image?.alt ?? hero?.alt ?? "Визуальная концепция "+brand.name.short} width={image?.width ?? hero?.width ?? 1600} height={image?.height ?? hero?.height ?? 1000} sizes="(max-width: 700px) 90vw, (max-width: 1600px) 36vw, 570px" loading="eager"/><figcaption>{image?.caption ?? "Образ пространства"} · демо</figcaption></figure>}
    </section>
    {children}
   </main>
-  <PrototypeFooter brand={p.brand} id={id}/>
+  <PrototypeFooter brand={brand} id={id}/>
  </div>;
 }
 function bookingHref(id:PrototypeId,serviceId?:string,resourceId?:string) {
@@ -120,10 +124,12 @@ export function DemoExamples({page}:{page:DemoPage}) {
   return <article key={variant.title}><EditorialFigure photo={variant.photo}/><p className="editorial-section-copy">{variant.parameters.widthMm} × {variant.parameters.heightMm} мм · {variant.parameters.quantity} шт. · {variant.parameters.installation?"с монтажом":"без монтажа"}</p><h2>{variant.title}</h2><dl>{quote.breakdown.map(line=><div key={line.code}><dt>{line.label}</dt><dd>{formatAmount(line.amountMinor)} ₽</dd></div>)}</dl><strong>{formatAmount(quote.totalMinor)} ₽</strong><Link href={"/demo/estimate/calculator?product="+variant.parameters.product}>Настроить параметры ↗</Link></article>;
  })}</section></DemoFrame>;
 }
-export function DemoBooking({id,page,context}:{id:Exclude<PrototypeId,"estimate">;page:DemoPage;context:{serviceId?:string;resourceId?:string;startAtPreference:boolean}}) {
- return <DemoFrame id={id} title={page.title} lead={page.lead} visual={false}><section className="prototype-section prototype-action-host"><RequestGuide id={id}/><BookingEntry key={id+":"+context.serviceId+":"+context.resourceId} config={withEditorialResourceNames(getSiteConfig(id)!)} initialServiceId={context.serviceId} initialResourceId={context.resourceId} startAtPreference={context.startAtPreference}/></section></DemoFrame>;
+export async function DemoBooking({id,page,context}:{id:Exclude<PrototypeId,"estimate">;page:DemoPage;context:{serviceId?:string;resourceId?:string;startAtPreference:boolean}}) {
+ const brand=await getShellBrand(id);
+ return <DemoFrame id={id} title={page.title} lead={page.lead} visual={false}><section className="prototype-section prototype-action-host"><RequestGuide id={id}/><BookingEntry key={id+":"+context.serviceId+":"+context.resourceId} config={{...withEditorialResourceNames(getSiteConfig(id)!),brandName:brand.name.full}} initialServiceId={context.serviceId} initialResourceId={context.resourceId} startAtPreference={context.startAtPreference}/></section></DemoFrame>;
 }
-export function DemoCalculator({page,product}:{page:DemoPage;product?:"window"|"balcony-door"}) {
- return <DemoFrame id="estimate" title={page.title} lead={page.lead} visual={false}><section className="prototype-section prototype-action-host prototype-calculator-page"><RequestGuide id="estimate"/><EstimateFlow key={product??"window"} config={estimateConfig} initialProduct={product}/></section></DemoFrame>;
+export async function DemoCalculator({page,product}:{page:DemoPage;product?:"window"|"balcony-door"}) {
+ const brand=await getShellBrand("estimate");
+ return <DemoFrame id="estimate" title={page.title} lead={page.lead} visual={false}><section className="prototype-section prototype-action-host prototype-calculator-page"><RequestGuide id="estimate"/><EstimateFlow key={product??"window"} config={{...estimateConfig,brandName:brand.name.full}} initialProduct={product}/></section></DemoFrame>;
 }
 export type { Query as DemoQuery };

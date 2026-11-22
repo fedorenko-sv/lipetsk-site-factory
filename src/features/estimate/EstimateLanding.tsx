@@ -5,16 +5,20 @@ import { PrototypeHeader, PrototypeFooter, PrototypeFAQ } from "@/features/proto
 import { PrototypeMotion } from "@/features/prototypes/PrototypeMotion";
 import { EstimateFlow } from "./EstimateFlow";
 import { estimateConfig } from "./config";
+import { getShellBrand } from "@/brands/server";
+import { brandLogo, brandRootProps } from "@/brands/style";
 import "@/features/prototypes/styles.css";
 
-export function EstimateLanding() {
-  return <div className="prototype prototype-estimate"><PrototypeMotion>
+export async function EstimateLanding() {
+  const brand = await getShellBrand("estimate");
+  const hero = brand.media?.hero;
+  return <div className="prototype prototype-estimate" {...brandRootProps(brand)}><PrototypeMotion>
     <a className="prototype-skip" href="#calculator">К расчёту</a>
-    <PrototypeHeader id="estimate" brand="ПРОСВЕТ" cta="Рассчитать окно"/>
+    <PrototypeHeader id="estimate" brand={brand.name.short} logo={brandLogo(brand)} cta="Рассчитать окно"/>
     <main>
       <section className="prototype-hero">
-        <div className="prototype-hero-copy"><p className="prototype-kicker">Окна, с которых начинается дом<span>Демо</span></p><h1>Больше света.<br/>Меньше неизвестных.</h1><p className="prototype-lead">Размеры, цвет, стеклопакет и монтаж. Посмотрите, как каждый выбор влияет на стоимость — ещё до первого разговора.</p><a className="prototype-button" href="#calculator">Рассчитать свой вариант ↗</a><span className="prototype-scroll-note">Архитектура света — в простых деталях ↓</span></div>
-        <figure className="prototype-hero-visual"><Image src="/demo-assets/prototypes/estimate.webp" alt="Большое графитовое окно в светлом архитектурном интерьере" width={1600} height={1000} sizes="(max-width: 700px) 100vw, (max-width: 1600px) 51vw, 820px" loading="eager" fetchPriority="high"/><figcaption>Архитектурная концепция · ПРОСВЕТ</figcaption><span className="prototype-visual-tag">Прозрачно. С первого расчёта.</span></figure>
+        <div className="prototype-hero-copy"><p className="prototype-kicker">{brand.copy?.kicker ?? "Окна, с которых начинается дом"}<span>Демо</span></p><h1>Больше света.<br/>Меньше неизвестных.</h1><p className="prototype-lead">{brand.copy?.lead ?? "Размеры, цвет, стеклопакет и монтаж. Посмотрите, как каждый выбор влияет на стоимость — ещё до первого разговора."}</p><a className="prototype-button" href="#calculator">Рассчитать свой вариант ↗</a><span className="prototype-scroll-note">Архитектура света — в простых деталях ↓</span></div>
+        <figure className="prototype-hero-visual"><Image src={hero?.path ?? "/demo-assets/prototypes/estimate.webp"} alt={hero?.alt ?? "Большое графитовое окно в светлом архитектурном интерьере"} width={hero?.width ?? 1600} height={hero?.height ?? 900} sizes="(max-width: 700px) 100vw, (max-width: 1600px) 51vw, 820px" loading="eager" fetchPriority="high"/><figcaption>Архитектурная концепция · {brand.name.short}</figcaption><span className="prototype-visual-tag">{brand.copy?.tagline ?? "Прозрачно. С первого расчёта."}</span></figure>
       </section>
       <div className="prototype-facts"><div><span>01</span>Параметры вместо догадок</div><div><span>02</span>Цена по понятным строкам</div><div><span>03</span>Уточнение после замера</div></div>
       <section className="prototype-section prototype-services" id="services" aria-labelledby="estimate-offer" data-reveal>
@@ -27,7 +31,7 @@ export function EstimateLanding() {
       </section>
       <ChoiceGuide id="estimate" photo link/>
       <section className="prototype-section" id="calculator" aria-label="Калькулятор стоимости окна">
-        <EstimateFlow config={estimateConfig}/>
+        <EstimateFlow config={{...estimateConfig,brandName:brand.name.full}}/>
         <p><Link href="/demo/estimate/examples">Посмотреть шесть готовых расчётов</Link></p>
       </section>
       <section className="prototype-section prototype-process" id="approach" aria-labelledby="estimate-process" data-reveal><div className="prototype-section-heading"><p className="prototype-kicker">Простой порядок</p><h2 id="estimate-process">От идеи — к точным размерам.</h2></div><div className="prototype-process-grid">{[
@@ -40,6 +44,6 @@ export function EstimateLanding() {
         ["Что произойдёт после отправки?","Сохранится синтетическая заявка с параметрами и серверным расчётом. Реальный замер, заказ, оплата и сообщения исполнителю в демо не запускаются."],
       ]}/>
     </main>
-    <PrototypeFooter brand="ПРОСВЕТ" id="estimate"/>
+    <PrototypeFooter brand={brand} id="estimate"/>
   </PrototypeMotion></div>;
 }
