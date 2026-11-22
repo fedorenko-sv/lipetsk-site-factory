@@ -1,0 +1,222 @@
+{
+  "base": "http://127.0.0.1:3035",
+  "transportMocked": false,
+  "visuals": [
+    {
+      "key": "hub",
+      "width": 390,
+      "overflow": false,
+      "missing": 0,
+      "atTop": true
+    },
+    {
+      "key": "auto",
+      "width": 390,
+      "overflow": false,
+      "missing": 0,
+      "atTop": true
+    },
+    {
+      "key": "beauty",
+      "width": 390,
+      "overflow": false,
+      "missing": 0,
+      "atTop": true
+    },
+    {
+      "key": "medical",
+      "width": 390,
+      "overflow": false,
+      "missing": 0,
+      "atTop": true
+    },
+    {
+      "key": "sports",
+      "width": 390,
+      "overflow": false,
+      "missing": 0,
+      "atTop": true
+    },
+    {
+      "key": "stay",
+      "width": 390,
+      "overflow": false,
+      "missing": 0,
+      "atTop": true
+    },
+    {
+      "key": "estimate",
+      "width": 390,
+      "overflow": false,
+      "missing": 0,
+      "atTop": true
+    },
+    {
+      "key": "hub",
+      "width": 768,
+      "overflow": false,
+      "missing": 0,
+      "atTop": true
+    },
+    {
+      "key": "auto",
+      "width": 768,
+      "overflow": false,
+      "missing": 0,
+      "atTop": true
+    },
+    {
+      "key": "beauty",
+      "width": 768,
+      "overflow": false,
+      "missing": 0,
+      "atTop": true
+    },
+    {
+      "key": "medical",
+      "width": 768,
+      "overflow": false,
+      "missing": 0,
+      "atTop": true
+    },
+    {
+      "key": "sports",
+      "width": 768,
+      "overflow": false,
+      "missing": 0,
+      "atTop": true
+    },
+    {
+      "key": "stay",
+      "width": 768,
+      "overflow": false,
+      "missing": 0,
+      "atTop": true
+    },
+    {
+      "key": "estimate",
+      "width": 768,
+      "overflow": false,
+      "missing": 0,
+      "atTop": true
+    },
+    {
+      "key": "hub",
+      "width": 1440,
+      "overflow": false,
+      "missing": 0,
+      "atTop": true
+    },
+    {
+      "key": "auto",
+      "width": 1440,
+      "overflow": false,
+      "missing": 0,
+      "atTop": true
+    },
+    {
+      "key": "beauty",
+      "width": 1440,
+      "overflow": false,
+      "missing": 0,
+      "atTop": true
+    },
+    {
+      "key": "medical",
+      "width": 1440,
+      "overflow": false,
+      "missing": 0,
+      "atTop": true
+    },
+    {
+      "key": "sports",
+      "width": 1440,
+      "overflow": false,
+      "missing": 0,
+      "atTop": true
+    },
+    {
+      "key": "stay",
+      "width": 1440,
+      "overflow": false,
+      "missing": 0,
+      "atTop": true
+    },
+    {
+      "key": "estimate",
+      "width": 1440,
+      "overflow": false,
+      "missing": 0,
+      "atTop": true
+    }
+  ],
+  "leads": [
+    {
+      "site": "auto",
+      "leadId": "2487388f-ec36-4aaf-ba7d-f356abc4540e",
+      "http": 201,
+      "replay": 200,
+      "uiMatches": true,
+      "kind": "booking",
+      "amountMinor": 180000,
+      "outbox": "sent",
+      "recordingReceipts": 1
+    },
+    {
+      "site": "beauty",
+      "leadId": "7480a26b-8580-4e23-99ab-52aa3e88a5ea",
+      "http": 201,
+      "replay": 200,
+      "uiMatches": true,
+      "kind": "booking",
+      "amountMinor": 150000,
+      "outbox": "sent",
+      "recordingReceipts": 1
+    },
+    {
+      "site": "medical",
+      "leadId": "d5577d18-e1e6-4bfe-bc4a-cf79cd897bf2",
+      "http": 201,
+      "replay": 200,
+      "uiMatches": true,
+      "kind": "booking",
+      "amountMinor": 300000,
+      "outbox": "sent",
+      "recordingReceipts": 1
+    },
+    {
+      "site": "sports",
+      "leadId": "289990c9-a4ea-47f4-bd35-00d8ec242996",
+      "http": 201,
+      "replay": 200,
+      "uiMatches": true,
+      "kind": "booking",
+      "amountMinor": 70000,
+      "outbox": "sent",
+      "recordingReceipts": 1
+    },
+    {
+      "site": "stay",
+      "leadId": "2e4603de-1032-485e-be78-a1087c63b8d7",
+      "http": 201,
+      "replay": 200,
+      "uiMatches": true,
+      "kind": "booking",
+      "amountMinor": 900000,
+      "outbox": "sent",
+      "recordingReceipts": 1
+    },
+    {
+      "site": "estimate",
+      "leadId": "fa49e3c9-313d-41f3-84d6-befc2c052675",
+      "http": 201,
+      "replay": 200,
+      "uiMatches": true,
+      "kind": "estimate",
+      "amountMinor": 6706080,
+      "outbox": "sent",
+      "recordingReceipts": 1
+    }
+  ],
+  "browserErrors": []
+}

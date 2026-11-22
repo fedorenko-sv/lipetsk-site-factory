@@ -1,0 +1,544 @@
+{
+  "openapi": "3.1.0",
+  "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
+  "info": {
+    "title": "Core B window estimate leads",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Локальная разработка"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Leads",
+      "description": "Получение заявки без публичного чтения"
+    }
+  ],
+  "paths": {
+    "/api/estimates": {
+      "post": {
+        "operationId": "createEstimate",
+        "tags": [
+          "Leads"
+        ],
+        "summary": "Сохранить заявку и задание уведомления",
+        "security": [],
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "UUID, один для одной попытки и её сетевых повторов"
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "Явный same-origin allowlist окружения"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EstimateLeadRequest"
+              },
+              "example": {
+                "siteKey": "estimate",
+                "configVersion": "demo-2026-11-18",
+                "kind": "estimate",
+                "parameters": {
+                  "product": "window",
+                  "widthMm": 1200,
+                  "heightMm": 1400,
+                  "quantity": 1,
+                  "glazing": "double",
+                  "finish": "white",
+                  "installation": true
+                },
+                "customer": {
+                  "phone": "+70000000000"
+                },
+                "consent": {
+                  "accepted": true,
+                  "version": "demo-2026-11-18"
+                },
+                "antiBot": {
+                  "website": ""
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Идентичный повтор, тот же leadId и replayed=true",
+            "headers": {
+              "Cache-Control": {
+                "description": "Всегда no-store",
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeadReceipt"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Новый lead и outbox подтверждены COMMIT",
+            "headers": {
+              "Cache-Control": {
+                "description": "Всегда no-store",
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeadReceipt"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Невалидный JSON или отсутствующий ключ",
+            "headers": {
+              "Cache-Control": {
+                "description": "Всегда no-store",
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Origin не разрешён",
+            "headers": {
+              "Cache-Control": {
+                "description": "Всегда no-store",
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Сайт недоступен",
+            "headers": {
+              "Cache-Control": {
+                "description": "Всегда no-store",
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Конфликт ключа или версии данных/согласия",
+            "headers": {
+              "Cache-Control": {
+                "description": "Всегда no-store",
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Тело больше 16 KiB",
+            "headers": {
+              "Cache-Control": {
+                "description": "Всегда no-store",
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Требуется application/json",
+            "headers": {
+              "Cache-Control": {
+                "description": "Всегда no-store",
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Ошибка полей или honeypot",
+            "headers": {
+              "Cache-Control": {
+                "description": "Всегда no-store",
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Лимит новых попыток",
+            "headers": {
+              "Cache-Control": {
+                "description": "Всегда no-store",
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              },
+              "Retry-After": {
+                "description": "Число секунд до повтора",
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Безопасная внутренняя ошибка",
+            "headers": {
+              "Cache-Control": {
+                "description": "Всегда no-store",
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Хранилище/режим не готовы",
+            "headers": {
+              "Cache-Control": {
+                "description": "Всегда no-store",
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "EstimateLeadRequest": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "siteKey",
+          "configVersion",
+          "kind",
+          "parameters",
+          "customer",
+          "consent",
+          "antiBot"
+        ],
+        "properties": {
+          "siteKey": {
+            "const": "estimate"
+          },
+          "configVersion": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 50
+          },
+          "kind": {
+            "const": "estimate"
+          },
+          "parameters": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "product",
+              "widthMm",
+              "heightMm",
+              "quantity",
+              "glazing",
+              "finish",
+              "installation"
+            ],
+            "properties": {
+              "product": {
+                "enum": [
+                  "window",
+                  "balcony-door"
+                ]
+              },
+              "widthMm": {
+                "type": "integer",
+                "minimum": 600,
+                "maximum": 2400,
+                "multipleOf": 100
+              },
+              "heightMm": {
+                "type": "integer",
+                "minimum": 600,
+                "maximum": 2400,
+                "multipleOf": 100
+              },
+              "quantity": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 6
+              },
+              "glazing": {
+                "enum": [
+                  "double",
+                  "triple"
+                ]
+              },
+              "finish": {
+                "enum": [
+                  "white",
+                  "graphite"
+                ]
+              },
+              "installation": {
+                "type": "boolean"
+              }
+            }
+          },
+          "customer": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "phone": {
+                "type": "string",
+                "minLength": 10,
+                "maxLength": 30
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80
+              }
+            },
+            "required": [
+              "phone"
+            ]
+          },
+          "consent": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "accepted": {
+                "const": true
+              },
+              "version": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 50
+              }
+            },
+            "required": [
+              "accepted",
+              "version"
+            ]
+          },
+          "antiBot": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "website": {
+                "type": "string",
+                "maxLength": 0
+              }
+            },
+            "required": [
+              "website"
+            ]
+          }
+        }
+      },
+      "LeadReceipt": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "leadId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "const": "received"
+          },
+          "replayed": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 300
+          }
+        },
+        "required": [
+          "leadId",
+          "status",
+          "replayed",
+          "message"
+        ]
+      },
+      "ErrorEnvelope": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "error": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "code": {
+                "enum": [
+                  "INVALID_JSON",
+                  "IDEMPOTENCY_REQUIRED",
+                  "ORIGIN_NOT_ALLOWED",
+                  "SITE_NOT_FOUND",
+                  "IDEMPOTENCY_CONFLICT",
+                  "CONFIG_CHANGED",
+                  "CONSENT_CHANGED",
+                  "PAYLOAD_TOO_LARGE",
+                  "UNSUPPORTED_MEDIA_TYPE",
+                  "VALIDATION_FAILED",
+                  "REQUEST_REJECTED",
+                  "RATE_LIMITED",
+                  "INTERNAL_ERROR",
+                  "STORAGE_UNAVAILABLE",
+                  "DEMO_NOT_READY",
+                  "LIVE_NOT_READY"
+                ]
+              },
+              "message": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 300
+              },
+              "requestId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "fieldErrors": {
+                "type": "object",
+                "maxProperties": 20,
+                "additionalProperties": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                }
+              }
+            },
+            "required": [
+              "code",
+              "message",
+              "requestId"
+            ]
+          }
+        },
+        "required": [
+          "error"
+        ]
+      }
+    }
+  }
+}

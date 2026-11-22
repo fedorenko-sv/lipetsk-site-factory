@@ -1,0 +1,24 @@
+{
+  "siteKey": "estimate",
+  "configVersion": "demo-2026-11-18",
+  "kind": "estimate",
+  "parameters": {
+    "product": "window",
+    "widthMm": 1200,
+    "heightMm": 1400,
+    "quantity": 1,
+    "glazing": "double",
+    "finish": "white",
+    "installation": true
+  },
+  "customer": {
+    "phone": "+70000000000"
+  },
+  "consent": {
+    "accepted": true,
+    "version": "demo-2026-11-18"
+  },
+  "antiBot": {
+    "website": ""
+  }
+}

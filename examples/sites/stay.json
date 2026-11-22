@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "1.0.0",
+  "id": "stay",
+  "contentVersion": "demo-2026-11-18",
+  "mode": "demo",
+  "core": "booking",
+  "theme": "editorial",
+  "locale": "ru-RU",
+  "timezone": "Europe/Moscow",
+  "brandName": "ТИШЕ · демо",
+  "hero": {
+    "eyebrow": "Демонстрационный концепт",
+    "title": "Ближе к лесу. Ближе к себе.",
+    "subtitle": "Выберите дом и оставьте запрос на обсуждение поездки. Доступность ночей и бронь в демо не подтверждаются.",
+    "ctaText": "Обсудить поездку"
+  },
+  "contacts": {},
+  "address": "Липецк · демонстрационный адрес",
+  "priceDisclaimer": "Демонстрационные цены. Точную стоимость и время подтверждает администратор.",
+  "services": [
+    {
+      "id": "pine-house",
+      "name": "Дом «Сосна» · ориентир за ночь",
+      "category": "Дома",
+      "durationMinutes": 30,
+      "price": {
+        "kind": "from",
+        "amountMinor": 900000,
+        "currency": "RUB"
+      },
+      "resourceIds": [],
+      "options": []
+    },
+    {
+      "id": "forest-house",
+      "name": "Дом «Лесной» · ориентир за ночь",
+      "category": "Дома",
+      "durationMinutes": 30,
+      "price": {
+        "kind": "from",
+        "amountMinor": 1200000,
+        "currency": "RUB"
+      },
+      "resourceIds": [],
+      "options": []
+    }
+  ],
+  "resources": [],
+  "booking": {
+    "resourceSelection": "hidden",
+    "preferenceRequired": true,
+    "horizonDays": 30,
+    "timeStepMinutes": 30,
+    "workingHours": {
+      "opens": "10:00",
+      "closes": "20:00",
+      "days": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    }
+  },
+  "legal": {
+    "consentVersion": "demo-2026-11-18",
+    "policyPath": "/demo/stay/privacy",
+    "operatorName": null,
+    "approved": false
+  }
+}

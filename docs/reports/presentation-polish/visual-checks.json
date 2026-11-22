@@ -1,0 +1,198 @@
+[
+  {
+    "path": "/demo/stay/houses",
+    "width": 360,
+    "status": 200,
+    "overflow": false,
+    "fonts": [
+      {
+        "family": "Oblik Serif",
+        "weight": "400"
+      },
+      {
+        "family": "Oblik Sans",
+        "weight": "400"
+      },
+      {
+        "family": "Oblik Sans",
+        "weight": "500"
+      },
+      {
+        "family": "Oblik Sans",
+        "weight": "600"
+      }
+    ],
+    "images": [
+      {
+        "alt": "Треугольный дом у сосен с тёплым светом в окнах",
+        "loaded": true
+      },
+      {
+        "alt": "Панорамный дом из тёмного дерева среди сосен",
+        "loaded": true
+      }
+    ]
+  },
+  {
+    "path": "/demo/stay/houses/forest-house",
+    "width": 360,
+    "status": 200,
+    "overflow": false,
+    "fonts": [
+      {
+        "family": "Oblik Serif",
+        "weight": "400"
+      },
+      {
+        "family": "Oblik Sans",
+        "weight": "400"
+      },
+      {
+        "family": "Oblik Sans",
+        "weight": "600"
+      }
+    ],
+    "images": [
+      {
+        "alt": "Панорамный дом из тёмного дерева среди сосен",
+        "loaded": true
+      },
+      {
+        "alt": "Гостиная панорамного дома с широким окном в лес",
+        "loaded": true
+      }
+    ]
+  },
+  {
+    "path": "/demo/stay/houses",
+    "width": 390,
+    "status": 200,
+    "overflow": false,
+    "fonts": [
+      {
+        "family": "Oblik Serif",
+        "weight": "400"
+      },
+      {
+        "family": "Oblik Sans",
+        "weight": "400"
+      },
+      {
+        "family": "Oblik Sans",
+        "weight": "500"
+      },
+      {
+        "family": "Oblik Sans",
+        "weight": "600"
+      }
+    ],
+    "images": [
+      {
+        "alt": "Треугольный дом у сосен с тёплым светом в окнах",
+        "loaded": true
+      },
+      {
+        "alt": "Панорамный дом из тёмного дерева среди сосен",
+        "loaded": true
+      }
+    ]
+  },
+  {
+    "path": "/demo/stay/houses/forest-house",
+    "width": 390,
+    "status": 200,
+    "overflow": false,
+    "fonts": [
+      {
+        "family": "Oblik Serif",
+        "weight": "400"
+      },
+      {
+        "family": "Oblik Sans",
+        "weight": "400"
+      },
+      {
+        "family": "Oblik Sans",
+        "weight": "600"
+      }
+    ],
+    "images": [
+      {
+        "alt": "Панорамный дом из тёмного дерева среди сосен",
+        "loaded": true
+      },
+      {
+        "alt": "Гостиная панорамного дома с широким окном в лес",
+        "loaded": true
+      }
+    ]
+  },
+  {
+    "path": "/demo/stay/houses",
+    "width": 1440,
+    "status": 200,
+    "overflow": false,
+    "fonts": [
+      {
+        "family": "Oblik Serif",
+        "weight": "400"
+      },
+      {
+        "family": "Oblik Sans",
+        "weight": "400"
+      },
+      {
+        "family": "Oblik Sans",
+        "weight": "500"
+      },
+      {
+        "family": "Oblik Sans",
+        "weight": "600"
+      }
+    ],
+    "images": [
+      {
+        "alt": "Визуальная концепция ТИШЕ",
+        "loaded": true
+      },
+      {
+        "alt": "Треугольный дом у сосен с тёплым светом в окнах",
+        "loaded": true
+      },
+      {
+        "alt": "Панорамный дом из тёмного дерева среди сосен",
+        "loaded": true
+      }
+    ]
+  },
+  {
+    "path": "/demo/stay/houses/forest-house",
+    "width": 1440,
+    "status": 200,
+    "overflow": false,
+    "fonts": [
+      {
+        "family": "Oblik Serif",
+        "weight": "400"
+      },
+      {
+        "family": "Oblik Sans",
+        "weight": "400"
+      },
+      {
+        "family": "Oblik Sans",
+        "weight": "600"
+      }
+    ],
+    "images": [
+      {
+        "alt": "Панорамный дом из тёмного дерева среди сосен",
+        "loaded": true
+      },
+      {
+        "alt": "Гостиная панорамного дома с широким окном в лес",
+        "loaded": true
+      }
+    ]
+  }
+]

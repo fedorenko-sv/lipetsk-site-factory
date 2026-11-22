@@ -1,0 +1,5 @@
+[
+  { "name": "Силуэт", "image": "hero.webp", "start": 0 },
+  { "name": "Линия крыла", "image": "reverse.webp", "start": 5 },
+  { "name": "Поверхность", "image": "paint.webp", "start": 10 }
+]

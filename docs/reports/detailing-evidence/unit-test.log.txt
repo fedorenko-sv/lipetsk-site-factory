@@ -1,0 +1,160 @@
+
+> lipetsk-site-factory@0.1.0 test:ui
+> node --experimental-strip-types --test tests/ui/*.test.mjs
+
+TAP version 13
+# Subtest: FU01: fixed/from, целые копейки — точное представление и «от»
+ok 1 - FU01: fixed/from, целые копейки — точное представление и «от»
+  ---
+  duration_ms: 89.1065
+  type: 'test'
+  ...
+# Subtest: FU02: 180050, 50, 0 — копейки сохранены, ноль валиден
+ok 2 - FU02: 180050, 50, 0 — копейки сохранены, ноль валиден
+  ---
+  duration_ms: 2.6211
+  type: 'test'
+  ...
+# Subtest: FU03: Переходы трёх шагов/назад — состояние сохраняется
+ok 3 - FU03: Переходы трёх шагов/назад — состояние сохраняется
+  ---
+  duration_ms: 44.8838
+  type: 'test'
+  ...
+# Subtest: FU04: Неполная required option — следующий шаг недоступен
+ok 4 - FU04: Неполная required option — следующий шаг недоступен
+  ---
+  duration_ms: 5.9666
+  type: 'test'
+  ...
+# Subtest: FU05: Смена услуги — сброс несовместимых option/resource
+ok 5 - FU05: Смена услуги — сброс несовместимых option/resource
+  ---
+  duration_ms: 2.1815
+  type: 'test'
+  ...
+# Subtest: FU06: Compatible master остаётся — без лишней потери выбора
+ok 6 - FU06: Compatible master остаётся — без лишней потери выбора
+  ---
+  duration_ms: 1.311
+  type: 'test'
+  ...
+# Subtest: FU07: Московская дата при другом TZ браузера — правильные min/max/day
+ok 7 - FU07: Московская дата при другом TZ браузера — правильные min/max/day
+  ---
+  duration_ms: 3.9556
+  type: 'test'
+  ...
+# Subtest: FU08: today/past/now/horizon — те же границы, что в общем контракте
+ok 8 - FU08: today/past/now/horizon — те же границы, что в общем контракте
+  ---
+  duration_ms: 9.8405
+  type: 'test'
+  ...
+# Subtest: FU09: Рабочие дни, opens/closes, time step — только допустимые предпочтения
+ok 9 - FU09: Рабочие дни, opens/closes, time step — только допустимые предпочтения
+  ---
+  duration_ms: 6.6962
+  type: 'test'
+  ...
+# Subtest: FU10: Смена даты — несовместимое время сбрасывается
+ok 10 - FU10: Смена даты — несовместимое время сбрасывается
+  ---
+  duration_ms: 11.0745
+  type: 'test'
+  ...
+# Subtest: FU11: Payload Auto/Beauty — ровно поля схемы, без channel/price
+ok 11 - FU11: Payload Auto/Beauty — ровно поля схемы, без channel/price
+  ---
+  duration_ms: 5.446
+  type: 'test'
+  ...
+# Subtest: FU12: Пустое имя/ресурс/attribution off — не отправляются
+ok 12 - FU12: Пустое имя/ресурс/attribution off — не отправляются
+  ---
+  duration_ms: 1.2262
+  type: 'test'
+  ...
+# Subtest: FU13: UUID одной неизменённой попытки — сохраняется на network/timeout
+ok 13 - FU13: UUID одной неизменённой попытки — сохраняется на network/timeout
+  ---
+  duration_ms: 10.2838
+  type: 'test'
+  ...
+# Subtest: FU14: Редактирование/422/новая заявка — новый ключ
+ok 14 - FU14: Редактирование/422/новая заявка — новый ключ
+  ---
+  duration_ms: 3.4659
+  type: 'test'
+  ...
+# Subtest: FU15: Повторный submit во время submitting — один transport call
+ok 15 - FU15: Повторный submit во время submitting — один transport call
+  ---
+  duration_ms: 65.6594
+  type: 'test'
+  ...
+# Subtest: FU16: Поздний ответ старой попытки — не перезаписывает текущий state
+ok 16 - FU16: Поздний ответ старой попытки — не перезаписывает текущий state
+  ---
+  duration_ms: 2.3871
+  type: 'test'
+  ...
+# Subtest: FU17: Receipt guard — только валидный 200/201 даёт успех
+ok 17 - FU17: Receipt guard — только валидный 200/201 даёт успех
+  ---
+  duration_ms: 1.8911
+  type: 'test'
+  ...
+# Subtest: FU18: Error mapping всех HTTP codes через реальный submitLead
+ok 18 - FU18: Error mapping всех HTTP codes через реальный submitLead
+  ---
+  duration_ms: 171.7201
+  type: 'test'
+  ...
+# Subtest: FU19: Retry-After заголовок — строгий целочисленный парсинг
+ok 19 - FU19: Retry-After заголовок — строгий целочисленный парсинг
+  ---
+  duration_ms: 1.0711
+  type: 'test'
+  ...
+# (node:22328) ExperimentalWarning: The MockTimers API is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: FU20: Abort/timeout — реальный запуск таймера, внешний signal и hanging stream
+ok 20 - FU20: Abort/timeout — реальный запуск таймера, внешний signal и hanging stream
+  ---
+  duration_ms: 160.6842
+  type: 'test'
+  ...
+# Subtest: FU21: FR4 — getSiteConfig lookup защищен от prototype properties
+ok 21 - FU21: FR4 — getSiteConfig lookup защищен от prototype properties
+  ---
+  duration_ms: 1.3385
+  type: 'test'
+  ...
+# Subtest: FU22: FR2 — isReceiptValid отклоняет не-UUID, лишние свойства и неверные типы
+ok 22 - FU22: FR2 — isReceiptValid отклоняет не-UUID, лишние свойства и неверные типы
+  ---
+  duration_ms: 0.9891
+  type: 'test'
+  ...
+# Subtest: FU23: FR3 — 422 preferred.time ошибки маршрутизируются и сохраняются при переходе
+ok 23 - FU23: FR3 — 422 preferred.time ошибки маршрутизируются и сохраняются при переходе
+  ---
+  duration_ms: 10.3877
+  type: 'test'
+  ...
+# Subtest: FU24: FR3 — 409 CONSENT_CHANGED сбрасывает согласие для явного повторного подтверждения
+ok 24 - FU24: FR3 — 409 CONSENT_CHANGED сбрасывает согласие для явного повторного подтверждения
+  ---
+  duration_ms: 1.0821
+  type: 'test'
+  ...
+1..24
+# tests 24
+# suites 0
+# pass 24
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1296.5091

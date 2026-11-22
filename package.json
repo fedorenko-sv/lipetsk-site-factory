@@ -9,7 +9,9 @@
   },
   "packageManager": "npm@10.9.8",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --webpack",
+    "preview:detailing": "node --experimental-strip-types scripts/preview-detailing.mjs",
+    "test:detailing:system": "node --experimental-strip-types scripts/test-detailing-preview.mjs",
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint .",
@@ -27,26 +29,33 @@
     "outbox:once": "node --experimental-strip-types scripts/backend/outbox-once.ts",
     "verify:backend": "npm run check:plan && npm run lint && npm run typecheck && npm run test:backend && npm run build && npm run test:integration",
     "verify:frontend": "npm run check:plan && npm run lint && npm run typecheck && npm run test:ui && npm run build && npm run test:e2e",
-    "verify:release": "npm run verify:architecture && npm run test:backend && npm run test:ui && npm run test:integration && npm run test:e2e && npm run test:system"
+    "verify:release": "npm run verify:architecture && npm run test:backend && npm run test:ui && npm run test:integration && npm run test:e2e && npm run test:system",
+    "preview:portfolio": "node --experimental-strip-types scripts/preview-detailing.mjs",
+    "test:portfolio:system": "node --experimental-strip-types scripts/test-portfolio-preview.mjs",
+    "verify:demo-routes": "node --experimental-strip-types scripts/verify-demo-routes.mjs",
+    "measure:demo-performance": "node scripts/measure-demo-performance.mjs",
+    "preview:demo": "node --experimental-strip-types scripts/preview-demo.mjs",
+    "test:demo-profiles": "node --experimental-strip-types scripts/backend/test-demo-profiles.mjs"
   },
   "dependencies": {
-    "next": "16.4.3",
-    "react": "19.3.1",
-    "react-dom": "19.3.1",
     "ajv": "8.20.0",
     "ajv-formats": "3.0.1",
-    "pg": "8.22.0"
+    "gsap": "3.15.1",
+    "next": "16.4.6",
+    "pg": "8.22.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
   },
   "devDependencies": {
+    "@playwright/test": "1.64.1",
     "@tailwindcss/postcss": "^4.0.0",
-    "tailwindcss": "^4.0.0",
-    "typescript": "^5.9.0",
     "@types/node": "^22.0.0",
+    "@types/pg": "8.23.1",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "eslint": "9.39.5",
-    "eslint-config-next": "16.4.3",
-    "@types/pg": "8.23.1",
-    "@playwright/test": "1.64.1"
+    "eslint-config-next": "16.4.6",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.9.0"
   }
 }

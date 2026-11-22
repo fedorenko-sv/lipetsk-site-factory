@@ -1,0 +1,1254 @@
+{
+  "kind": "local-production-lab",
+  "base": "http://127.0.0.1:3035",
+  "label": "baseline",
+  "commit": "59df27630b787224b1471f18bf3b235ef8759b54",
+  "at": "2026-11-18T10:29:51.948Z",
+  "profile": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "deviceScaleFactor": 2,
+    "cpuRate": 4,
+    "latency": 100,
+    "downloadThroughput": 204800,
+    "uploadThroughput": 102400
+  },
+  "repeats": 1,
+  "cache": "Browser disabled; server resources warmed separately",
+  "results": [
+    {
+      "path": "/",
+      "run": 1,
+      "status": 200,
+      "lcp": 2128,
+      "lcpElement": "H1",
+      "cls": 0,
+      "fcp": 2128,
+      "fonts": "loaded",
+      "overflow": false,
+      "images": [
+        {
+          "src": "/demo-assets/detailing/hero.webp",
+          "width": 343,
+          "naturalWidth": 1920,
+          "loaded": true
+        }
+      ],
+      "bytes": 1152249,
+      "byType": {
+        "Document": 5234,
+        "Image": 600776,
+        "Stylesheet": 26431,
+        "Script": 185691,
+        "Font": 320282,
+        "Fetch": 13835
+      },
+      "failures": [],
+      "pageErrors": [],
+      "resources": [
+        {
+          "url": "/",
+          "type": "Document",
+          "status": 200,
+          "bytes": 5234,
+          "cache": "HIT"
+        },
+        {
+          "url": "/demo-assets/detailing/hero.webp",
+          "type": "Image",
+          "status": 200,
+          "bytes": 111978,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/prototypes/beauty.webp",
+          "type": "Image",
+          "status": 200,
+          "bytes": 146332,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/css/e70533e8258d4118.css",
+          "type": "Stylesheet",
+          "status": 200,
+          "bytes": 5558,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/css/4cc9171e419dce62.css",
+          "type": "Stylesheet",
+          "status": 200,
+          "bytes": 2216,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/webpack-0ed504fbd8008811.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 2238,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/fonts.css",
+          "type": "Stylesheet",
+          "status": 200,
+          "bytes": 1217,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/font-4.ttf",
+          "type": "Font",
+          "status": 200,
+          "bytes": 42918,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/main-app-c718d3048745652b.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 860,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/app/page-3f867f575c8059a9.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 586,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/500-fc3b64d9ff4a32a7.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 3642,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/4bd1b696-c7408084347438ae.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 64494,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/794-268803444e87b940.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 67674,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/font-2.ttf",
+          "type": "Font",
+          "status": 200,
+          "bytes": 42857,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/font-3.ttf",
+          "type": "Font",
+          "status": 200,
+          "bytes": 42612,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/prototypes/medical.webp",
+          "type": "Image",
+          "status": 200,
+          "bytes": 108240,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/prototypes/sports.webp",
+          "type": "Image",
+          "status": 200,
+          "bytes": 234226,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/font-0.ttf",
+          "type": "Font",
+          "status": 200,
+          "bytes": 97490,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/font-1.ttf",
+          "type": "Font",
+          "status": 200,
+          "bytes": 94405,
+          "cache": null
+        },
+        {
+          "url": "/?_rsc=5CB68i4pnAekjehf",
+          "type": "Fetch",
+          "status": 200,
+          "bytes": 634,
+          "cache": "HIT"
+        },
+        {
+          "url": "/demo/auto?_rsc=5CB68i4pnAekjehf",
+          "type": "Fetch",
+          "status": 200,
+          "bytes": 687,
+          "cache": "HIT"
+        },
+        {
+          "url": "/demo/detailing?_rsc=5CB68i4pnAekjehf",
+          "type": "Fetch",
+          "status": 200,
+          "bytes": 616,
+          "cache": "HIT"
+        },
+        {
+          "url": "/_next/static/css/801da90ac16c858a.css",
+          "type": "Stylesheet",
+          "status": 200,
+          "bytes": 7303,
+          "cache": null
+        },
+        {
+          "url": "/?_rsc=8nTjltbQWvg6NcbE",
+          "type": "Fetch",
+          "status": 200,
+          "bytes": 3768,
+          "cache": "HIT"
+        },
+        {
+          "url": "/_next/static/css/eeaf6e9f3be12eab.css",
+          "type": "Stylesheet",
+          "status": 200,
+          "bytes": 10137,
+          "cache": null
+        },
+        {
+          "url": "/demo/auto?_rsc=2j3k9c-vSJxi2Skd",
+          "type": "Fetch",
+          "status": 200,
+          "bytes": 5111,
+          "cache": "HIT"
+        },
+        {
+          "url": "/demo/detailing?_rsc=d4hQjK0kxpSuS9ZR",
+          "type": "Fetch",
+          "status": 200,
+          "bytes": 3019,
+          "cache": "HIT"
+        },
+        {
+          "url": "/_next/static/chunks/app/demo/%5BsiteKey%5D/page-fd67a5d4137f36c1.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 977,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/app/demo/detailing/not-found-389774ed520e9412.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 533,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/app/demo/detailing/layout-d9c3ae16098e5eb3.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 3047,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/758-ccc9bcbd17b1ff83.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 6543,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/600-f638bfabf3967f1f.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 12468,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/182-676c8c01e1f7c839.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 12289,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/app/demo/detailing/page-ad0d9a0fd42c5aee.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 10340,
+          "cache": null
+        }
+      ]
+    },
+    {
+      "path": "/demo/auto",
+      "run": 1,
+      "status": 200,
+      "lcp": 3428,
+      "lcpElement": "IMG",
+      "cls": 0,
+      "fcp": 2844,
+      "fonts": "loaded",
+      "overflow": false,
+      "images": [
+        {
+          "src": "/demo-assets/detailing/hero.webp",
+          "width": 390,
+          "naturalWidth": 1920,
+          "loaded": true
+        }
+      ],
+      "bytes": 433539,
+      "byType": {
+        "Document": 8656,
+        "Image": 111978,
+        "Stylesheet": 14078,
+        "Script": 164642,
+        "Font": 128387,
+        "Fetch": 5798
+      },
+      "failures": [],
+      "pageErrors": [],
+      "resources": [
+        {
+          "url": "/demo/auto",
+          "type": "Document",
+          "status": 200,
+          "bytes": 8656,
+          "cache": "HIT"
+        },
+        {
+          "url": "/demo-assets/detailing/hero.webp",
+          "type": "Image",
+          "status": 200,
+          "bytes": 111978,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/css/e70533e8258d4118.css",
+          "type": "Stylesheet",
+          "status": 200,
+          "bytes": 5558,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/css/801da90ac16c858a.css",
+          "type": "Stylesheet",
+          "status": 200,
+          "bytes": 7303,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/webpack-0ed504fbd8008811.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 2238,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/main-app-c718d3048745652b.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 860,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/500-fc3b64d9ff4a32a7.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 3642,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/fonts.css",
+          "type": "Stylesheet",
+          "status": 200,
+          "bytes": 1217,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/font-2.ttf",
+          "type": "Font",
+          "status": 200,
+          "bytes": 42857,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/font-4.ttf",
+          "type": "Font",
+          "status": 200,
+          "bytes": 42918,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/font-3.ttf",
+          "type": "Font",
+          "status": 200,
+          "bytes": 42612,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/app/demo/%5BsiteKey%5D/page-fd67a5d4137f36c1.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 977,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/600-f638bfabf3967f1f.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 12468,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/182-676c8c01e1f7c839.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 12289,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/4bd1b696-c7408084347438ae.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 64494,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/794-268803444e87b940.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 67674,
+          "cache": null
+        },
+        {
+          "url": "/demo/auto?_rsc=RsoluMxCJGldTDOX",
+          "type": "Fetch",
+          "status": 200,
+          "bytes": 687,
+          "cache": "HIT"
+        },
+        {
+          "url": "/demo/auto?_rsc=r-DVb91D7l-shi2E",
+          "type": "Fetch",
+          "status": 200,
+          "bytes": 5111,
+          "cache": "HIT"
+        }
+      ]
+    },
+    {
+      "path": "/demo/beauty",
+      "run": 1,
+      "status": 200,
+      "lcp": 3688,
+      "lcpElement": "IMG",
+      "cls": 0,
+      "fcp": 2868,
+      "fonts": "loaded",
+      "overflow": false,
+      "images": [
+        {
+          "src": "/demo-assets/prototypes/beauty.webp",
+          "width": 343,
+          "naturalWidth": 1536,
+          "loaded": true
+        }
+      ],
+      "bytes": 561953,
+      "byType": {
+        "Document": 8416,
+        "Stylesheet": 14078,
+        "Image": 146332,
+        "Script": 164642,
+        "Font": 222792,
+        "Fetch": 5693
+      },
+      "failures": [],
+      "pageErrors": [],
+      "resources": [
+        {
+          "url": "/demo/beauty",
+          "type": "Document",
+          "status": 200,
+          "bytes": 8416,
+          "cache": "HIT"
+        },
+        {
+          "url": "/_next/static/css/e70533e8258d4118.css",
+          "type": "Stylesheet",
+          "status": 200,
+          "bytes": 5558,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/prototypes/beauty.webp",
+          "type": "Image",
+          "status": 200,
+          "bytes": 146332,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/css/801da90ac16c858a.css",
+          "type": "Stylesheet",
+          "status": 200,
+          "bytes": 7303,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/webpack-0ed504fbd8008811.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 2238,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/main-app-c718d3048745652b.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 860,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/500-fc3b64d9ff4a32a7.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 3642,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/fonts.css",
+          "type": "Stylesheet",
+          "status": 200,
+          "bytes": 1217,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/font-2.ttf",
+          "type": "Font",
+          "status": 200,
+          "bytes": 42857,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/font-4.ttf",
+          "type": "Font",
+          "status": 200,
+          "bytes": 42918,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/font-3.ttf",
+          "type": "Font",
+          "status": 200,
+          "bytes": 42612,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/app/demo/%5BsiteKey%5D/page-fd67a5d4137f36c1.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 977,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/font-1.ttf",
+          "type": "Font",
+          "status": 200,
+          "bytes": 94405,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/600-f638bfabf3967f1f.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 12468,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/182-676c8c01e1f7c839.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 12289,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/4bd1b696-c7408084347438ae.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 64494,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/794-268803444e87b940.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 67674,
+          "cache": null
+        },
+        {
+          "url": "/demo/beauty?_rsc=SYnCaWMU9QhfILTi",
+          "type": "Fetch",
+          "status": 200,
+          "bytes": 691,
+          "cache": "HIT"
+        },
+        {
+          "url": "/demo/beauty?_rsc=wnoFAPZzLIzeTgvA",
+          "type": "Fetch",
+          "status": 200,
+          "bytes": 5002,
+          "cache": "HIT"
+        }
+      ]
+    },
+    {
+      "path": "/demo/medical",
+      "run": 1,
+      "status": 200,
+      "lcp": 3828,
+      "lcpElement": "IMG",
+      "cls": 0,
+      "fcp": 3228,
+      "fonts": "loaded",
+      "overflow": false,
+      "images": [
+        {
+          "src": "/demo-assets/prototypes/medical.webp",
+          "width": 343,
+          "naturalWidth": 1536,
+          "loaded": true
+        }
+      ],
+      "bytes": 429498,
+      "byType": {
+        "Document": 8421,
+        "Image": 108240,
+        "Stylesheet": 14078,
+        "Script": 164642,
+        "Font": 128387,
+        "Fetch": 5730
+      },
+      "failures": [],
+      "pageErrors": [],
+      "resources": [
+        {
+          "url": "/demo/medical",
+          "type": "Document",
+          "status": 200,
+          "bytes": 8421,
+          "cache": "HIT"
+        },
+        {
+          "url": "/demo-assets/prototypes/medical.webp",
+          "type": "Image",
+          "status": 200,
+          "bytes": 108240,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/css/e70533e8258d4118.css",
+          "type": "Stylesheet",
+          "status": 200,
+          "bytes": 5558,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/css/801da90ac16c858a.css",
+          "type": "Stylesheet",
+          "status": 200,
+          "bytes": 7303,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/webpack-0ed504fbd8008811.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 2238,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/main-app-c718d3048745652b.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 860,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/500-fc3b64d9ff4a32a7.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 3642,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/fonts.css",
+          "type": "Stylesheet",
+          "status": 200,
+          "bytes": 1217,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/font-2.ttf",
+          "type": "Font",
+          "status": 200,
+          "bytes": 42857,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/font-4.ttf",
+          "type": "Font",
+          "status": 200,
+          "bytes": 42918,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/font-3.ttf",
+          "type": "Font",
+          "status": 200,
+          "bytes": 42612,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/app/demo/%5BsiteKey%5D/page-fd67a5d4137f36c1.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 977,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/600-f638bfabf3967f1f.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 12468,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/182-676c8c01e1f7c839.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 12289,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/4bd1b696-c7408084347438ae.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 64494,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/794-268803444e87b940.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 67674,
+          "cache": null
+        },
+        {
+          "url": "/demo/medical?_rsc=9Vnjn5XPKhPtKmol",
+          "type": "Fetch",
+          "status": 200,
+          "bytes": 692,
+          "cache": "HIT"
+        },
+        {
+          "url": "/demo/medical?_rsc=jqhsFwhwbPsQ4l7_",
+          "type": "Fetch",
+          "status": 200,
+          "bytes": 5038,
+          "cache": "HIT"
+        }
+      ]
+    },
+    {
+      "path": "/demo/sports",
+      "run": 1,
+      "status": 200,
+      "lcp": 3728,
+      "lcpElement": "IMG",
+      "cls": 0,
+      "fcp": 2612,
+      "fonts": "loaded",
+      "overflow": false,
+      "images": [
+        {
+          "src": "/demo-assets/prototypes/sports.webp",
+          "width": 343,
+          "naturalWidth": 1536,
+          "loaded": true
+        }
+      ],
+      "bytes": 555998,
+      "byType": {
+        "Document": 8749,
+        "Image": 234226,
+        "Stylesheet": 14078,
+        "Script": 164642,
+        "Font": 128387,
+        "Fetch": 5916
+      },
+      "failures": [],
+      "pageErrors": [],
+      "resources": [
+        {
+          "url": "/demo/sports",
+          "type": "Document",
+          "status": 200,
+          "bytes": 8749,
+          "cache": "HIT"
+        },
+        {
+          "url": "/demo-assets/prototypes/sports.webp",
+          "type": "Image",
+          "status": 200,
+          "bytes": 234226,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/css/e70533e8258d4118.css",
+          "type": "Stylesheet",
+          "status": 200,
+          "bytes": 5558,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/css/801da90ac16c858a.css",
+          "type": "Stylesheet",
+          "status": 200,
+          "bytes": 7303,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/webpack-0ed504fbd8008811.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 2238,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/main-app-c718d3048745652b.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 860,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/500-fc3b64d9ff4a32a7.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 3642,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/fonts.css",
+          "type": "Stylesheet",
+          "status": 200,
+          "bytes": 1217,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/font-2.ttf",
+          "type": "Font",
+          "status": 200,
+          "bytes": 42857,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/font-4.ttf",
+          "type": "Font",
+          "status": 200,
+          "bytes": 42918,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/font-3.ttf",
+          "type": "Font",
+          "status": 200,
+          "bytes": 42612,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/app/demo/%5BsiteKey%5D/page-fd67a5d4137f36c1.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 977,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/600-f638bfabf3967f1f.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 12468,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/182-676c8c01e1f7c839.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 12289,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/4bd1b696-c7408084347438ae.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 64494,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/794-268803444e87b940.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 67674,
+          "cache": null
+        },
+        {
+          "url": "/demo/sports?_rsc=gcDix5fCBbh0GJkQ",
+          "type": "Fetch",
+          "status": 200,
+          "bytes": 693,
+          "cache": "HIT"
+        },
+        {
+          "url": "/demo/sports?_rsc=a4R0c-3sfwKFKBxx",
+          "type": "Fetch",
+          "status": 200,
+          "bytes": 5223,
+          "cache": "HIT"
+        }
+      ]
+    },
+    {
+      "path": "/demo/stay",
+      "run": 1,
+      "status": 200,
+      "lcp": 4040,
+      "lcpElement": "IMG",
+      "cls": 0,
+      "fcp": 2396,
+      "fonts": "loaded",
+      "overflow": false,
+      "images": [
+        {
+          "src": "/demo-assets/prototypes/stay.webp",
+          "width": 390,
+          "naturalWidth": 1600,
+          "loaded": true
+        }
+      ],
+      "bytes": 743640,
+      "byType": {
+        "Document": 8075,
+        "Image": 328606,
+        "Stylesheet": 14078,
+        "Script": 164642,
+        "Font": 222792,
+        "Fetch": 5447
+      },
+      "failures": [],
+      "pageErrors": [],
+      "resources": [
+        {
+          "url": "/demo/stay",
+          "type": "Document",
+          "status": 200,
+          "bytes": 8075,
+          "cache": "HIT"
+        },
+        {
+          "url": "/demo-assets/prototypes/stay.webp",
+          "type": "Image",
+          "status": 200,
+          "bytes": 328606,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/css/e70533e8258d4118.css",
+          "type": "Stylesheet",
+          "status": 200,
+          "bytes": 5558,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/css/801da90ac16c858a.css",
+          "type": "Stylesheet",
+          "status": 200,
+          "bytes": 7303,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/webpack-0ed504fbd8008811.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 2238,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/main-app-c718d3048745652b.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 860,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/500-fc3b64d9ff4a32a7.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 3642,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/fonts.css",
+          "type": "Stylesheet",
+          "status": 200,
+          "bytes": 1217,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/font-2.ttf",
+          "type": "Font",
+          "status": 200,
+          "bytes": 42857,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/font-4.ttf",
+          "type": "Font",
+          "status": 200,
+          "bytes": 42918,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/app/demo/%5BsiteKey%5D/page-fd67a5d4137f36c1.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 977,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/600-f638bfabf3967f1f.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 12468,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/182-676c8c01e1f7c839.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 12289,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/4bd1b696-c7408084347438ae.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 64494,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/794-268803444e87b940.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 67674,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/font-3.ttf",
+          "type": "Font",
+          "status": 200,
+          "bytes": 42612,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/font-1.ttf",
+          "type": "Font",
+          "status": 200,
+          "bytes": 94405,
+          "cache": null
+        },
+        {
+          "url": "/demo/stay?_rsc=zFhHikhAWI3XuqIQ",
+          "type": "Fetch",
+          "status": 200,
+          "bytes": 690,
+          "cache": "HIT"
+        },
+        {
+          "url": "/demo/stay?_rsc=f4EoO7bB_KW_Itz4",
+          "type": "Fetch",
+          "status": 200,
+          "bytes": 4757,
+          "cache": "HIT"
+        }
+      ]
+    },
+    {
+      "path": "/demo/estimate",
+      "run": 1,
+      "status": 200,
+      "lcp": 4244,
+      "lcpElement": "IMG",
+      "cls": 0.0016642103207993462,
+      "fcp": 2204,
+      "fonts": "loaded",
+      "overflow": false,
+      "images": [
+        {
+          "src": "/demo-assets/prototypes/estimate.webp",
+          "width": 343,
+          "naturalWidth": 1600,
+          "loaded": true
+        }
+      ],
+      "bytes": 576467,
+      "byType": {
+        "Document": 7403,
+        "Image": 256760,
+        "Stylesheet": 14078,
+        "Script": 164642,
+        "Font": 128387,
+        "Fetch": 5197
+      },
+      "failures": [],
+      "pageErrors": [],
+      "resources": [
+        {
+          "url": "/demo/estimate",
+          "type": "Document",
+          "status": 200,
+          "bytes": 7403,
+          "cache": "HIT"
+        },
+        {
+          "url": "/demo-assets/prototypes/estimate.webp",
+          "type": "Image",
+          "status": 200,
+          "bytes": 256760,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/css/e70533e8258d4118.css",
+          "type": "Stylesheet",
+          "status": 200,
+          "bytes": 5558,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/css/801da90ac16c858a.css",
+          "type": "Stylesheet",
+          "status": 200,
+          "bytes": 7303,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/webpack-0ed504fbd8008811.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 2238,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/main-app-c718d3048745652b.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 860,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/fonts.css",
+          "type": "Stylesheet",
+          "status": 200,
+          "bytes": 1217,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/font-4.ttf",
+          "type": "Font",
+          "status": 200,
+          "bytes": 42918,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/500-fc3b64d9ff4a32a7.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 3642,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/app/demo/%5BsiteKey%5D/page-fd67a5d4137f36c1.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 977,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/600-f638bfabf3967f1f.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 12468,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/182-676c8c01e1f7c839.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 12289,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/4bd1b696-c7408084347438ae.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 64494,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/font-2.ttf",
+          "type": "Font",
+          "status": 200,
+          "bytes": 42857,
+          "cache": null
+        },
+        {
+          "url": "/demo-assets/detailing/fonts/font-3.ttf",
+          "type": "Font",
+          "status": 200,
+          "bytes": 42612,
+          "cache": null
+        },
+        {
+          "url": "/_next/static/chunks/794-268803444e87b940.js",
+          "type": "Script",
+          "status": 200,
+          "bytes": 67674,
+          "cache": null
+        },
+        {
+          "url": "/demo/estimate?_rsc=FNO4eTb-lilgtDWd",
+          "type": "Fetch",
+          "status": 200,
+          "bytes": 693,
+          "cache": "HIT"
+        },
+        {
+          "url": "/demo/estimate?_rsc=WDQHXjQ-Q7aZUX1I",
+          "type": "Fetch",
+          "status": 200,
+          "bytes": 4504,
+          "cache": "HIT"
+        }
+      ]
+    }
+  ]
+}

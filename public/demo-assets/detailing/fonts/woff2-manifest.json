@@ -1,0 +1,42 @@
+[
+  {
+    "source": "font-0.ttf",
+    "output": "font-0.woff2",
+    "sourceBytes": 293036,
+    "bytes": 65328,
+    "unicodeCharacters": 979,
+    "sha256": "621aef86b26990ad57e8b58d70c5bf5de7bef1243a4629ca97d6e06a77a5debb"
+  },
+  {
+    "source": "font-1.ttf",
+    "output": "font-1.woff2",
+    "sourceBytes": 290236,
+    "bytes": 63544,
+    "unicodeCharacters": 974,
+    "sha256": "d4a478b1420d2e62a0efa989b67bd330d2af60bbe6931cb8c3fc949672516281"
+  },
+  {
+    "source": "font-2.ttf",
+    "output": "font-2.woff2",
+    "sourceBytes": 96200,
+    "bytes": 30492,
+    "unicodeCharacters": 678,
+    "sha256": "0db1c636a91d1d25ffc0c698f7f830f1c71fe1aa59b8ab58a5da59c0c1de161d"
+  },
+  {
+    "source": "font-3.ttf",
+    "output": "font-3.woff2",
+    "sourceBytes": 96300,
+    "bytes": 30288,
+    "unicodeCharacters": 678,
+    "sha256": "3cae3b81679bc091ef9e4c00841261a232828d522a2eafb2f93756c2f09f1867"
+  },
+  {
+    "source": "font-4.ttf",
+    "output": "font-4.woff2",
+    "sourceBytes": 96348,
+    "bytes": 30656,
+    "unicodeCharacters": 678,
+    "sha256": "fad28d198f9c659703741eaa36abd25c2ac7ffad0032ce33a8c363a841df834f"
+  }
+]

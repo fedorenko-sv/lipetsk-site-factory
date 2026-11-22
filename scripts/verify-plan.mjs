@@ -31,20 +31,24 @@ function rewriteRefs(value) {
 }
 
 let refs = 0;
-function verifyRefs(value) {
+function verifyRefs(value, document = api) {
   if (!value || typeof value !== "object") return;
   if (typeof value.$ref === "string") {
     assert.ok(value.$ref.startsWith("#/"), "Only internal refs are allowed in the API contract");
-    let resolved = api;
+    let resolved = document;
     for (const token of value.$ref.slice(2).split("/")) {
       resolved = resolved?.[token.replace(/~1/g, "/").replace(/~0/g, "~")];
     }
     assert.notEqual(resolved, undefined, "Unresolved ref: " + value.$ref);
     refs++;
   }
-  for (const item of Object.values(value)) verifyRefs(item);
+  for (const item of Object.values(value)) verifyRefs(item, document);
 }
 verifyRefs(api);
+const estimateApi = readJson("contracts/estimates.openapi.json");
+verifyRefs(estimateApi, estimateApi);
+assert.deepEqual(Object.keys(estimateApi.paths), ["/api/estimates"]);
+assert.equal(estimateApi.paths["/api/estimates"].post.operationId, "createEstimate");
 
 const apiValidators = Object.fromEntries(Object.keys(api.components.schemas).map((name) => [
   name, ajv.compile({
@@ -62,8 +66,7 @@ function invalid(validator, input, label) {
 }
 
 const auto = readJson("examples/sites/auto.json");
-const beauty = readJson("examples/sites/beauty.json");
-for (const config of [auto, beauty]) {
+for (const config of readdirSync(path.join(root,"examples/sites")).filter(name=>name.endsWith(".json")).map(name=>readJson("examples/sites/"+name))) {
   valid(validateSite, config, config.id);
   assert.equal(new Set(config.services.map((s) => s.id)).size, config.services.length);
   assert.equal(new Set(config.resources.map((r) => r.id)).size, config.resources.length);
@@ -111,10 +114,30 @@ invalid(apiValidators.LeadCreateRequest, honeypot, "honeypot");
 invalid(apiValidators.LeadReceipt, { ...readJson("examples/http/created-response.json"), phone: "private" }, "PII in receipt");
 invalid(validateSite, { ...auto, leadDestination: "private" }, "destination in public config");
 
+
+const estimateConfig = readJson("examples/calculators/estimate.json");
+assert.equal(estimateConfig.core, "calculator");
+assert.equal(estimateConfig.mode, "demo");
+assert.equal(estimateConfig.legal.approved, false);
+assert.equal(estimateConfig.legal.policyPath, "/demo/estimate/privacy");
+assert.ok(estimateConfig.formulaVersion);
+for(const rate of Object.values(estimateConfig.rates)) assert.ok(Number.isSafeInteger(rate) && rate>=0 && rate<=100_000_000);
+assert.ok(estimateConfig.rates.graphitePercent<=100);
+const validateEstimate = ajv.compile(readJson("contracts/estimate-request.schema.json"));
+const estimateRequest = readJson("examples/http/estimate-request.json");
+valid(validateEstimate,estimateRequest,"estimate request");
+assert.deepEqual(estimateApi.components.schemas.EstimateLeadRequest, readJson("contracts/estimate-request.schema.json"));
+assert.deepEqual(estimateApi.paths["/api/estimates"].post.requestBody.content["application/json"].example, estimateRequest);
+assert.equal(estimateRequest.configVersion,estimateConfig.contentVersion);
+assert.equal(estimateRequest.consent.version,estimateConfig.legal.consentVersion);
+invalid(validateEstimate,{...estimateRequest,price:1},"estimate client price");
+invalid(validateEstimate,{...estimateRequest,parameters:{...estimateRequest.parameters,widthMm:1250}},"estimate wrong step");
+invalid(validateEstimate,{...estimateRequest,preferred:request.preferred},"estimate booking time");
+
 const markdown = [];
 function collect(directory) {
   for (const item of readdirSync(directory, { withFileTypes: true })) {
-    if (["node_modules", ".git", ".next", "work", ".worktrees"].includes(item.name)) continue;
+    if (["node_modules", ".git", ".next", "work", ".worktrees", "test-results", "playwright-report", "coverage", "out"].includes(item.name)) continue;
     const full = path.join(directory, item.name);
     if (item.isDirectory()) collect(full);
     else if (item.name.endsWith(".md")) markdown.push(full);
@@ -138,6 +161,6 @@ for (const file of markdown) {
 for (const name of ["agent-1-frontend", "agent-2-backend", "architect"]) {
   assert.ok(existsSync(path.join(root, "agents", name + ".md")));
 }
-console.log("Contract fixtures: 5 valid, 8 rejected.");
+console.log("Contract fixtures: all 6 Booking configs + Calculator; 11 rejected requests.");
 console.log("OpenAPI internal refs: " + refs + "; Markdown files: " + markdown.length + "; local links: " + links + ".");
-console.log("Architecture consistency checks passed. Business acceptance is not implemented yet.");
+console.log("Contract and documentation checks passed. Runtime acceptance is verified by separate test suites.");

@@ -1,0 +1,21 @@
+{
+  "runId": 44290564917,
+  "commit": "dfdf00aa6953e7aaabe87c7d85a0dc1e7d3ea20c",
+  "jobId": 134754416382,
+  "result": {
+    "passed": 151,
+    "failed": 1
+  },
+  "test": "DT11 autoplay denial",
+  "project": "webkit",
+  "artifactId": 14420973914,
+  "browserTrace": {
+    "gotoEnd": 139678.079,
+    "expectStart": 139723.944,
+    "expectEnd": 144732.553,
+    "lastSnapshot": 147539.496,
+    "lastSnapshotHasResumeButton": true
+  },
+  "diagnosis": "The test starts the 5-second UI assertion after load without observing that its injected play denial has actually run. A later failure snapshot contains the expected resume button. Local unchanged test passed 3/3; the fixture needs a causal media-startup precondition.",
+  "change": "Observe the injected play-denial counter (20s startup, matching DT01), then require the resume UI within the unchanged default 5s. Keep real playback/seek assertions, no retries/skips/sleeps."
+}

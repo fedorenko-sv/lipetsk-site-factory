@@ -1,0 +1,44 @@
+[
+  {
+    "width": 390,
+    "base": "http://127.0.0.1:3042",
+    "path": "/demo/beauty",
+    "overflow": false,
+    "links": [
+      "/demo/beauty",
+      "/demo/beauty/services",
+      "/demo/beauty/team",
+      "/demo/beauty/booking",
+      "/demo/beauty",
+      "/demo/beauty/services",
+      "/demo/beauty/team",
+      "/demo/beauty/studio",
+      "/demo/beauty/visit",
+      "/demo/beauty/booking",
+      "/demo/beauty",
+      "/demo/beauty",
+      "/demo/beauty/privacy"
+    ]
+  },
+  {
+    "width": 1440,
+    "base": "http://127.0.0.1:3042",
+    "path": "/demo/beauty",
+    "overflow": false,
+    "links": [
+      "/demo/beauty",
+      "/demo/beauty/services",
+      "/demo/beauty/team",
+      "/demo/beauty/booking",
+      "/demo/beauty",
+      "/demo/beauty/services",
+      "/demo/beauty/team",
+      "/demo/beauty/studio",
+      "/demo/beauty/visit",
+      "/demo/beauty/booking",
+      "/demo/beauty",
+      "/demo/beauty",
+      "/demo/beauty/privacy"
+    ]
+  }
+]
