@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getPrototype, prototypes } from "@/features/prototypes/catalog";
 import { getDemoPage, getDemoPages } from "@/features/prototypes/pages";
+import { brandMetadata } from "@/brands/metadata";
 import { DemoArticle, DemoCatalog, DemoExamples, DemoTeam, type DemoQuery } from "@/features/prototypes/DemoPages";
 
 interface Props { params:Promise<{siteKey:string;section:string}>;searchParams:Promise<DemoQuery> }
@@ -10,7 +11,7 @@ export function generateStaticParams() {
 }
 export async function generateMetadata({params}:Props):Promise<Metadata> {
  const {siteKey,section}=await params;const p=getPrototype(siteKey);const page=p?getDemoPage(p.id,section):undefined;
- return {title:page&&p?page.title+" · "+p.brand:"Страница не найдена",description:page?.lead,robots:{index:false,follow:false}};
+ return page&&p?brandMetadata(p.id,page.title,page.lead):{title:"Страница не найдена",robots:{index:false,follow:false}};
 }
 export default async function DemoSection({params}:Props) {
  const {siteKey,section}=await params;const p=getPrototype(siteKey);if(!p)notFound();

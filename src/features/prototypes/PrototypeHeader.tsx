@@ -2,6 +2,8 @@
 
 import { useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import type { BrandAsset } from "@/brands/types";
 import { usePathname } from "next/navigation";
 import { actionPage, catalogPage, demoPageHref, getDemoPages } from "./pages";
 import type { PrototypeId } from "./catalog";
@@ -15,7 +17,7 @@ const articleLabels: Record<string, string> = {
   installation: "Монтаж", measurement: "Замер", examples: "Примеры расчёта",
 };
 
-export function PrototypeHeader({ brand, id, cta = "Оставить заявку" }: { brand:string; id:PrototypeId; cta?:string }) {
+export function PrototypeHeader({ brand, logo, id, cta = "Оставить заявку" }: { brand:string; logo?:BrandAsset; id:PrototypeId; cta?:string }) {
   const pathname=usePathname();
   const dialog=useRef<HTMLDialogElement>(null);
   const trigger=useRef<HTMLButtonElement>(null);
@@ -27,7 +29,7 @@ export function PrototypeHeader({ brand, id, cta = "Оставить заявк�
   function restoreFocus() { trigger.current?.focus({preventScroll:true}); }
   function close() { dialog.current?.close(); restoreFocus(); }
   return <header className="prototype-header">
-    <Link className="prototype-brand" href={home} aria-label={brand+" — главная"}>{brand}<span className="prototype-brand-mark" aria-hidden="true">↗</span></Link>
+    <Link className="prototype-brand" href={home} aria-label={brand+" — главная"}>{logo?<Image className="prototype-brand-logo" src={logo.path} alt="" width={logo.width} height={logo.height} unoptimized priority/>:<span className="prototype-brand-name">{brand}</span>}<span className="prototype-brand-mark" aria-hidden="true">↗</span></Link>
     <nav className="prototype-desktop-nav" aria-label="Основная навигация">
       <Link href={demoPageHref(id,catalog.slug)} aria-current={pathname===demoPageHref(id,catalog.slug)?"page":undefined}>{id==="stay"?"Дома":id==="sports"?"Программы":id==="medical"?"Направления":id==="estimate"?"Конструкции":"Услуги"}</Link>
       <Link href={demoPageHref(id,secondary.slug)}>{id==="beauty"?"Мастера":id==="medical"?"Специалисты":id==="sports"?"Тренеры":id==="stay"?"Территория":id==="estimate"?"Монтаж":"О сервисе"}</Link>

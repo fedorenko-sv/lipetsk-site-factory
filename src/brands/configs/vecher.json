@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "brand/1",
+  "key": "vecher",
+  "version": "2026-11-22",
+  "shell": "beauty",
+  "synthetic": true,
+  "name": { "short": "ВЕЧЕР", "full": "Вечерняя студия красоты «Вечер»" },
+  "logo": {
+    "onDark": { "path": "/demo-assets/brands/vecher/logo-on-dark.svg", "license": "Synthetic wordmark drawn for this demo, CC0", "width": 184, "height": 34, "alt": "ВЕЧЕР" },
+    "onLight": { "path": "/demo-assets/brands/vecher/logo-on-light.svg", "license": "Synthetic wordmark drawn for this demo, CC0", "width": 184, "height": 34, "alt": "ВЕЧЕР" }
+  },
+  "scheme": "dark",
+  "palette": {
+    "canvas": "#17131a", "surface": "#221b26", "raised": "#2a2230",
+    "ink": "#f5ede7", "muted": "#c4b6bb", "line": "#3b3141",
+    "accent": "#e8b98c", "onAccent": "#22170f", "focus": "#f3cfa8",
+    "danger": "#ff9b8f", "success": "#9fd8b0"
+  },
+  "typography": {
+    "display": { "family": "oblik-sans", "weight": 500, "tracking": -0.06 },
+    "body": { "family": "oblik-sans", "weight": 400 }
+  },
+  "media": {
+    "hero": { "path": "/demo-assets/brands/vecher/hero.webp", "license": "Evening grade of the synthetic beauty.webp (ffmpeg), same origin", "width": 1536, "height": 1024, "alt": "Студия в вечернем свете: кресло у овального зеркала" }
+  },
+  "copy": { "kicker": "Вечерняя студия · после шести", "tagline": "Красота после работы.", "lead": "Тёплый свет, тихая музыка и мастер, который не торопит. Выберите услугу, познакомьтесь с демо-профилями мастеров и оставьте пожелание по вечернему визиту." },
+  "metadata": { "description": "Вечерние визиты: стрижка или маникюр, мастер по желанию и удобное время." }
+}

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 168 34" width="168" height="34" role="img" aria-label="ТЕПЛО">
+  <rect x="1.6" y="1.6" width="28.8" height="30.8" fill="none" stroke="#9c3f1e" stroke-width="3.2"/>
+  <path d="M16 1.6V32.4M1.6 17H30.4" stroke="#9c3f1e" stroke-width="2.2"/>
+  <g fill="none" stroke="#2f2420" stroke-width="3.2" stroke-linecap="square">
+    <g transform="translate(42 3)"><path d="M0 1H18M9 1V28"/></g>
+    <g transform="translate(67 3)"><path d="M18 0H1V28H18M1 14H15"/></g>
+    <g transform="translate(92 3)"><path d="M1 28V1H17V28"/></g>
+    <g transform="translate(117 3)"><path d="M0 28C5 26 5 20 5 12V1H18V28"/></g>
+    <g transform="translate(142 3)"><ellipse cx="11" cy="14" rx="10" ry="13.4"/></g>
+  </g>
+</svg>

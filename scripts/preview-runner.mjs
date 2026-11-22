@@ -53,10 +53,10 @@ export async function startPreview(options) {
     }
     if(!ready)throw new Error("Preview server did not start");
     const state={helperPid:process.pid,appPid:child.pid,baseUrl:settings.base,database:settings.database,
-      profile:settings.mode.kind==="single"?settings.mode.profile.key:"factory",startedAt:new Date().toISOString()};
+      profile:settings.mode.kind==="single"?settings.mode.profile.key:"factory",brand:settings.brandKey||"default",startedAt:new Date().toISOString()};
     writeFileSync(settings.stateFile,JSON.stringify(state,null,2)+"\n");
     timer=setInterval(()=>void dispatch().catch(()=>{}),15000);
-    console.log("Local synthetic "+state.profile+" preview ready on "+settings.base);
+    console.log("Local synthetic "+state.profile+" preview ("+state.brand+" brand) ready on "+settings.base);
     return {base:settings.base,database:settings.database,dsn:settings.dsn,stateFile:settings.stateFile,siteKeys:settings.siteKeys,dispatch,stop,closed};
   }catch(error){await stop();throw error;}
 }

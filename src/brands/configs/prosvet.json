@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "brand/1",
+  "key": "prosvet",
+  "version": "2026-11-22",
+  "shell": "estimate",
+  "synthetic": true,
+  "name": { "short": "ПРОСВЕТ", "full": "ПРОСВЕТ — окна и балконные двери" },
+  "scheme": "light",
+  "palette": {
+    "canvas": "#f3f5f7", "surface": "#e5eaf0", "raised": "#ffffff",
+    "ink": "#243d53", "muted": "#536576", "line": "#ccd6df",
+    "accent": "#244f7a", "onAccent": "#ffffff", "focus": "#244f7a",
+    "danger": "#8d352e", "success": "#275345"
+  },
+  "typography": {
+    "display": { "family": "oblik-sans", "weight": 500, "tracking": -0.055 },
+    "body": { "family": "oblik-sans", "weight": 400 }
+  },
+  "media": {
+    "hero": { "path": "/demo-assets/prototypes/estimate.webp", "license": "Synthetic, OpenAI ImageGen 2026-11-18, see prototypes/manifest.json", "width": 1600, "height": 900, "alt": "Большое графитовое окно в светлом архитектурном интерьере" }
+  },
+  "copy": { "kicker": "Окна, с которых начинается дом", "tagline": "Прозрачно. С первого расчёта." },
+  "metadata": { "description": "Параметры окна, прозрачный расчёт и заявка на уточнение." }
+}

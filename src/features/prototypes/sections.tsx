@@ -1,10 +1,11 @@
 import Link from "next/link";
+import type { BrandConfig } from "@/brands/types";
 
 export { PrototypeHeader } from "./PrototypeHeader";
 
-export function PrototypeFooter({ brand, id }: { brand: string; id: string }) {
+export function PrototypeFooter({ brand, id }: { brand: BrandConfig; id: string }) {
   return <footer className="prototype-footer">
-    <div><Link href={"/demo/"+id}>{brand}<span aria-hidden="true"> ↗</span></Link><p>Демонстрационный концепт для локального бизнеса.</p></div>
+    <div><Link href={"/demo/"+id}>{brand.name.short}<span aria-hidden="true"> ↗</span></Link><p>{brand.name.full}. Демонстрационный концепт для локального бизнеса.</p></div>
     <div><Link href={"/demo/"+id}>Главная</Link><Link href={"/demo/" + id + "/privacy"}>Данные и условия демо</Link></div>
     <p>Изображения созданы для концепта. Условные цены; настоящие данные и платежи не принимаются.</p>
   </footer>;

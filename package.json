@@ -17,6 +17,7 @@
     "lint": "eslint .",
     "typecheck": "next typegen && tsc --noEmit",
     "check:plan": "node scripts/verify-plan.mjs",
+    "check:brands": "node --experimental-strip-types scripts/check-brands.mjs",
     "verify:architecture": "npm run check:plan && npm run lint && npm run typecheck && npm run build",
     "test:backend": "node --experimental-strip-types --test tests/backend/*.test.mjs",
     "test:ui": "node --experimental-strip-types --test tests/ui/*.test.mjs",
@@ -35,7 +36,8 @@
     "verify:demo-routes": "node --experimental-strip-types scripts/verify-demo-routes.mjs",
     "measure:demo-performance": "node scripts/measure-demo-performance.mjs",
     "preview:demo": "node --experimental-strip-types scripts/preview-demo.mjs",
-    "test:demo-profiles": "node --experimental-strip-types scripts/backend/test-demo-profiles.mjs"
+    "test:demo-profiles": "node --experimental-strip-types scripts/backend/test-demo-profiles.mjs",
+    "test:brands:system": "node --experimental-strip-types scripts/test-brand-previews.mjs"
   },
   "dependencies": {
     "ajv": "8.20.0",

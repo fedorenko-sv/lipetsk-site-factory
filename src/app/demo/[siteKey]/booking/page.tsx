@@ -5,12 +5,13 @@ import { getPrototype } from "@/features/prototypes/catalog";
 import { getDemoPage } from "@/features/prototypes/pages";
 import { resolveBookingContext } from "@/features/prototypes/context";
 import { DemoBooking, type DemoQuery } from "@/features/prototypes/DemoPages";
+import { brandMetadata } from "@/brands/metadata";
 
 export const dynamic="force-dynamic";
 interface Props {params:Promise<{siteKey:string}>;searchParams:Promise<DemoQuery>}
 export async function generateMetadata({params}:Props):Promise<Metadata>{
  const {siteKey}=await params;const p=getPrototype(siteKey);
- return {title:p?"Заявка · "+p.brand:"Сайт не найден",robots:{index:false,follow:false}};
+ return p&&p.id!=="estimate"?brandMetadata(p.id,"Заявка"):{title:"Сайт не найден",robots:{index:false,follow:false}};
 }
 export default async function BookingPage({params,searchParams}:Props){
  const {siteKey}=await params;const p=getPrototype(siteKey);

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { DemoFrame } from "@/features/prototypes/DemoPages";
 import { getPrototype } from "@/features/prototypes/catalog";
 import { notFound } from "next/navigation";
+import { getShellBrand } from "@/brands/server";
+import { isBrandShell } from "@/brands/registry";
 import { getSiteConfig, getAllSiteKeys } from "@/config/sites";
 import { estimateConfig } from "@/features/estimate/config";
 const resolveConfig = (key: string) => key === "estimate" ? { ...estimateConfig, theme: "editorial" } : getSiteConfig(key);
@@ -25,8 +27,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
+  const brand = isBrandShell(siteKey) ? await getShellBrand(siteKey) : null;
   return {
-    title: `Демо-политика конфиденциальности — ${config.brandName}`,
+    title: `Демо-политика конфиденциальности — ${brand?.name.full ?? config.brandName}`,
     robots: { index: false, follow: false },
   };
 }
@@ -39,6 +42,7 @@ export default async function DemoPrivacyPage({ params }: Props) {
 
   const prototype = getPrototype(siteKey);
   if (!prototype) notFound();
+  const brand = await getShellBrand(prototype.id);
 
   return (
     <DemoFrame id={prototype.id} title="Данные в демо" lead="Какие данные нужны для тестовой заявки и что происходит после её отправки." visual={false}>
@@ -57,7 +61,7 @@ export default async function DemoPrivacyPage({ params }: Props) {
         </article>
         <article>
           <h2>Версия согласия</h2>
-          <p className="editorial-section-copy"><code>{config.legal.consentVersion}</code>. Политика относится к демонстрационному сайту «{config.brandName}».</p>
+          <p className="editorial-section-copy"><code>{config.legal.consentVersion}</code>. Политика относится к демонстрационному сайту «{brand.name.full}». Публичное название не заменяет оператора данных: он указывается отдельно при клиентском запуске.</p>
         </article>
       </section>
     </DemoFrame>

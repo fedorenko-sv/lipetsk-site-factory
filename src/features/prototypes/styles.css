@@ -2,15 +2,17 @@
 
 .prototype {
   --p-bg: #f5f3ee; --p-surface: #ebe8e1; --p-ink: #222725; --p-muted: #62675f; --p-line: #d7d9cf; --p-accent: #254633; --p-on: #fff;
-  background: var(--p-bg); color: var(--p-ink); font-family: "Oblik Sans", sans-serif; min-height: 100vh;
+  background: var(--p-bg); color: var(--p-ink); font-family: "Oblik Sans", "Segoe UI", Arial, sans-serif; min-height: 100vh;
   overflow: clip;
 }
 .prototype *, .factory * { box-sizing: border-box; }
 .prototype a { text-decoration: none; color: inherit; }
-.prototype a:focus-visible, .prototype button:focus-visible, .prototype summary:focus-visible, .factory a:focus-visible { outline: 3px solid var(--p-accent, #185749); outline-offset: 5px; }
+.prototype a:focus-visible, .prototype button:focus-visible, .prototype summary:focus-visible, .factory a:focus-visible { outline: 3px solid var(--p-focus, var(--p-accent, #185749)); outline-offset: 5px; }
 .prototype img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .prototype-header { max-width: 1600px; margin: auto; padding: 25px 5vw; display: flex; align-items: center; justify-content: space-between; gap: 28px; border-bottom: 1px solid var(--p-line); }
-.prototype-brand { font-size: 27px; font-weight: 750; letter-spacing: -.06em; display: flex; align-items: center; gap: 15px; white-space: nowrap; }
+.prototype-brand { font-size: 27px; font-weight: 750; letter-spacing: -.06em; display: flex; align-items: center; gap: 15px; min-width: 0; min-height: 44px; }
+.prototype-brand-name { overflow-wrap: anywhere; line-height: 1.05; }
+.prototype .prototype-brand-logo { display: block; height: 30px; width: auto; max-width: min(190px, 46vw); object-fit: contain; }
 .prototype-brand-mark { font-size: 18px; border: 1px solid var(--p-line); border-radius: 50%; height: 32px; width: 32px; display: grid; place-items: center; }
 .prototype-header nav { display: flex; align-items: center; gap: 30px; font-size: 12px; }
 .prototype-header nav a { padding: 13px 0; transition: opacity 180ms; }
@@ -99,7 +101,7 @@
 .prototype-beauty h1, .prototype-beauty h2, .prototype-stay h1, .prototype-stay h2 { font-family: "Oblik Serif", Georgia, serif; font-weight: 400; letter-spacing: -.045em; }
 .prototype-beauty h1 { font-size: clamp(65px,7.8vw,117px); }
 .prototype-beauty .prototype-hero-visual { margin: 35px 5vw 35px 0; border-radius: 50% 50% 0 0; min-height: 600px; }
-.prototype-beauty .prototype-visual-tag { left: 50%; transform: translateX(-50%); white-space: nowrap; background: #7c494fd6; }
+.prototype-beauty .prototype-visual-tag { left: 50%; transform: translateX(-50%); white-space: nowrap; background: color-mix(in srgb, var(--p-accent) 84%, transparent); color: var(--p-on); }
 .prototype-beauty .prototype-service-art { border-radius: 50% 50% 0 0; height: 180px; }
 .prototype-beauty .prototype-service-art>span { font-family: Georgia, serif; font-size: 130px; opacity: .65; }
 .prototype-medical { --p-bg: #fcfdfc; --p-surface: #eaf3f3; --p-ink: #1d444b; --p-muted: #576f75; --p-line: #d3e3e4; --p-accent: #217084; }
@@ -230,3 +232,30 @@
 .prototype-service-photo img { transition:transform 500ms ease; }
 .prototype-service-card:hover .prototype-service-photo img { transform:scale(1.035); }
 @media(prefers-reduced-motion:reduce) { .prototype-service-photo img { transition:none; } .prototype-service-card:hover .prototype-service-photo img { transform:none; } }
+
+/* ── Client brand bridge ───────────────────────────────────────────────────────────────
+   Layer 1: raw values in src/brands/configs/<key>.json.
+   Layer 2: roles --brand-* set inline on the shell root by brandRootProps() (data-brand-palette / data-brand-type).
+   Layer 3: shell tokens (--p-...) and form tokens (--bg-..., --text-..., --error-...) below. Composition stays in the shell rules. */
+.prototype[data-brand-palette] {
+  --p-bg: var(--brand-canvas); --p-surface: var(--brand-surface); --p-raised: var(--brand-raised);
+  --p-ink: var(--brand-ink); --p-muted: var(--brand-muted); --p-line: var(--brand-line);
+  --p-accent: var(--brand-accent); --p-on: var(--brand-on-accent); --p-focus: var(--brand-focus);
+  --p-danger: var(--brand-danger); --p-success: var(--brand-success);
+  color-scheme: var(--brand-scheme);
+}
+.prototype[data-brand-palette] .prototype-visual-tag { background: color-mix(in srgb, var(--p-accent) 86%, transparent); color: var(--p-on); }
+.prototype[data-brand-palette] .prototype-booking-host :is(.theme-editorial,.theme-technical) {
+  --bg-surface-active: var(--p-surface);
+  --border-focus: var(--p-focus); --border-strong: color-mix(in srgb, var(--p-muted) 70%, var(--p-line));
+  --color-accent-hover: color-mix(in srgb, var(--p-accent) 85%, var(--p-ink));
+  --badge-demo-bg: color-mix(in srgb, var(--p-accent) 12%, var(--p-bg)); --badge-demo-border: color-mix(in srgb, var(--p-accent) 45%, var(--p-bg)); --badge-demo-text: var(--p-ink);
+  --error-bg: color-mix(in srgb, var(--p-danger) 10%, var(--p-bg)); --error-border: color-mix(in srgb, var(--p-danger) 55%, var(--p-bg)); --error-text: var(--p-danger);
+  --success-bg: color-mix(in srgb, var(--p-success) 12%, var(--p-bg)); --success-border: color-mix(in srgb, var(--p-success) 50%, var(--p-bg)); --success-text: var(--p-success);
+  color-scheme: var(--brand-scheme);
+}
+.prototype[data-brand-type] { font-family: var(--brand-font-body); font-weight: var(--brand-body-weight); }
+.prototype[data-brand-type] :is(h1,h2) { font-family: var(--brand-font-display); font-weight: var(--brand-display-weight); letter-spacing: var(--brand-display-tracking); }
+.prototype[data-brand-type] .prototype-booking-host :is(h2,h3) { font-family: var(--brand-font-body); font-weight: 650; letter-spacing: -.03em; }
+.prototype[data-brand-type] .estimate-flow h2 { font-family: var(--brand-font-body); font-weight: 500; letter-spacing: -.04em; }
+@media (max-width:700px) { .prototype .prototype-brand-logo { height: 26px; } }

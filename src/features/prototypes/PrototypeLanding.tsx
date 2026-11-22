@@ -13,30 +13,34 @@ import { people, withEditorialResourceNames } from "./editorial";
 import { getOfferStory } from "./offer-stories";
 import { PrototypeMotion } from "./PrototypeMotion";
 import { PrototypeHeader, PrototypeFooter, PrototypeFAQ } from "./sections";
+import { getShellBrand } from "@/brands/server";
+import { brandLogo, brandRootProps } from "@/brands/style";
 import "./styles.css";
 
-export function PrototypeLanding({ config }: { config: SiteConfig }) {
+export async function PrototypeLanding({ config }: { config: SiteConfig }) {
   const id = config.id as Exclude<PrototypeId, "estimate">;
   const prototype = getPrototype(id)!;
+  const brand = await getShellBrand(id);
+  const hero = brand.media?.hero;
   const profile = profiles[id];
   const serviceTitle = id === "stay" ? "Выберите свой дом." : id === "sports" ? "У каждого — свой старт." : id === "medical" ? "С чего начнём?" : id === "beauty" ? "Время позаботиться о себе." : "Выберите задачу.";
-  return <div className={"prototype prototype-" + id}>
+  return <div className={"prototype prototype-" + id} {...brandRootProps(brand)}>
     <PrototypeMotion>
       <a className="prototype-skip" href="#services">К предложению</a>
-      <PrototypeHeader id={id} brand={prototype.brand} cta={id === "stay" ? "Обсудить поездку" : "Оставить заявку"} />
+      <PrototypeHeader id={id} brand={brand.name.short} logo={brandLogo(brand)} cta={id === "stay" ? "Обсудить поездку" : "Оставить заявку"} />
       <main>
         <section className="prototype-hero">
           <div className="prototype-hero-copy">
-            <p className="prototype-kicker">{id === "stay" ? "Природа ближе, чем кажется" : id === "beauty" ? "Студия красоты · ваш ритм" : id === "sports" ? "Студия движения · для разных возрастов" : id === "medical" ? "Спокойно. Последовательно. Понятно." : "Сервис, в котором всё по делу"}<span>Демо</span></p>
+            <p className="prototype-kicker">{brand.copy?.kicker ?? (id === "stay" ? "Природа ближе, чем кажется" : id === "beauty" ? "Студия красоты · ваш ритм" : id === "sports" ? "Студия движения · для разных возрастов" : id === "medical" ? "Спокойно. Последовательно. Понятно." : "Сервис, в котором всё по делу")}<span>Демо</span></p>
             <h1>{profile.title}</h1>
-            <p className="prototype-lead">{profile.lead}</p>
+            <p className="prototype-lead">{brand.copy?.lead ?? profile.lead}</p>
             <a className="prototype-button" href="#booking">{profile.cta}<span aria-hidden="true">↗</span></a>
             <span className="prototype-scroll-note">Листайте, чтобы познакомиться ↓</span>
           </div>
           <figure className="prototype-hero-visual">
-            <Image src={prototype.image} alt={id === "auto" ? editorialPhotos.auto["tire-change"].alt : id === "beauty" ? "Светлая студия с пудровым креслом и овальным зеркалом" : id === "medical" ? "Светлый холл с голубыми акцентами" : id === "sports" ? "Пространство для движения с солнечным жёлтым светом" : "Лесной дом с тёплым светом в окнах"} width={1600} height={1000} sizes={id === "stay" ? "(max-width: 1600px) 100vw, 1600px" : "(max-width: 700px) 100vw, (max-width: 1600px) 51vw, 820px"} loading="eager" fetchPriority="high" />
-            <figcaption>Визуальная концепция · {prototype.brand}</figcaption>
-            <span className="prototype-visual-tag" aria-hidden="true">{id === "sports" ? "В своём темпе." : id === "medical" ? "Ясность с первого шага." : id === "beauty" ? "Маленький ритуал для себя." : id === "stay" ? "Пауза. Лес. Тишина." : "Внимание к каждой детали."}</span>
+            <Image src={hero?.path ?? prototype.image} alt={hero?.alt ?? (id === "auto" ? editorialPhotos.auto["tire-change"].alt : id === "beauty" ? "Светлая студия с пудровым креслом и овальным зеркалом" : id === "medical" ? "Светлый холл с голубыми акцентами" : id === "sports" ? "Пространство для движения с солнечным жёлтым светом" : "Лесной дом с тёплым светом в окнах")} width={hero?.width ?? 1600} height={hero?.height ?? 1000} sizes={id === "stay" ? "(max-width: 1600px) 100vw, 1600px" : "(max-width: 700px) 100vw, (max-width: 1600px) 51vw, 820px"} loading="eager" fetchPriority="high" />
+            <figcaption>Визуальная концепция · {brand.name.short}</figcaption>
+            <span className="prototype-visual-tag" aria-hidden="true">{brand.copy?.tagline ?? (id === "sports" ? "В своём темпе." : id === "medical" ? "Ясность с первого шага." : id === "beauty" ? "Маленький ритуал для себя." : id === "stay" ? "Пауза. Лес. Тишина." : "Внимание к каждой детали.")}</span>
           </figure>
         </section>
 
@@ -72,10 +76,10 @@ export function PrototypeLanding({ config }: { config: SiteConfig }) {
         <PrototypeFAQ items={profile.faq} />
         <section id="booking" className="prototype-section prototype-booking" aria-label={id === "stay" ? "Запрос на обсуждение поездки" : "Демонстрационная заявка"}>
           <div className="prototype-booking-intro" data-reveal><p className="prototype-kicker">Попробуйте сами</p><h2>{id === "stay" ? "Сначала — поговорим." : "Первый шаг — здесь."}</h2><p>{id === "medical" ? "Только организационный запрос. Не вводите симптомы, диагнозы и медицинские документы." : id === "stay" ? "Выберите дом и время обратной связи. Эта форма не бронирует ночи и не принимает оплату." : "Пройдите три шага и получите квитанцию тестовой заявки."}</p><p className="prototype-demo-note">Демо принимает только <strong>+70000000000</strong>. Реальный визит не подтверждается.</p></div>
-          <BookingEntry config={withEditorialResourceNames(config)} />
+          <BookingEntry config={{ ...withEditorialResourceNames(config), brandName: brand.name.full }} />
         </section>
       </main>
-      <PrototypeFooter brand={prototype.brand} id={id} />
+      <PrototypeFooter brand={brand} id={id} />
     </PrototypeMotion>
   </div>;
 }
